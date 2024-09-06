@@ -21,7 +21,7 @@ public class Teacher {
     private String name;
     private String email;
     private LocalDate dateOfBirth;
-    private List<Course> coursesTaught;
+    private List<Course> coursesTaught = new ArrayList<>();
     private EducationalPlatform educationalPlatform;
 
     public Teacher(String name, String email, String dateOfBirth) throws InvalidEmailException, UnderageException {
@@ -30,7 +30,6 @@ public class Teacher {
         if(AgeValidation.validateAge(DateValidation.formatDate(dateOfBirth))){
             this.dateOfBirth = DateValidation.formatDate(dateOfBirth);
         }
-        this.coursesTaught = new ArrayList<>();
         this.email = EmailValidation.isValidEmail(email);
         educationalPlatform.getTeachers().add(this);
     }

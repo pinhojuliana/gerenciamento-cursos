@@ -4,10 +4,12 @@ import com.juliana.gerenciamento_cursos.entity.course.Course;
 import com.juliana.gerenciamento_cursos.entity.educational_platform.EducationalPlatform;
 import com.juliana.gerenciamento_cursos.entity.student.Student;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Data
 public class Enrollment {
     private UUID id;
     private Course course;

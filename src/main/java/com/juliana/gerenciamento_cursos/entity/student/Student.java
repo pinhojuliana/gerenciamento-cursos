@@ -20,7 +20,7 @@ public class Student {
     private String name;
     private String email;
     private LocalDate dateOfBirth;
-    private List<Enrollment> studentEnrollments;
+    private List<Enrollment> studentEnrollments = new ArrayList<>();
     private EducationalPlatform educationalPlatform;
 
     public Student(String name, String email, String dateOfBirth, EducationalPlatform educationalPlatform) throws InvalidEmailException, UnderageException {
@@ -30,7 +30,6 @@ public class Student {
         this.dateOfBirth = DateValidation.formatDate(dateOfBirth);
         }
         this.studentEnrollments = new ArrayList<>();
-        this.email = EmailValidation.isValidEmail(email);
         educationalPlatform.getStudents().add(this);
     }
 

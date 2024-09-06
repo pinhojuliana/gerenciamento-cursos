@@ -4,6 +4,7 @@ import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.entity.educational_platform.EducationalPlatform;
 import com.juliana.gerenciamento_cursos.entity.enrollment.Enrollment;
 import com.juliana.gerenciamento_cursos.entity.teacher.Teacher;
+import com.juliana.gerenciamento_cursos.validations.DateValidation;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -37,6 +38,14 @@ public class Course {
             }
         }
         throw new InexistentOptionException("Modulo não encontrado");
+    }
+
+    public String showEnrollments(){
+        StringBuilder listEnrollments = new StringBuilder();
+        for(Enrollment enrollment: enrollments){
+            listEnrollments.append("-").append(enrollment.getStudent().getName()).append(" Data inscrição: ").append(DateValidation.formatDate(enrollment.getEnrollmentDay())).append("\n");
+        }
+        return listEnrollments.toString();
     }
 
 }
