@@ -71,13 +71,12 @@ public class EducationalPlatform {
         throw new InexistentOptionException("Estudante não encontrado");
     }
 
-    //ajeitar esse metodo
     public void unsubscrible(Student student, Course course){
-        for(Enrollment enrollment : enrollments){
-            if(enrollment.getStudent().equals(student)){
-                enrollments.remove(this);
-                course.getEnrollments().remove(this);
-                student.getStudentEnrollments().remove(this);
+        for(Enrollment enrollment : student.getStudentEnrollments()){
+            if(enrollment.getCourse().equals(course)){
+                student.getStudentEnrollments().remove(enrollment);
+                enrollments.remove(enrollment);
+                course.getEnrollments().remove(enrollment);
             }
         }
     }

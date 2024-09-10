@@ -14,7 +14,6 @@ public class ModuleSection {
     private String description;
     private List<ClassSection> classes = new ArrayList<>();
     private Dificultity dificultity;
-    private int index;
     private Course course;
 
     public ModuleSection(String title, String description, String dificultity, int index, String courseTitle) throws InexistentOptionException{
@@ -22,9 +21,12 @@ public class ModuleSection {
         this.title = title;
         this.description = description;
         this.dificultity = Dificultity.validDificultityValue(dificultity);
-        this.index = index;
         this.course = course.getEducationalPlatform().verifyExistenceOfCourse(courseTitle);
         course.getModules().add(this);
+    }
+
+    public String toString(){
+        return String.format("Title: %s\nDescription: %s\nDificultity: %s\nCourse %s", title, description, dificultity.getLabel(), course.getTitle());
     }
 
 }

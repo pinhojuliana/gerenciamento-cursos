@@ -23,6 +23,7 @@ public class Teacher {
     private LocalDate dateOfBirth;
     private List<Course> coursesTaught = new ArrayList<>();
     private EducationalPlatform educationalPlatform;
+    private int totalCoursesTaught = coursesTaught.size();
 
     public Teacher(String name, String email, String dateOfBirth) throws InvalidEmailException, UnderageException {
         this.id = UUID.randomUUID();
@@ -32,5 +33,9 @@ public class Teacher {
         }
         this.email = EmailValidation.isValidEmail(email);
         educationalPlatform.getTeachers().add(this);
+    }
+
+    public String toString(){
+        return String.format("Name: %s\nEmail: %s\nDate of birth: %s\nCourses taught: %d", name, email, DateValidation.formatDate(dateOfBirth), coursesTaught);
     }
 }

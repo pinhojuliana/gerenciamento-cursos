@@ -10,8 +10,10 @@ import com.juliana.gerenciamento_cursos.entity.enrollment.Enrollment;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 @Data
@@ -22,6 +24,7 @@ public class Student {
     private LocalDate dateOfBirth;
     private List<Enrollment> studentEnrollments = new ArrayList<>();
     private EducationalPlatform educationalPlatform;
+    private LocalDateTime createdAt;
 
     public Student(String name, String email, String dateOfBirth, EducationalPlatform educationalPlatform) throws InvalidEmailException, UnderageException {
         this.id = UUID.randomUUID();
@@ -31,6 +34,11 @@ public class Student {
         }
         this.studentEnrollments = new ArrayList<>();
         educationalPlatform.getStudents().add(this);
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public String toString(){
+        return String.format("Name: %s\nEmail: %s\nDate of birth: %s\nCreated at: %s", name, email, DateValidation.formatDate(dateOfBirth), DateValidation.formatDateTime(createdAt));
     }
 
 }
