@@ -36,6 +36,10 @@ public class Student {
         this.createdAt = LocalDateTime.now();
     }
 
+    public List<Enrollment> showEnrollments(){
+        return new ArrayList<>(studentEnrollments);
+    }
+
     @Override
     public String toString(){
         return String.format("Name: %s\nEmail: %s\nDate of birth: %s\nCreated at: %s", name, email, DateValidation.formatDate(dateOfBirth), DateValidation.formatDateTime(createdAt));

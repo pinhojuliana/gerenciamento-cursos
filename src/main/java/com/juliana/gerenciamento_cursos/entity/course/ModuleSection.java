@@ -25,7 +25,7 @@ public class ModuleSection {
 
     @Override
     public String toString(){
-        return String.format("Title: %s\nDescription: %s\nDificultity: %s\nCourse %s", title, description, dificultity.getLabel(), course.getTitle());
+        return String.format("Title: %s\nDescription: %s\nDificultity: %s", title, description, dificultity.getLabel());
     }
 
 }

@@ -5,9 +5,12 @@ import com.juliana.gerenciamento_cursos.entity.course.Course;
 import com.juliana.gerenciamento_cursos.entity.enrollment.Enrollment;
 import com.juliana.gerenciamento_cursos.entity.student.Student;
 import com.juliana.gerenciamento_cursos.entity.teacher.Teacher;
+import com.juliana.gerenciamento_cursos.exceptions.InvalidEmailException;
+import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,13 +22,10 @@ public class EducationalPlatform {
     private List<Teacher> teachers = new ArrayList<>();
     private List<Enrollment> enrollments = new ArrayList<>();
 
-    public Teacher verifyExistenceOfTeacher(String email) throws InexistentOptionException {
-        for (Teacher teacher : teachers) {
-            if (email.equals(teacher.getEmail())) {
-                return teacher;
-            }
-        }
-        throw new InexistentOptionException("Professor não cadastrado");
+    public void createNewCourse(String title, String description, Teacher teacher){
+        Course course = new Course(title, description, teacher);
+        allCourses.add(course);
+        teacher.getCoursesTaught().add(course);
     }
 
     public Course verifyExistenceOfCourse(String title) throws InexistentOptionException {
@@ -37,6 +37,19 @@ public class EducationalPlatform {
         throw new InexistentOptionException("Curso não encontrado");
     }
 
+    public String showCourses() {
+        StringBuilder listCourses = new StringBuilder();
+        for (Course course : allCourses) {
+            listCourses.append("-").append(course.getTitle()).append("\n");
+        }
+        return listCourses.toString();
+    }
+
+    public void createNewStudent(String name, LocalDate birth, String email) throws UnderageException, InvalidEmailException {
+        Student student = new Student(name, email, birth);
+        students.add(student);
+    }
+
     public Student verifyExistenceOfStudent(String email) throws InexistentOptionException {
         for (Student student : students) {
             if (email.equalsIgnoreCase(student.getEmail())) {
@@ -44,14 +57,6 @@ public class EducationalPlatform {
             }
         }
         throw new InexistentOptionException("Estudante não cadastrado");
-    }
-
-    public String showAllCourses() {
-        StringBuilder listCourses = new StringBuilder();
-        for (Course course : allCourses) {
-            listCourses.append("-").append(course.getTitle()).append("\n");
-        }
-        return listCourses.toString();
     }
 
     public String showStudents() {
@@ -62,16 +67,28 @@ public class EducationalPlatform {
         return listStudents.toString();
     }
 
-    public Student searchStudantName(String name) throws InexistentOptionException{
+    public List<Student> searchStudentName(String name) throws InexistentOptionException{
+        List<Student> studentsFound = new ArrayList<>();
         for (Student student : students) {
             if (name.equalsIgnoreCase(student.getName())) {
-                return student;
+                studentsFound.add(student);
             }
         }
-        throw new InexistentOptionException("Estudante não encontrado");
+        if(studentsFound.isEmpty()){
+            throw new InexistentOptionException("Estudante não encontrado");
+        }
+        return studentsFound;
     }
 
-    public void unsubscrible(Student student, Course course){
+    public void enrollStudentInCourse(Course course, Student student){
+        Enrollment enrollment = new Enrollment(course, student);
+        enrollments.add(enrollment);
+        course.getEnrollments().add(enrollment);
+        student.getStudentEnrollments().add(enrollment);
+    }
+
+    //ajustar metodo
+    public void unsubscribleStudent(Student student, Course course){
         for(Enrollment enrollment : student.getStudentEnrollments()){
             if(enrollment.getCourse().equals(course)){
                 student.getStudentEnrollments().remove(enrollment);
@@ -79,6 +96,15 @@ public class EducationalPlatform {
                 course.getEnrollments().remove(enrollment);
             }
         }
+    }
+
+    public Teacher verifyExistenceOfTeacher(String email) throws InexistentOptionException {
+        for (Teacher teacher : teachers) {
+            if (email.equals(teacher.getEmail())) {
+                return teacher;
+            }
+        }
+        throw new InexistentOptionException("Professor não cadastrado");
     }
 }
 

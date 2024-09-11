@@ -38,6 +38,7 @@ public class Course {
         throw new InexistentOptionException("Modulo não encontrado");
     }
 
+    //se depois eu precisar desse metodo para algo ajusto pra retornar a lista em si
     public String showEnrollments(){
         StringBuilder listEnrollments = new StringBuilder();
         for(Enrollment enrollment: enrollments){

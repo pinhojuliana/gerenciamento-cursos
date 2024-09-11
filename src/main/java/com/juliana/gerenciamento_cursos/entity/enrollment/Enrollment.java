@@ -18,17 +18,19 @@ public class Enrollment {
     private Student student;
     private LocalDateTime enrollmentDateTime;
     private LocalDate deadlineForCompletion;
+    private boolean active;
 
-    public Enrollment(Course course, Student student) throws InexistentOptionException {
+    public Enrollment(Course course, Student student) {
         this.id = UUID.randomUUID();
         this.course = course;
         this.student = student;
         enrollmentDateTime = LocalDateTime.now();
         deadlineForCompletion = enrollmentDateTime.plusDays(90).toLocalDate();
+        active = true;
     }
 
     @Override
     public String toString(){
-       return String.format("Course: %s\nStudent: %s\nEnrollment date: %s\nFinal date: %s", course.getTitle(), student.getEmail(), DateValidation.formatDateTime(enrollmentDateTime) , DateValidation.formatDate(deadlineForCompletion));
+       return String.format("Course: %s\nStudent: %s\nEnrollment date: %s\nFinal date: %s\nActive: %s", course.getTitle(), student.getEmail(), DateValidation.formatDateTime(enrollmentDateTime) , DateValidation.formatDate(deadlineForCompletion), isActive());
     }
 }
