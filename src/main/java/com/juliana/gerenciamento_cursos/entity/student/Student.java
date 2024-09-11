@@ -22,21 +22,21 @@ public class Student {
     private String name;
     private String email;
     private LocalDate dateOfBirth;
-    private List<Enrollment> studentEnrollments = new ArrayList<>();
-    private EducationalPlatform educationalPlatform;
+    private List<Enrollment> studentEnrollments;
     private LocalDateTime createdAt;
 
-    public Student(String name, String email, String dateOfBirth, EducationalPlatform educationalPlatform) throws InvalidEmailException, UnderageException {
+    public Student(String name, String email, LocalDate dateOfBirth) throws InvalidEmailException, UnderageException {
         this.id = UUID.randomUUID();
         this.name = name;
-        if(AgeValidation.validateAge(DateValidation.formatDate(dateOfBirth))){
-        this.dateOfBirth = DateValidation.formatDate(dateOfBirth);
+        this.email = EmailValidation.isValidEmail(email);
+        if(AgeValidation.validateAge(dateOfBirth)){
+        this.dateOfBirth = dateOfBirth;
         }
         this.studentEnrollments = new ArrayList<>();
-        educationalPlatform.getStudents().add(this);
         this.createdAt = LocalDateTime.now();
     }
 
+    @Override
     public String toString(){
         return String.format("Name: %s\nEmail: %s\nDate of birth: %s\nCreated at: %s", name, email, DateValidation.formatDate(dateOfBirth), DateValidation.formatDateTime(createdAt));
     }

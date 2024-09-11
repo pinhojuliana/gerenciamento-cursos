@@ -17,18 +17,16 @@ public class Course {
     private String title;
     private String description;
     private Teacher teacher;
-    private List<Enrollment> enrollments = new ArrayList<>();
-    private List<ModuleSection> modules = new ArrayList<>();
-    private EducationalPlatform educationalPlatform;
+    private List<Enrollment> enrollments;
+    private List<ModuleSection> modules;
 
-    public Course(String title, String description, String teacherEmail, EducationalPlatform educationalPlatform) throws InexistentOptionException{
+    public Course(String title, String description, Teacher teacher){
         this.title = title;
         this.description = description;
         this.id = UUID.randomUUID();
-        this.teacher = educationalPlatform.verifyExistenceOfTeacher(teacherEmail);
-        this.educationalPlatform = educationalPlatform;
-        educationalPlatform.getAllCourses().add(this);
-        teacher.getCoursesTaught().add(this);
+        this.teacher = teacher;
+        enrollments = new ArrayList<>();
+        modules = new ArrayList<>();
     }
 
     public ModuleSection verifyExistenceOfModule(String title) throws InexistentOptionException{
@@ -48,6 +46,7 @@ public class Course {
         return listEnrollments.toString();
     }
 
+    @Override
     public String toString(){
         return String.format("Title: %s\nDescription: %s\nTeacher: %s", title, description, teacher.getEmail());
     }

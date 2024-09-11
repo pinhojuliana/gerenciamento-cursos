@@ -13,14 +13,14 @@ public class ClassSection {
     private String description;
     private ModuleSection moduleSection;
 
-    public ClassSection(String title, String description, int index, String moduleTitle) throws InexistentOptionException {
+    public ClassSection(String title, String description, ModuleSection moduleSection) {
         this.id = UUID.randomUUID();
         this.title = title;
         this.description = description;
-        this.moduleSection = moduleSection.getCourse().verifyExistenceOfModule(moduleTitle);
-        moduleSection.getClasses().add(this);
+        this.moduleSection = moduleSection;
     }
 
+    @Override
     public String toString(){
         return String.format("Title: %s\nDescription: %s\nModule: %s", title, description, moduleSection.getTitle());
     }

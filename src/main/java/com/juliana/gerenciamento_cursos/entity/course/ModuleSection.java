@@ -12,19 +12,18 @@ public class ModuleSection {
     private UUID id;
     private String title;
     private String description;
-    private List<ClassSection> classes = new ArrayList<>();
+    private List<ClassSection> classes;
     private Dificultity dificultity;
-    private Course course;
 
-    public ModuleSection(String title, String description, String dificultity, int index, String courseTitle) throws InexistentOptionException{
+    public ModuleSection(String title, String description, String dificultity) throws InexistentOptionException{
         this.id = UUID.randomUUID();
         this.title = title;
         this.description = description;
         this.dificultity = Dificultity.validDificultityValue(dificultity);
-        this.course = course.getEducationalPlatform().verifyExistenceOfCourse(courseTitle);
-        course.getModules().add(this);
+        classes = new ArrayList<>();
     }
 
+    @Override
     public String toString(){
         return String.format("Title: %s\nDescription: %s\nDificultity: %s\nCourse %s", title, description, dificultity.getLabel(), course.getTitle());
     }

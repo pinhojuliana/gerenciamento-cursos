@@ -21,20 +21,20 @@ public class Teacher {
     private String name;
     private String email;
     private LocalDate dateOfBirth;
-    private List<Course> coursesTaught = new ArrayList<>();
-    private EducationalPlatform educationalPlatform;
-    private int totalCoursesTaught = coursesTaught.size();
+    private List<Course> coursesTaught;
 
-    public Teacher(String name, String email, String dateOfBirth) throws InvalidEmailException, UnderageException {
+    public Teacher(String name, String email, LocalDate dateOfBirth) throws InvalidEmailException, UnderageException {
         this.id = UUID.randomUUID();
         this.name = name;
-        if(AgeValidation.validateAge(DateValidation.formatDate(dateOfBirth))){
-            this.dateOfBirth = DateValidation.formatDate(dateOfBirth);
-        }
         this.email = EmailValidation.isValidEmail(email);
-        educationalPlatform.getTeachers().add(this);
+        if(AgeValidation.validateAge(dateOfBirth)){
+            this.dateOfBirth = dateOfBirth;
+        }
+        coursesTaught = new ArrayList<>();
     }
 
+
+    @Override
     public String toString(){
         return String.format("Name: %s\nEmail: %s\nDate of birth: %s\nCourses taught: %d", name, email, DateValidation.formatDate(dateOfBirth), coursesTaught);
     }
