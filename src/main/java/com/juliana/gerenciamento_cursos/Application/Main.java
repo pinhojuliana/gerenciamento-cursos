@@ -19,13 +19,13 @@ public class Main {
 
                 switch (option){
                     case 1:
-                        Manager manager = new Manager();
+                        Manager manager = new Manager(methods);
                         break;
                     case 2:
-                        Teacher teacher = new Teacher();
+                        Teacher teacher = new Teacher(methods);
                         break;
                     case 3:
-                        Student student = new Student();
+                        Student student = new Student(methods);
                         break;
                     case 4:
                         return;
