@@ -42,7 +42,7 @@ public class Course {
     public String showEnrollments(){
         StringBuilder listEnrollments = new StringBuilder();
         for(Enrollment enrollment: enrollments){
-            listEnrollments.append("-").append(enrollment.getStudent().getName()).append(" Data inscrição: ").append(DateValidation.formatDateTime(enrollment.getEnrollmentDateTime())).append("\n");
+            listEnrollments.append("\n{").append(enrollment.getStudent().getName()).append(" - ").append(DateValidation.formatDateTime(enrollment.getEnrollmentDateTime())).append("Válido: ").append(enrollment.isActive()).append("}");
         }
         return listEnrollments.toString();
     }

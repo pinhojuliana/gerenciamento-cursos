@@ -1,14 +1,17 @@
 package com.juliana.gerenciamento_cursos.Application;
 
-import com.juliana.gerenciamento_cursos.entity.educational_platform.EducationalPlatform;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Scanner;
 
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 public class Teacher {
-    private EducationalPlatform educationalPlatform;
-    private Scanner scanner;
+    private Methods methods;
+
+    public void showOptions(){
+
+    }
+
 }

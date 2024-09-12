@@ -45,4 +45,8 @@ public class Student {
         return String.format("Name: %s\nEmail: %s\nDate of birth: %s\nCreated at: %s", name, email, DateValidation.formatDate(dateOfBirth), DateValidation.formatDateTime(createdAt));
     }
 
+    public String showStudentPublicProfile(){
+        return String.format("Name: %s\nDate of birth: %s", name, DateValidation.formatDate(dateOfBirth));
+    }
+
 }

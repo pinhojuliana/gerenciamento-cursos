@@ -10,6 +10,8 @@ public class Main {
 
         EducationalPlatform educationalPlatform = new EducationalPlatform();
 
+        Methods methods = new Methods(educationalPlatform, scanner);
+
         System.out.println("Bem-vindo ao sistema de Cursos");
         System.out.println("Primeiro informe sua identidade ou encerre o programa escolhendo a opção 'sair':");
         System.out.println("1-Administrador\n2-Professor\n3-Aluno\n4-sair");
@@ -17,13 +19,13 @@ public class Main {
 
                 switch (option){
                     case 1:
-                        Manager manager = new Manager(educationalPlatform, scanner);
+                        Manager manager = new Manager();
                         break;
                     case 2:
-                        Teacher teacher = new Teacher(educationalPlatform, scanner);
+                        Teacher teacher = new Teacher();
                         break;
                     case 3:
-                        Student student = new Student(educationalPlatform, scanner);
+                        Student student = new Student();
                         break;
                     case 4:
                         return;

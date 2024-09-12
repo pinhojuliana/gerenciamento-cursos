@@ -7,6 +7,7 @@ import com.juliana.gerenciamento_cursos.entity.student.Student;
 import com.juliana.gerenciamento_cursos.entity.teacher.Teacher;
 import com.juliana.gerenciamento_cursos.exceptions.InvalidEmailException;
 import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
+import com.juliana.gerenciamento_cursos.validations.DateValidation;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -45,6 +46,14 @@ public class EducationalPlatform {
         return listCourses.toString();
     }
 
+    public String showStudentsOfCourse(Teacher teacher, Course course){
+        StringBuilder studentsFound = new StringBuilder();
+        if(course.getTeacher().getEmail().equals(teacher.getEmail())){
+            course.showEnrollments();
+        }
+        return studentsFound.toString();
+    }
+
     public void createNewStudent(String name, LocalDate birth, String email) throws UnderageException, InvalidEmailException {
         Student student = new Student(name, email, birth);
         students.add(student);
@@ -80,6 +89,20 @@ public class EducationalPlatform {
         return studentsFound;
     }
 
+    public List<String> searchStudentNameCourse(String name, Course course) throws InexistentOptionException{
+        List<String> studentsFound = new ArrayList<>();
+        for (Student student : students) {
+            if (student.getName().startsWith(name)) {
+                studentsFound.add(student.showStudentPublicProfile());
+            }
+        }
+        if(studentsFound.isEmpty()){
+            throw new InexistentOptionException("Estudante não encontrado");
+        }
+        return studentsFound;
+    }
+
+
     public void enrollStudentInCourse(Course course, Student student){
         Enrollment enrollment = new Enrollment(course, student);
         enrollments.add(enrollment);
@@ -105,6 +128,11 @@ public class EducationalPlatform {
             }
         }
         throw new InexistentOptionException("Professor não cadastrado");
+    }
+
+    public void createNewTeacher(String name, LocalDate birth, String email) throws UnderageException, InvalidEmailException {
+        Teacher teacher = new Teacher(name, email, birth);
+        teachers.add(teacher);
     }
 }
 
