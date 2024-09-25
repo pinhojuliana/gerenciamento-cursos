@@ -4,7 +4,7 @@ import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 
 public enum Dificultity {
     BEGINNER("Beginner"),
-    INTERMEDIARY("Intermediary"),
+    INTERMEDIARY("Intermediate"),
     ADVANCED("Advanced");
 
     private final String label;
@@ -18,11 +18,11 @@ public enum Dificultity {
     }
 
     public static Dificultity validDificultityValue(String value) throws InexistentOptionException{
-        for(Dificultity dificultity : Dificultity.values()){
-            if(dificultity.getLabel().equalsIgnoreCase(value)){
+        for(Dificultity dificultity : Dificultity.values()) {
+            if (dificultity.getLabel().equalsIgnoreCase(value)) {
                 return dificultity;
             }
         }
-        throw new InexistentOptionException("Valor não encontrado. As opções válidas são: Begginer, Intermediary e Advanced");
+        throw new InexistentOptionException("Valor não encontrado. As opções válidas são: Beginner, Intermediate e Advanced");
     }
 }

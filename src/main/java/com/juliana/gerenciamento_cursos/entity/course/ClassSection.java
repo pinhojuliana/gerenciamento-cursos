@@ -1,9 +1,7 @@
 package com.juliana.gerenciamento_cursos.entity.course;
 
-import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import lombok.Data;
 
-import java.io.File;
 import java.util.UUID;
 
 @Data
