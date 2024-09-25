@@ -21,6 +21,6 @@ public class Teacher extends User {
 
     @Override
     public String toString(){
-        return String.format("Name: %s\nEmail: %s\nDate of birth: %s\nCourses taught: %d", name, email, DateValidation.formatDate(dateOfBirth), coursesTaught);
+        return String.format("{Name: %s, Email: %s, Date of birth: %s, Courses taught: %d}", name, email, DateValidation.formatDate(dateOfBirth), coursesTaught);
     }
 }

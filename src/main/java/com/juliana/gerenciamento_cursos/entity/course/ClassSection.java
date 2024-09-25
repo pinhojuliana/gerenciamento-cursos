@@ -22,7 +22,7 @@ public class ClassSection {
 
     @Override
     public String toString(){
-        return String.format("Title: %s\nDescription: %s\nModule: %s", title, description, moduleSection.getTitle());
+        return String.format("{Title: %s, Description: %s\nModule: %s}", title, description, moduleSection.getTitle());
     }
 }
 

@@ -9,6 +9,7 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Data
 public class Course {
@@ -29,26 +30,21 @@ public class Course {
     }
 
     public ModuleSection verifyExistenceOfModule(String title) throws InexistentOptionException{
-        for(ModuleSection module : modules){
-            if(title.equalsIgnoreCase(module.getTitle())){
-                return module;
-            }
-        }
-        throw new InexistentOptionException("Modulo não encontrado");
+        return modules.stream()
+                .filter(m -> m.getTitle().equalsIgnoreCase(title))
+                .findAny()
+                .orElseThrow(() -> new InexistentOptionException("Modulo não encontrado"));
     }
 
-    //se depois eu precisar desse metodo para algo ajusto pra retornar a lista em si
     public String showEnrollments(){
-        StringBuilder listEnrollments = new StringBuilder();
-        for(Enrollment enrollment: enrollments){
-            listEnrollments.append("\n{").append(enrollment.getStudent().getName()).append(" - ").append(DateValidation.formatDateTime(enrollment.getEnrollmentDateTime())).append("Válido: ").append(enrollment.isActive()).append("}");
-        }
-        return listEnrollments.toString();
+        return enrollments.stream()
+                .map(Enrollment::toString)
+                .collect(Collectors.joining("\n"));
     }
 
     @Override
     public String toString(){
-        return String.format("Title: %s\nDescription: %s\nTeacher: %s", title, description, teacher.getEmail());
+        return String.format("{Title: %s, Description: %s, Teacher: %s}", title, description, teacher.getEmail());
     }
 
 }

@@ -29,6 +29,6 @@ public class Enrollment {
 
     @Override
     public String toString(){
-       return String.format("Course: %s\nStudent: %s\nEnrollment date: %s\nFinal date: %s\nActive: %s", course.getTitle(), student.getEmail(), DateValidation.formatDateTime(enrollmentDateTime) , DateValidation.formatDate(deadlineForCompletion), isActive());
+       return String.format("{Course: %s, Student: %s, Enrollment date: %s, Final date: %s, Active: %s}", course.getTitle(), student.getEmail(), DateValidation.formatDateTime(enrollmentDateTime) , DateValidation.formatDate(deadlineForCompletion), isActive());
     }
 }

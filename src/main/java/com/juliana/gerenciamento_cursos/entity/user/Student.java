@@ -29,7 +29,7 @@ public class Student extends User {
     }
 
     public String showStudentPublicProfile(){
-        return String.format("Name: %s\nDate of birth: %s", name, DateValidation.formatDate(dateOfBirth));
+        return String.format("{Name: %s, Date of birth: %s}", name, DateValidation.formatDate(dateOfBirth));
     }
 
 }
