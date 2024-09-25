@@ -67,12 +67,14 @@ public class EducationalPlatform {
         }
         return students.stream()
                 .map(Student::showStudentPublicProfile)
+                .sorted()
                 .collect(Collectors.joining("\n"));
     }
 
     public List<Student> searchStudentName(String name) throws InexistentOptionException{
         List<Student> foundStudents = students.stream()
                 .filter(s -> (s.getName().equalsIgnoreCase(name)) || (s.getName().startsWith(name)))
+                .sorted()
                 .toList();
 
         if (foundStudents.isEmpty()) {

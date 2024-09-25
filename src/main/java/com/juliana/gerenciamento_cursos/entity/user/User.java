@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
-public class User {
+public class User implements Comparable<User>{
     protected UUID id;
     protected String name;
     protected String email;
@@ -26,5 +26,10 @@ public class User {
             this.dateOfBirth = dateOfBirth;
         }
         this.createdAt = LocalDateTime.now();
+    }
+
+    @Override
+    public int compareTo(User user) {
+        return this.getName().compareTo(user.getName());
     }
 }
