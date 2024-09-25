@@ -13,44 +13,40 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
 public class EducationalPlatform {
-    private List<Course> allCourses = new ArrayList<>();
+    private List<Course> courses = new ArrayList<>();
     private List<Student> students = new ArrayList<>();
     private List<Teacher> teachers = new ArrayList<>();
     private List<Enrollment> enrollments = new ArrayList<>();
 
     public void createNewCourse(String title, String description, Teacher teacher){
         Course course = new Course(title, description, teacher);
-        allCourses.add(course);
+        courses.add(course);
         teacher.getCoursesTaught().add(course);
     }
 
     public Course verifyExistenceOfCourse(String title) throws InexistentOptionException {
-        for (Course course : allCourses) {
-            if (title.equalsIgnoreCase(course.getTitle())) {
-                return course;
-            }
-        }
-        throw new InexistentOptionException("Curso não encontrado");
+        return courses.stream()
+                .filter(c -> c.getTitle().equalsIgnoreCase(title))
+                .findFirst()
+                .orElseThrow(() -> new InexistentOptionException("Curso não encontrado"));
     }
 
     public String showCourses() {
-        StringBuilder listCourses = new StringBuilder();
-        for (Course course : allCourses) {
-            listCourses.append("-").append(course.getTitle()).append("\n");
-        }
-        return listCourses.toString();
+       return courses.stream()
+               .map(c -> c.getTitle())
+               .collect(Collectors.joining("\n"));
     }
 
-    public String showStudentsOfCourse(Teacher teacher, Course course){
-        StringBuilder studentsFound = new StringBuilder();
+    public String showStudentsOfCourse(Teacher teacher, Course course) {
         if(course.getTeacher().getEmail().equals(teacher.getEmail())){
-            course.showEnrollments();
+            return course.showEnrollments();
         }
-        return studentsFound.toString();
+        return "O professor ou o aluno são inválidos";
     }
 
     public void createNewStudent(String name, LocalDate birth, String email) throws UnderageException, InvalidEmailException {
@@ -59,48 +55,32 @@ public class EducationalPlatform {
     }
 
     public Student verifyExistenceOfStudent(String email) throws InexistentOptionException {
-        for (Student student : students) {
-            if (email.equalsIgnoreCase(student.getEmail())) {
-                return student;
-            }
-        }
-        throw new InexistentOptionException("Estudante não cadastrado");
+        return students.stream()
+                .filter(e -> e.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElseThrow(() -> new InexistentOptionException("Estudante não cadastrado"));
     }
 
     public String showStudents() {
-        StringBuilder listStudents = new StringBuilder();
-        for (Student student : students) {
-            listStudents.append("-").append(student.getName()).append(" - ").append(student.getEmail()).append("\n");
+        if(students.isEmpty()) {
+            return "Lista de estudantes vazia";
         }
-        return listStudents.toString();
+        return students.stream()
+                .map(Student::showStudentPublicProfile)
+                .collect(Collectors.joining("\n"));
     }
 
     public List<Student> searchStudentName(String name) throws InexistentOptionException{
-        List<Student> studentsFound = new ArrayList<>();
-        for (Student student : students) {
-            if (name.equalsIgnoreCase(student.getName())) {
-                studentsFound.add(student);
-            }
-        }
-        if(studentsFound.isEmpty()){
-            throw new InexistentOptionException("Estudante não encontrado");
-        }
-        return studentsFound;
-    }
+        List<Student> foundStudents = students.stream()
+                .filter(s -> (s.getName().equalsIgnoreCase(name)) || (s.getName().startsWith(name)))
+                .toList();
 
-    public List<String> searchStudentNameCourse(String name, Course course) throws InexistentOptionException{
-        List<String> studentsFound = new ArrayList<>();
-        for (Student student : students) {
-            if (student.getName().startsWith(name)) {
-                studentsFound.add(student.showStudentPublicProfile());
-            }
+        if (foundStudents.isEmpty()) {
+            throw new InexistentOptionException("Nenhum estudante encontrado");
         }
-        if(studentsFound.isEmpty()){
-            throw new InexistentOptionException("Estudante não encontrado");
-        }
-        return studentsFound;
-    }
 
+        return foundStudents;
+    }
 
     public void enrollStudentInCourse(Course course, Student student){
         Enrollment enrollment = new Enrollment(course, student);
@@ -121,12 +101,11 @@ public class EducationalPlatform {
     }
 
     public Teacher verifyExistenceOfTeacher(String email) throws InexistentOptionException {
-        for (Teacher teacher : teachers) {
-            if (email.equals(teacher.getEmail())) {
-                return teacher;
-            }
-        }
-        throw new InexistentOptionException("Professor não cadastrado");
+        return teachers.stream()
+                .filter(t -> t.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElseThrow(() -> new InexistentOptionException("Professor não cadastrado"));
+
     }
 
     public void createNewTeacher(String name, LocalDate birth, String email) throws UnderageException, InvalidEmailException {
