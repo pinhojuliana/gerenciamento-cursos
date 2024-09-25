@@ -2,7 +2,7 @@ package com.juliana.gerenciamento_cursos.entity.course;
 
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.entity.enrollment.Enrollment;
-import com.juliana.gerenciamento_cursos.entity.user.Teacher;
+import com.juliana.gerenciamento_cursos.entity.user.teacher.Teacher;
 import lombok.Data;
 
 import java.util.ArrayList;

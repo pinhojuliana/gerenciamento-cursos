@@ -1,5 +1,6 @@
-package com.juliana.gerenciamento_cursos.entity.user;
+package com.juliana.gerenciamento_cursos.entity.user.student;
 
+import com.juliana.gerenciamento_cursos.entity.user.User;
 import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
 import com.juliana.gerenciamento_cursos.validations.DateValidation;
 import com.juliana.gerenciamento_cursos.exceptions.InvalidEmailException;
@@ -31,5 +32,7 @@ public class Student extends User {
     public String showStudentPublicProfile(){
         return String.format("{Name: %s, Date of birth: %s}", name, DateValidation.formatDate(dateOfBirth));
     }
+
+
 
 }

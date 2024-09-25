@@ -1,5 +1,6 @@
-package com.juliana.gerenciamento_cursos.entity.user;
+package com.juliana.gerenciamento_cursos.entity.user.teacher;
 
+import com.juliana.gerenciamento_cursos.entity.user.User;
 import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
 import com.juliana.gerenciamento_cursos.validations.DateValidation;
 import com.juliana.gerenciamento_cursos.exceptions.InvalidEmailException;
