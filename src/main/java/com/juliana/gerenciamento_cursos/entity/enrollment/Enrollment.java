@@ -1,9 +1,7 @@
 package com.juliana.gerenciamento_cursos.entity.enrollment;
 
 import com.juliana.gerenciamento_cursos.entity.course.Course;
-import com.juliana.gerenciamento_cursos.entity.educational_platform.EducationalPlatform;
-import com.juliana.gerenciamento_cursos.entity.student.Student;
-import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
+import com.juliana.gerenciamento_cursos.entity.user.Student;
 import com.juliana.gerenciamento_cursos.validations.DateValidation;
 import lombok.Data;
 

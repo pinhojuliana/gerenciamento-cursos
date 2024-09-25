@@ -3,11 +3,10 @@ package com.juliana.gerenciamento_cursos.entity.educational_platform;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.entity.course.Course;
 import com.juliana.gerenciamento_cursos.entity.enrollment.Enrollment;
-import com.juliana.gerenciamento_cursos.entity.student.Student;
-import com.juliana.gerenciamento_cursos.entity.teacher.Teacher;
+import com.juliana.gerenciamento_cursos.entity.user.Student;
+import com.juliana.gerenciamento_cursos.entity.user.Teacher;
 import com.juliana.gerenciamento_cursos.exceptions.InvalidEmailException;
 import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
-import com.juliana.gerenciamento_cursos.validations.DateValidation;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
