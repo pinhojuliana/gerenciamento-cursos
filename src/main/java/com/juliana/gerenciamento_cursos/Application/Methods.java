@@ -86,7 +86,7 @@ public class Methods {
             System.out.println("Curso que deseja cancelar a inscrição");
             String title = scanner.nextLine();
 
-            educationalPlatform.unsubscribleStudent(educationalPlatform.verifyExistenceOfStudent(email), educationalPlatform.verifyExistenceOfCourse(title));
+            educationalPlatform.unsubscribleStudentOfCourse(educationalPlatform.verifyExistenceOfStudent(email), educationalPlatform.verifyExistenceOfCourse(title));
 
             System.out.println("Cadastro Cancelado");
         }

@@ -89,15 +89,16 @@ public class EducationalPlatform {
         student.getStudentEnrollments().add(enrollment);
     }
 
-    //ajustar metodo
-    public void unsubscribleStudent(Student student, Course course){
-        for(Enrollment enrollment : student.getStudentEnrollments()){
-            if(enrollment.getCourse().equals(course)){
-                student.getStudentEnrollments().remove(enrollment);
-                enrollments.remove(enrollment);
-                course.getEnrollments().remove(enrollment);
-            }
-        }
+    public void unsubscribleStudentOfCourse(Student student, Course course){
+        enrollments.stream()
+                .filter(e -> e.getStudent().equals(student) || e.getCourse().equals(course))
+                .findFirst()
+                .ifPresent(e -> e.setActive(false));
+    }
+
+    public void unsubscribleStudent(Student student){
+        students.removeIf(s -> s.equals(student));
+        enrollments.removeIf(e -> e.getStudent().equals(student));
     }
 
     public Teacher verifyExistenceOfTeacher(String email) throws InexistentOptionException {
@@ -105,7 +106,6 @@ public class EducationalPlatform {
                 .filter(t -> t.getEmail().equalsIgnoreCase(email))
                 .findFirst()
                 .orElseThrow(() -> new InexistentOptionException("Professor não cadastrado"));
-
     }
 
     public void createNewTeacher(String name, LocalDate birth, String email) throws UnderageException, InvalidEmailException {
