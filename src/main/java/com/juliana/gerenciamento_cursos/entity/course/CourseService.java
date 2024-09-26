@@ -1,5 +1,6 @@
 package com.juliana.gerenciamento_cursos.entity.course;
 
+import com.juliana.gerenciamento_cursos.entity.module_section.ModuleSection;
 import com.juliana.gerenciamento_cursos.entity.user.teacher.Teacher;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 
@@ -12,6 +13,20 @@ public class CourseService {
 
     public CourseService(){
         this.courses = new ArrayList<>();
+    }
+
+    public ModuleSection verifyExistenceOfModule(String title) throws InexistentOptionException{
+        return courses.stream()
+                .flatMap(c -> c.getModules().stream())
+                .filter(m -> m.getTitle().equalsIgnoreCase(title))
+                .findAny()
+                .orElseThrow(() -> new InexistentOptionException("Modulo não encontrado"));
+    }
+
+    public String showEnrollments(){
+        return courses.stream()
+                .map(c -> c.getModules().toString())
+                .collect(Collectors.joining("\n"));
     }
 
     public void createNewCourse(String title, String description, Teacher teacher){
@@ -35,7 +50,7 @@ public class CourseService {
 
     public String showStudentsOfCourse(Teacher teacher, Course course) {
         if(course.getTeacher().getEmail().equals(teacher.getEmail())){
-            return course.showEnrollments();
+            return this.showEnrollments();
         }
         return "O professor ou o aluno são inválidos";
     }

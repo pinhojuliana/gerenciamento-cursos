@@ -1,15 +1,16 @@
-package com.juliana.gerenciamento_cursos.entity.course.module_section;
+package com.juliana.gerenciamento_cursos.entity.module_section;
 
 import com.juliana.gerenciamento_cursos.entity.course.Dificultity;
-import com.juliana.gerenciamento_cursos.entity.course.class_section.ClassSection;
+import com.juliana.gerenciamento_cursos.entity.class_section.ClassSection;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Data
+@Getter
 public class ModuleSection {
     private UUID id;
     private String title;

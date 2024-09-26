@@ -33,6 +33,4 @@ public class Student extends User {
         return String.format("{Name: %s, Date of birth: %s}", name, DateValidation.formatDate(dateOfBirth));
     }
 
-
-
 }

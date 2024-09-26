@@ -1,6 +1,6 @@
 package com.juliana.gerenciamento_cursos.entity.course;
 
-import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
+import com.juliana.gerenciamento_cursos.entity.module_section.ModuleSection;
 import com.juliana.gerenciamento_cursos.entity.enrollment.Enrollment;
 import com.juliana.gerenciamento_cursos.entity.user.teacher.Teacher;
 import lombok.Data;
@@ -8,7 +8,6 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Data
 public class Course {
@@ -26,19 +25,6 @@ public class Course {
         this.teacher = teacher;
         enrollments = new ArrayList<>();
         modules = new ArrayList<>();
-    }
-
-    public ModuleSection verifyExistenceOfModule(String title) throws InexistentOptionException{
-        return modules.stream()
-                .filter(m -> m.getTitle().equalsIgnoreCase(title))
-                .findAny()
-                .orElseThrow(() -> new InexistentOptionException("Modulo não encontrado"));
-    }
-
-    public String showEnrollments(){
-        return enrollments.stream()
-                .map(Enrollment::toString)
-                .collect(Collectors.joining("\n"));
     }
 
     @Override

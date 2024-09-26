@@ -1,6 +1,6 @@
-package com.juliana.gerenciamento_cursos.entity.course.class_section;
+package com.juliana.gerenciamento_cursos.entity.class_section;
 
-import com.juliana.gerenciamento_cursos.entity.course.module_section.ModuleSection;
+import com.juliana.gerenciamento_cursos.entity.module_section.ModuleSection;
 import lombok.Data;
 
 import java.util.UUID;
