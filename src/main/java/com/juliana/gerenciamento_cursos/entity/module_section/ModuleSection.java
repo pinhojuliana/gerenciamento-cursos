@@ -1,5 +1,7 @@
-package com.juliana.gerenciamento_cursos.entity.course;
+package com.juliana.gerenciamento_cursos.entity.course.module_section;
 
+import com.juliana.gerenciamento_cursos.entity.course.Dificultity;
+import com.juliana.gerenciamento_cursos.entity.course.class_section.ClassSection;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import lombok.Data;
 
@@ -20,7 +22,7 @@ public class ModuleSection {
         this.title = title;
         this.description = description;
         this.dificultity = Dificultity.validDificultityValue(dificultity);
-        classes = new ArrayList<>();
+        this.classes = new ArrayList<>();
     }
 
     @Override
