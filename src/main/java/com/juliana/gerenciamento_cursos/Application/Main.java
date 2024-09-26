@@ -14,6 +14,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+        //terminar classe
 
         while (true){
             System.out.println("=== Bem-vindo ao sistema de gerenciamento de cursos ===");
