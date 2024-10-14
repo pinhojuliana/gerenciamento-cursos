@@ -8,6 +8,9 @@ import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
 import java.time.LocalDate;
 
 public class TeacherService extends UserService<Teacher> {
+    public TeacherService(){
+        super();
+    }
 
     public void createNewTeacher(String name, LocalDate birth, String email) throws UnderageException, InvalidEmailException {
         Teacher teacher = new Teacher(name, email, birth);

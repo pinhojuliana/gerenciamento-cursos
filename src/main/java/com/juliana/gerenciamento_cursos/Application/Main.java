@@ -3,6 +3,8 @@ package com.juliana.gerenciamento_cursos.Application;
 import com.juliana.gerenciamento_cursos.entity.educational_platform.EducationalPlatform;
 import com.juliana.gerenciamento_cursos.entity.user.User;
 import com.juliana.gerenciamento_cursos.entity.user.UserService;
+import com.juliana.gerenciamento_cursos.entity.user.student.Student;
+import com.juliana.gerenciamento_cursos.entity.user.student.StudentService;
 import com.juliana.gerenciamento_cursos.entity.user.teacher.Teacher;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 
@@ -13,6 +15,11 @@ public class Main {
     UserService userService;
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+
+        EducationalPlatform educationalPlatform = new EducationalPlatform();
+        Student student = new Student();
+        StudentService studentService = new StudentService();
+
 
         //terminar classe
 
@@ -49,7 +56,7 @@ public class Main {
                 String email = scanner.nextLine();
 
                 try {
-                    userService.verifyExistenceOfUser(email);
+                    Teacher teacher = teacherService.verifyExistenceOfTeacher(email);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -74,7 +81,7 @@ public class Main {
                     String email = scanner.nextLine();
 
                     try {
-                        userService.verifyExistenceOfUser(email);
+                        StudentService.verifyExistenceOfStudent(email);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }

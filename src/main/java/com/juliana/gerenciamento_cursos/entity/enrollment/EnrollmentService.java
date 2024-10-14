@@ -29,4 +29,10 @@ public class EnrollmentService {
                 .ifPresent(e -> e.setActive(false));
     }
 
+    public void unsubscribeStudent(Student student) {
+        StudentService.removeUser(student);
+        enrollments.removeIf(e -> e.getStudent().equals(student));
+    }
+
+
 }

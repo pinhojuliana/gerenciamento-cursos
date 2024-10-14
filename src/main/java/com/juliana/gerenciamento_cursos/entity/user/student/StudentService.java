@@ -1,6 +1,5 @@
 package com.juliana.gerenciamento_cursos.entity.user.student;
 
-import com.juliana.gerenciamento_cursos.entity.enrollment.EnrollmentService;
 import com.juliana.gerenciamento_cursos.entity.user.UserService;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.exceptions.InvalidEmailException;
@@ -11,10 +10,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class StudentService extends UserService<Student> {
-    private EnrollmentService enrollmentService;
 
-    public StudentService(EnrollmentService enrollmentService){
-        this.enrollmentService = enrollmentService;
+    public StudentService(){
+        super();
     }
 
     public void createNewStudent(String name, LocalDate birth, String email) throws UnderageException, InvalidEmailException {
@@ -49,9 +47,6 @@ public class StudentService extends UserService<Student> {
         return foundStudents;
     }
 
-    public void unsubscribleStudent(Student student){
-        users.removeIf(s -> s.equals(student));
-        enrollmentService.getEnrollments().removeIf(e -> e.getStudent().equals(student));
-    }
+
 
 }
