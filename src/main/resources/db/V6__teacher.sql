@@ -1,0 +1,8 @@
+CREATE TABLE teacher(
+    id UUID DEFAULT RANDOM_UUID() PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    password VARCHAR(50) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    date_of_birth TIMESTAMP NOT NULL,
+    created_at NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

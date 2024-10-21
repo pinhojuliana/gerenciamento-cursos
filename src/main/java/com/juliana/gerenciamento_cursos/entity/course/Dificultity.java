@@ -2,6 +2,7 @@ package com.juliana.gerenciamento_cursos.entity.course;
 
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 
+//verificar como funcionam enums com spring
 public enum Dificultity {
     BEGINNER("Beginner"),
     INTERMEDIARY("Intermediate"),
