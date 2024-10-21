@@ -4,24 +4,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /*
-* configurar db -> verificar
-* criar tabela de usuarios com todos os usuarios e seus respectivos ids
-* criar tabela de alunos
-* criar tabela professores
-* pesquisar como fica sendo herança
-* tabela curso
-* tabela modulo com chave estrangeira curso
-* tabela aula com chave estrangeira modulo
-* tabela inscriçoes
-* pesquisar como ficam os atributos agora com as tabelas
+* configurar postgres
+* Estudar classes Data, Requeste payload e response
 * modificar metodos (ver como eu trabalho com eles com o db)
-* criar controllers
 * criar cas camadas de acesso manager, teacher e student
 * ver como crio os controllers separados levando isso em consideração
 * criar handlers
 * uso flyway?
 * implementar testes
-* implementar segurança*/
+* implementar segurança
+* email de confirmação*/
 @SpringBootApplication
 public class GerenciamentoCursosApplication {
 
