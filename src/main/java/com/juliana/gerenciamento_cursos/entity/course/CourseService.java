@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CourseService {
-    private List<Course> courses;
+   /* private List<Course> courses;
 
     public CourseService(){
         this.courses = new ArrayList<>();
@@ -54,4 +54,6 @@ public class CourseService {
         }
         return "O professor ou o aluno são inválidos";
     }
+    */
+
 }

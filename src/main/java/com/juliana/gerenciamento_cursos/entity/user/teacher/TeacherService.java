@@ -8,7 +8,7 @@ import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
 import java.time.LocalDate;
 
 public class TeacherService extends UserService<Teacher> {
-    public TeacherService(){
+   /* public TeacherService(){
         super();
     }
 
@@ -23,4 +23,6 @@ public class TeacherService extends UserService<Teacher> {
                 .findFirst()
                 .orElseThrow(() -> new InexistentOptionException("Professor não cadastrado"));
     }
+
+    */
 }

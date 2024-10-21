@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class StudentService extends UserService<Student> {
 
-    public StudentService(){
+    /*public StudentService(){
         super();
     }
 
@@ -47,6 +47,6 @@ public class StudentService extends UserService<Student> {
         return foundStudents;
     }
 
-
+    */
 
 }

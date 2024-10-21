@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 public class EnrollmentService {
-    private List<Enrollment> enrollments;
+    /*private List<Enrollment> enrollments;
 
     public EnrollmentService(){
         this.enrollments = new ArrayList<>();
@@ -34,5 +34,6 @@ public class EnrollmentService {
         enrollments.removeIf(e -> e.getStudent().equals(student));
     }
 
+    */
 
 }
