@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name = "teacher")
 @Getter
 public class Teacher extends User {
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "teacher_course",
             joinColumns = @JoinColumn(name = "teacher_id"),
@@ -24,9 +24,15 @@ public class Teacher extends User {
     )
     private List<Course> coursesTaught;
 
+    @ElementCollection
+    @CollectionTable(name = "teacher_skill", joinColumns = @JoinColumn(name = "teacher_id"))
+    @Column(name = "skill")
+    private List<String> skills;
+
     public Teacher(String name, String email, String password, LocalDate dateOfBirth) throws InvalidEmailException, UnderageException {
         super(name, email, password, dateOfBirth);
-        coursesTaught = new ArrayList<>();
+        this.coursesTaught = new ArrayList<>();
+        this.skills = new ArrayList<>();
     }
 
     @Override

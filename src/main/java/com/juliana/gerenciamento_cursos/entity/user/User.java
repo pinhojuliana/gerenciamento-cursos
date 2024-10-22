@@ -30,7 +30,7 @@ public class User implements Comparable<User>{
             message = "A senha deve ter pelo menos 8 caracteres, 1 número e 1 caractere especial (!,@,#,$,%,&,*)")
     protected String password;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     @Email
     protected String email;
 

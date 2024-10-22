@@ -18,27 +18,19 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column
+    @Column(unique = true, nullable = false)
     private String title;
 
-    @Column
+    @Column(nullable = false)
     private String description;
 
     @ManyToMany(mappedBy = "coursesTaught")
     private List<Teacher> teachers;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Enrollment> enrollments;
-
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ModuleSection> modules;
-
     public Course(String title, String description, Teacher teacher){
         this.title = title;
         this.description = description;
         this.teachers = new ArrayList<>();
-        this.enrollments = new ArrayList<>();
-        this.modules = new ArrayList<>();
     }
 
     @Override

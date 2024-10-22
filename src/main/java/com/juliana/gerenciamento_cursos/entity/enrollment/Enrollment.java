@@ -17,15 +17,15 @@ public class Enrollment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    @Column(name = "course_id")
+    @Column(name = "course_id", nullable = false)
     private Course course;
-    @Column(name = "student_id")
+    @Column(name = "student_id", nullable = false)
     private Student student;
-    @Column
+    @Column(nullable = false)
     private LocalDateTime enrollmentDateTime;
-    @Column
+    @Column(nullable = false)
     private LocalDate deadlineForCompletion;
-    @Column
+    @Column(nullable = false)
     private int duration;
     @Column
     private boolean active;
