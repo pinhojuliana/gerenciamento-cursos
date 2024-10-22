@@ -16,7 +16,7 @@ de relacionamento
 * criar cas camadas de acesso manager, teacher e student
 * implementar testes
 * implementar segurança
-* email de confirmação*/
+* email de confirmação para users*/
 @SpringBootApplication
 public class GerenciamentoCursosApplication {
 

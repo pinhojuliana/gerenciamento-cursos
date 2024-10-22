@@ -1,11 +1,6 @@
 package com.juliana.gerenciamento_cursos.entity.user.teacher;
 
 import com.juliana.gerenciamento_cursos.entity.user.UserService;
-import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
-import com.juliana.gerenciamento_cursos.exceptions.InvalidEmailException;
-import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
-
-import java.time.LocalDate;
 
 public class TeacherService extends UserService<Teacher> {
    /* public TeacherService(){

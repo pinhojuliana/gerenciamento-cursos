@@ -3,8 +3,6 @@ package com.juliana.gerenciamento_cursos.entity.user.student;
 import com.juliana.gerenciamento_cursos.entity.user.User;
 import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
 import com.juliana.gerenciamento_cursos.validations.DateValidation;
-import com.juliana.gerenciamento_cursos.exceptions.InvalidEmailException;
-import com.juliana.gerenciamento_cursos.entity.enrollment.Enrollment;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -17,7 +15,7 @@ public class Student extends User {
     @Column
     private String description;
 
-    public Student(String name, String email,String password, LocalDate dateOfBirth, String description) throws InvalidEmailException, UnderageException {
+    public Student(String name, String email,String password, LocalDate dateOfBirth, String description) throws UnderageException {
         super(name, email, password, dateOfBirth);
         this.description = description;
     }
