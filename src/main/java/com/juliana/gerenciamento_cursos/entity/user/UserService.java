@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 public abstract class UserService<T extends User> {
-    protected List<T> users;
+    /*protected List<T> users;
 
     public UserService(){
         this.users = new ArrayList<>();
@@ -29,4 +29,5 @@ public abstract class UserService<T extends User> {
     public void removeUser(T user) {
         users.removeIf(u -> u.equals(user));
     }
+    */
 }

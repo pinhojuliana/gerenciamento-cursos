@@ -2,7 +2,6 @@ package com.juliana.gerenciamento_cursos.entity.module_section;
 
 import com.juliana.gerenciamento_cursos.entity.course.Course;
 import com.juliana.gerenciamento_cursos.entity.course.Dificultity;
-import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -24,10 +23,11 @@ public class ModuleSection {
     @Column(name = "course_id")
     private Course course;
 
-    public ModuleSection(String title, String description, String dificultity) throws InexistentOptionException{
+    public ModuleSection(String title, String description, Dificultity dificultity, Course course) {
         this.title = title;
         this.description = description;
-        this.dificultity = Dificultity.validDificultityValue(dificultity);
+        this.dificultity = dificultity;
+        this.course = course;
     }
 
     @Override

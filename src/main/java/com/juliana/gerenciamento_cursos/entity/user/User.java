@@ -16,7 +16,7 @@ import java.util.UUID;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Getter
 public class User implements Comparable<User>{
-    /*
+    /* /estudar ano9tações heranca
     * unique -> garante a unicidade a nível de banco de dados,
     * mas pode gerar uma exceção se a tentativa de persistir um
     * valor duplicado ocorrer. Você pode capturar essa exceção
@@ -29,11 +29,10 @@ public class User implements Comparable<User>{
     @Column(nullable = false)
     protected String name;
 
-    /* mensagem de campo vazio ou de nome ja existente?
-    * @Column(unique = true, nullable = false)
-    * @Pattern(regexp = "^[a-z0-9_.&$]{5,10}$",
-    * message = "O nome do usuario deve ter entre 5 e 10 caracteres e deve ser unico. Pode conter numeros, letras minusculas e caracteres especiais (_), (.), (&) e ($)")
-    * protected String username;*/
+    @Column(unique = true, nullable = false)
+    @Pattern(regexp = "^[a-z0-9_.&$]{5,10}$",
+            message = "O nome do usuario deve ter entre 5 e 10 caracteres e deve ser unico. Pode conter numeros, letras minusculas e caracteres especiais (_), (.), (&) e ($)")
+    protected String username;
 
     @Column
     @NotBlank(message = "A senha não pode estar vazia")
@@ -51,8 +50,9 @@ public class User implements Comparable<User>{
     @Column(name = "created_at", nullable = false)
     protected LocalDateTime createdAt;
 
-    public User(String name, String email, String password, LocalDate dateOfBirth) throws UnderageException {
+    public User(String name, String username, String email, String password, LocalDate dateOfBirth) throws UnderageException {
         this.name = name;
+        this.username = username;
         this.email = email;
         this.password = password;
         if(AgeValidation.validateAge(dateOfBirth)){

@@ -15,8 +15,8 @@ public class Student extends User {
     @Column
     private String description;
 
-    public Student(String name, String email,String password, LocalDate dateOfBirth, String description) throws UnderageException {
-        super(name, email, password, dateOfBirth);
+    public Student(String name, String username, String email, String password, LocalDate dateOfBirth, String description) throws UnderageException {
+        super(name, username, email, password, dateOfBirth);
         this.description = description;
     }
 

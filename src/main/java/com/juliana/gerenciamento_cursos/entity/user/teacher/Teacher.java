@@ -20,8 +20,8 @@ public class Teacher extends User {
     @Column(name = "skill")
     private List<String> skills;
 
-    public Teacher(String name, String email, String password, LocalDate dateOfBirth) throws UnderageException {
-        super(name, email, password, dateOfBirth);
+    public Teacher(String name, String username, String email, String password, LocalDate dateOfBirth) throws UnderageException {
+        super(name, username, email, password, dateOfBirth);
         this.skills = new ArrayList<>();
     }
 
