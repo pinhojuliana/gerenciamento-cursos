@@ -17,9 +17,11 @@ public class Enrollment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    @Column(name = "course_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "course_id", nullable = false)
     private Course course;
-    @Column(name = "student_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "student_id", nullable = false)
     private Student student;
     @Column(nullable = false)
     private LocalDateTime enrollmentDateTime;

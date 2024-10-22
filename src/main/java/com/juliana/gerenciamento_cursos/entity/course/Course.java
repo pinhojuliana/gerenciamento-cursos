@@ -27,7 +27,7 @@ public class Course {
     @ManyToMany(mappedBy = "coursesTaught")
     private List<Teacher> teachers;
 
-    public Course(String title, String description, Teacher teacher){
+    public Course(String title, String description){
         this.title = title;
         this.description = description;
         this.teachers = new ArrayList<>();
