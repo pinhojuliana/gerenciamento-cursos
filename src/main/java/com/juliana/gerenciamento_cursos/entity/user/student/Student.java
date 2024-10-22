@@ -27,17 +27,9 @@ public class Student extends User {
         this.description = description;
     }
 
-    public List<Enrollment> showEnrollments(){
-        return new ArrayList<>(studentEnrollments);
-    }
-
     @Override
     public String toString(){
         return String.format("Name: %s\nEmail: %s\nDate of birth: %s\nCreated at: %s", name, email, DateValidation.formatDate(dateOfBirth), DateValidation.formatDateTime(createdAt));
-    }
-
-    public String showStudentPublicProfile(){
-        return String.format("{Name: %s, Date of birth: %s}", name, DateValidation.formatDate(dateOfBirth));
     }
 
 }

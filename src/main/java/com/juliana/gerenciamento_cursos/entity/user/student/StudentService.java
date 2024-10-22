@@ -47,6 +47,14 @@ public class StudentService extends UserService<Student> {
         return foundStudents;
     }
 
+    public String showStudentPublicProfile(){
+        return String.format("{Name: %s, Date of birth: %s}", name, DateValidation.formatDate(dateOfBirth));
+    }
+
+    public List<Enrollment> showEnrollments(){
+        return new ArrayList<>(studentEnrollments);
+    }
+
     */
 
 }
