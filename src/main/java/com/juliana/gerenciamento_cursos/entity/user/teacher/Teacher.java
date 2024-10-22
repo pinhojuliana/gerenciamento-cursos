@@ -16,14 +16,6 @@ import java.util.List;
 @Table(name = "teacher")
 @Getter
 public class Teacher extends User {
-    @ManyToMany
-    @JoinTable(
-            name = "teacher_course",
-            joinColumns = @JoinColumn(name = "teacher_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id")
-    )
-    private List<Course> coursesTaught;
-
     @ElementCollection
     @CollectionTable(name = "teacher_skill", joinColumns = @JoinColumn(name = "teacher_id"))
     @Column(name = "skill")
@@ -31,12 +23,11 @@ public class Teacher extends User {
 
     public Teacher(String name, String email, String password, LocalDate dateOfBirth) throws InvalidEmailException, UnderageException {
         super(name, email, password, dateOfBirth);
-        this.coursesTaught = new ArrayList<>();
         this.skills = new ArrayList<>();
     }
 
     @Override
     public String toString(){
-        return String.format("{Name: %s, Email: %s, Date of birth: %s, Courses taught: %d}", name, email, DateValidation.formatDate(dateOfBirth), coursesTaught);
+        return String.format("{Name: %s, Email: %s, Date of birth: %}", name, email, DateValidation.formatDate(dateOfBirth));
     }
 }

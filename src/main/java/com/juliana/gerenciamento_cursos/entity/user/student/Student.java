@@ -9,21 +9,16 @@ import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "student")
 @Getter
 public class Student extends User {
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Enrollment> studentEnrollments;
     @Column
     private String description;
 
     public Student(String name, String email,String password, LocalDate dateOfBirth, String description) throws InvalidEmailException, UnderageException {
         super(name, email, password, dateOfBirth);
-        this.studentEnrollments = new ArrayList<>();
         this.description = description;
     }
 

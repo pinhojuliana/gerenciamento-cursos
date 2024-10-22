@@ -4,13 +4,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /*
-* configurar postgres
+* ajustar construtores
+* quando for criar o metodo e criar cursos adicionar metodo para preencher a tabela
+de relacionamento
+* estudar classe repository (uso elas no servico com @Autowired)
+* nos repositories eu posso criar metodos de busca para implementar no service
 * Estudar classes Data, Requeste payload e response
 * modificar metodos (ver como eu trabalho com eles com o db)
-* criar cas camadas de acesso manager, teacher e student
 * ver como crio os controllers separados levando isso em consideração
 * criar handlers
-* uso flyway?
+* criar cas camadas de acesso manager, teacher e student
 * implementar testes
 * implementar segurança
 * email de confirmação*/

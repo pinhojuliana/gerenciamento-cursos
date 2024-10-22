@@ -17,7 +17,7 @@ public class ClassSection {
     private String title;
     @Column
     private String description;
-    @Column(name = "module_id")
+    @Column(name = "module_id", nullable = false)
     private ModuleSection moduleSection;
 
     public ClassSection(String title, String description, ModuleSection moduleSection) {
