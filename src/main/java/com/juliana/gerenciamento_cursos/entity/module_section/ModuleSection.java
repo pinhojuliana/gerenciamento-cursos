@@ -1,7 +1,6 @@
 package com.juliana.gerenciamento_cursos.entity.module_section;
 
 import com.juliana.gerenciamento_cursos.entity.course.Course;
-import com.juliana.gerenciamento_cursos.entity.course.Dificultity;
 import jakarta.persistence.*;
 import lombok.Getter;
 

@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -47,7 +48,8 @@ public class User implements Comparable<User>{
     @Column(name = "date_of_birth", nullable = false)
     protected LocalDate dateOfBirth;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @CreationTimestamp
     protected LocalDateTime createdAt;
 
     public User(String name, String username, String email, String password, LocalDate dateOfBirth) throws UnderageException {
@@ -58,7 +60,6 @@ public class User implements Comparable<User>{
         if(AgeValidation.validateAge(dateOfBirth)){
             this.dateOfBirth = dateOfBirth;
         }
-        this.createdAt = LocalDateTime.now();
     }
 
     @Override

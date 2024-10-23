@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.entity.course;
+package com.juliana.gerenciamento_cursos.entity.module_section;
 
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 

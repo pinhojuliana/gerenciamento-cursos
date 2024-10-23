@@ -15,9 +15,14 @@ public class Student extends User {
     @Column
     private String description;
 
-    public Student(String name, String username, String email, String password, LocalDate dateOfBirth, String description) throws UnderageException {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "educational_level")
+    private EducationalLevel educationalLevel;
+
+    public Student(String name, String username, String email, String password, LocalDate dateOfBirth, String description, EducationalLevel educationalLevel) throws UnderageException {
         super(name, username, email, password, dateOfBirth);
         this.description = description;
+        this.educationalLevel = educationalLevel;
     }
 
     @Override
