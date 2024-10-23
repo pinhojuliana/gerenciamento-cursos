@@ -5,6 +5,7 @@ import com.juliana.gerenciamento_cursos.entity.user.student.Student;
 import com.juliana.gerenciamento_cursos.validations.DateValidation;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,28 +18,33 @@ public class Enrollment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
+
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
-    @Column(nullable = false)
+
+    @Column(name = "enrollment_date",nullable = false, updatable = false)
+    @CreationTimestamp
     private LocalDateTime enrollmentDateTime;
-    @Column(nullable = false)
+
+    @Column(name = "deadline_for_completion",nullable = false)
     private LocalDate deadlineForCompletion;
+
     @Column(nullable = false)
     private int duration;
+
     @Column
-    private boolean active;
+    private boolean active = true;
 
     public Enrollment(Course course, Student student, int duration) {
         this.course = course;
         this.student = student;
-        this.enrollmentDateTime = LocalDateTime.now();
         this.duration = duration;
-        this.deadlineForCompletion = enrollmentDateTime.plusDays(duration).toLocalDate();
-        this.active = true;
+        this.deadlineForCompletion = LocalDateTime.now().plusDays(duration).toLocalDate();
     }
 
     @Override

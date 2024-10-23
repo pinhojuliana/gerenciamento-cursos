@@ -2,32 +2,29 @@ package com.juliana.gerenciamento_cursos.entity.user;
 
 
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
-import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
-@Data
+@NoArgsConstructor
 public abstract class UserService<T extends User> {
-    /*protected List<T> users;
-
-    public UserService(){
-        this.users = new ArrayList<>();
-    }
-
+//ver como coloco isso nas classes filhas
     public void createNewUser(T user) {
-            users.add(user);
+
     }
 
+    public void deleteUser(T user) {
+
+    }
+
+    /*
     public T verifyExistenceOfUser(String email) throws InexistentOptionException {
-        return users.stream()
-                .filter(u -> u.getEmail().equalsIgnoreCase(email))
-                .findFirst()
-                .orElseThrow(() -> new InexistentOptionException("Usuário não cadastrado"));
+
     }
 
-    public void removeUser(T user) {
-        users.removeIf(u -> u.equals(user));
+    public T verifyExistenceOfUser(UUID id) throws InexistentOptionException {
+
     }
     */
+
 }

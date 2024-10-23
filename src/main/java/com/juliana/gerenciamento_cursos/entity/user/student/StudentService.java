@@ -1,53 +1,40 @@
 package com.juliana.gerenciamento_cursos.entity.user.student;
 
 import com.juliana.gerenciamento_cursos.entity.user.UserService;
+import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
+import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.util.UUID;
+
+@NoArgsConstructor
 public class StudentService extends UserService<Student> {
 
-    /*public StudentService(){
-        super();
+    public void createNewStudent(String name, LocalDate birth, String email) throws UnderageException {
+
     }
 
-    public void createNewStudent(String name, LocalDate birth, String email) throws UnderageException, InvalidEmailException {
-        Student student = new Student(name, email, birth);
-        createNewUser(student);
+    public void deleteStudent(Student student) {
+
     }
 
-    public Student verifyExistenceOfStudent(String email) throws InexistentOptionException {
-        return verifyExistenceOfUser(email);
+    public void verifyExistenceOfStudent(String email) throws InexistentOptionException {
+
     }
 
-    public String showStudents() {
-        if(users.isEmpty()) {
-            return "Lista de estudantes vazia";
-        }
-        return users.stream()
-                .map(Student::showStudentPublicProfile)
-                .sorted()
-                .collect(Collectors.joining("\n"));
+    public void verifyExistenceOfStudent(UUID id) throws InexistentOptionException {
+
     }
 
-    public List<Student> searchStudentName(String name) throws InexistentOptionException{
-        List<Student> foundStudents = users.stream()
-                .filter(s -> (s.getName().equalsIgnoreCase(name)) || (s.getName().startsWith(name)))
-                .sorted()
-                .toList();
+    public void searchStudentName(String name) throws InexistentOptionException {
 
-        if (foundStudents.isEmpty()) {
-            throw new InexistentOptionException("Nenhum estudante encontrado");
-        }
-
-        return foundStudents;
     }
 
-    public String showStudentPublicProfile(){
-        return String.format("{Name: %s, Date of birth: %s}", name, DateValidation.formatDate(dateOfBirth));
+    public void searchStudentName(UUID id) throws InexistentOptionException {
+
     }
 
-    public List<Enrollment> showEnrollments(){
-        return new ArrayList<>(studentEnrollments);
-    }
-
-    */
+    //public String showStudentPublicProfile(){}
 
 }

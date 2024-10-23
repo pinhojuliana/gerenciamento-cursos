@@ -14,9 +14,8 @@ import java.util.List;
 @Table(name = "teacher")
 @Getter
 public class Teacher extends User {
-    @ElementCollection //pegar a explicação disso aqui
+    @ElementCollection
     @CollectionTable(name = "teacher_skill", joinColumns = @JoinColumn(name = "teacher_id"))
-    //o nome da coluna deve ser skill_id -> conferir depois
     @Column(name = "skill")
     private List<String> skills;
 

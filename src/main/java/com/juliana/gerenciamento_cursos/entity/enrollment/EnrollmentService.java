@@ -2,38 +2,33 @@ package com.juliana.gerenciamento_cursos.entity.enrollment;
 
 import com.juliana.gerenciamento_cursos.entity.course.Course;
 import com.juliana.gerenciamento_cursos.entity.user.student.Student;
-import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Getter
+@NoArgsConstructor
 public class EnrollmentService {
-    /*private List<Enrollment> enrollments;
 
-    public EnrollmentService(){
-        this.enrollments = new ArrayList<>();
+    public void showEnrollments(Course course){
+
+    }
+
+    public void showEnrollments(Student student){
+
+    }
+
+    public void showAllEnrollments(){
+
     }
 
     public void enrollStudentInCourse(Course course, Student student){
-        Enrollment enrollment = new Enrollment(course, student);
-        enrollments.add(enrollment);
-        course.getEnrollments().add(enrollment);
-        student.getStudentEnrollments().add(enrollment);
+
     }
 
+    //criar condição que quando uma inscrição é colocada como inativa
+    //ela nao pode ser colocada como ativa novamente
     public void unsubscribleStudentOfCourse(Student student, Course course){
-        enrollments.stream()
-                .filter(e -> e.getStudent().equals(student) || e.getCourse().equals(course))
-                .findFirst()
-                .ifPresent(e -> e.setActive(false));
+
     }
 
-    public void unsubscribeStudent(Student student) {
-        StudentService.removeUser(student);
-        enrollments.removeIf(e -> e.getStudent().equals(student));
-    }
-
-    */
+    //criar metodo para desativar automaticamente apos a data
 
 }
