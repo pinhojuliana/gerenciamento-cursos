@@ -1,7 +1,7 @@
 CREATE TABLE enrollment (
     id UUID DEFAULT RANDOM_UUID() PRIMARY KEY,
-    enrollmentDateTime TIMESTAMP NOT NULL,
-    deadlineForCompletion TIMESTAMP NOT NULL,
+    enrollment_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deadline_for_completion TIMESTAMP NOT NULL,
     duration INT NOT NULL,
     active BOOLEAN DEFAULT TRUE NOT NULL,
     course_id UUID,
