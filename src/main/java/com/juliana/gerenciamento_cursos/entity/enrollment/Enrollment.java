@@ -2,7 +2,7 @@ package com.juliana.gerenciamento_cursos.entity.enrollment;
 
 import com.juliana.gerenciamento_cursos.entity.course.Course;
 import com.juliana.gerenciamento_cursos.entity.user.student.Student;
-import com.juliana.gerenciamento_cursos.validations.DateValidation;
+import com.juliana.gerenciamento_cursos.util.DateValidation;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -39,6 +39,13 @@ public class Enrollment {
 
     @Column
     private boolean active = true;
+
+    public Enrollment(Course course, Student student) {
+        this.course = course;
+        this.student = student;
+        this.duration = 365;
+        this.deadlineForCompletion = LocalDateTime.now().plusDays(duration).toLocalDate();
+    }
 
     public Enrollment(Course course, Student student, int duration) {
         this.course = course;

@@ -2,6 +2,7 @@ package com.juliana.gerenciamento_cursos.entity.course;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "course")
-@Data
+@Getter
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

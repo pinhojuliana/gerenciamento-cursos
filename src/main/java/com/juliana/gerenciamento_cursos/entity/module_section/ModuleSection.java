@@ -18,11 +18,11 @@ public class ModuleSection {
     @Column(nullable = false)
     private String description;
     @Enumerated(EnumType.STRING)
-    private Dificultity difficulty;
+    private Difficulty difficulty;
     @Column(name = "course_id")
     private Course course;
 
-    public ModuleSection(String title, String description, Dificultity difficulty, Course course) {
+    public ModuleSection(String title, String description, Difficulty difficulty, Course course) {
         this.title = title;
         this.description = description;
         this.difficulty = difficulty;

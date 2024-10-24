@@ -5,13 +5,13 @@ import com.juliana.gerenciamento_cursos.util.AgeValidation;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -22,10 +22,6 @@ public class User implements Comparable<User>{
     * mas pode gerar uma exceção se a tentativa de persistir um
     * valor duplicado ocorrer. Você pode capturar essa exceção
     * e retornar uma mensagem amigável.*/
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    protected UUID id;
 
     @Column(nullable = false)
     protected String name;
@@ -46,6 +42,7 @@ public class User implements Comparable<User>{
     protected String email;
 
     @Column(name = "date_of_birth", nullable = false)
+    @Past
     protected LocalDate dateOfBirth;
 
     @Column(name = "created_at", nullable = false, updatable = false)

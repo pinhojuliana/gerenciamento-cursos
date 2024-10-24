@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 de relacionamento
 * estudar classe repository (uso elas no servico com @Autowired)
 * nos repositories eu posso criar metodos de busca para implementar no service
-* Estudar classes Data, Requeste payload e response
 * modificar metodos
 * ver como crio os controllers separados
 * criar handlers

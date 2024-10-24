@@ -1,23 +1,44 @@
 package com.juliana.gerenciamento_cursos.entity.user.teacher;
 
 import com.juliana.gerenciamento_cursos.entity.course.Course;
-import com.juliana.gerenciamento_cursos.entity.user.UserService;
+import com.juliana.gerenciamento_cursos.entity.user.UserRequestPayload;
+import com.juliana.gerenciamento_cursos.entity.user.UserResponse;
+import com.juliana.gerenciamento_cursos.entity.user.student.EducationalLevel;
+import com.juliana.gerenciamento_cursos.entity.user.student.Student;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 @NoArgsConstructor
-public class TeacherService extends UserService<Teacher> {
+public class TeacherService {
+    @Autowired
+    TeacherRepository teacherRepository;
 
-    public void createNewTeacher(String name, LocalDate birth, String email) throws UnderageException{
+    public UserResponse createNewTeacher(UserRequestPayload userRequestPayload, String description, EducationalLevel educationalLevel) {
+        Teacher newTeacher = new Teacher(userRequestPayload.name(),
+                userRequestPayload.username(),
+                userRequestPayload.email(),
+                userRequestPayload.password(),
+                userRequestPayload.dateOfBirth());
+
+        teacherRepository.save(newTeacher);
+
+        return new UserResponse(newTeacher.getId());
+    }
+
+    public void deleteStudent(UUID id) {
+        teacherRepository.deleteById(id);
+    }
+
+    public void addSkill(String skill){
 
     }
 
-    //recebo um id? um email? um username?
-    public void deleteTeacher(Teacher teacher){
+    public void removeSkill(String skill) {
 
     }
 
@@ -38,14 +59,6 @@ public class TeacherService extends UserService<Teacher> {
     }
 
     public void showAllCoursesTaught(Teacher teacher){
-
-    }
-
-    public void addSkill(String skill) {
-
-    }
-
-    public void removeSkill(String skill) {
 
     }
 }
