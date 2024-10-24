@@ -23,7 +23,7 @@ public class ModuleSectionService {
 
     }
 
-    public void findModules(Course course, Dificultity dificultity){
+    public void findModules(Course course, Difficulty difficulty){
 
     }
 

@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.validations;
+package com.juliana.gerenciamento_cursos.util;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;

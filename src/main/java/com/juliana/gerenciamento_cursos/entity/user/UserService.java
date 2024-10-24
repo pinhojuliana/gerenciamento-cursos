@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+//nao seria melhor uma abordagem de interface?
 @NoArgsConstructor
 public abstract class UserService<T extends User> {
 //ver como coloco isso nas classes filhas

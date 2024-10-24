@@ -1,7 +1,7 @@
 package com.juliana.gerenciamento_cursos.entity.user;
 
 import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
-import com.juliana.gerenciamento_cursos.validations.AgeValidation;
+import com.juliana.gerenciamento_cursos.util.AgeValidation;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

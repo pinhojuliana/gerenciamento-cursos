@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.validations;
+package com.juliana.gerenciamento_cursos.util;
 
 import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
 
