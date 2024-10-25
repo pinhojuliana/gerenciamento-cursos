@@ -12,6 +12,7 @@ de relacionamento
 * ver como crio os controllers separados
 * criar handlers
 * implementar testes
+* criar annotation persolnalizada para validar idade
 * implementar segurança
 * criar cas camadas de acesso manager, teacher e student
 * email de confirmação para users*/

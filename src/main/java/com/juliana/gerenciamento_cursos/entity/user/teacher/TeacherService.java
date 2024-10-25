@@ -4,7 +4,6 @@ import com.juliana.gerenciamento_cursos.entity.course.Course;
 import com.juliana.gerenciamento_cursos.entity.user.UserRequestPayload;
 import com.juliana.gerenciamento_cursos.entity.user.UserResponse;
 import com.juliana.gerenciamento_cursos.entity.user.student.EducationalLevel;
-import com.juliana.gerenciamento_cursos.entity.user.student.Student;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,7 @@ public class TeacherService {
     @Autowired
     TeacherRepository teacherRepository;
 
-    public UserResponse createNewTeacher(UserRequestPayload userRequestPayload, String description, EducationalLevel educationalLevel) {
+    public UserResponse createNewTeacher(UserRequestPayload userRequestPayload) throws UnderageException {
         Teacher newTeacher = new Teacher(userRequestPayload.name(),
                 userRequestPayload.username(),
                 userRequestPayload.email(),
@@ -30,7 +29,7 @@ public class TeacherService {
         return new UserResponse(newTeacher.getId());
     }
 
-    public void deleteStudent(UUID id) {
+    public void deleteTeacher(UUID id) {
         teacherRepository.deleteById(id);
     }
 

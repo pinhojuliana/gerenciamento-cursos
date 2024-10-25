@@ -28,7 +28,7 @@ public class User implements Comparable<User>{
 
     @Column(unique = true, nullable = false)
     @Pattern(regexp = "^[a-z0-9_.&$]{5,10}$",
-            message = "O nome do usuario deve ter entre 5 e 10 caracteres e deve ser unico. Pode conter numeros, letras minusculas e caracteres especiais (_), (.), (&) e ($)")
+            message = "O nome do usuario deve ter entre 5 e 10 caracteres, deve ser unico e não pode conter espaços. Pode conter numeros, letras minusculas e caracteres especiais (_), (.), (&) e ($)")
     protected String username;
 
     @Column

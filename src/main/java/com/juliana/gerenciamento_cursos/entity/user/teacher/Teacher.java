@@ -5,6 +5,7 @@ import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
 import com.juliana.gerenciamento_cursos.util.DateValidation;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "teacher")
 @Getter
+@Setter
 public class Teacher extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -12,7 +12,7 @@ public class ModuleSectionService {
     @Autowired
     ModuleSectionRepository moduleRepository;
 
-    public ModuleSectionResponse createModule(ModuleSectionRequestPayload moduleRequestPayload, Course course){
+    public ModuleSectionResponse createNewModule(ModuleSectionRequestPayload moduleRequestPayload, Course course){
         ModuleSection newModule = new ModuleSection(moduleRequestPayload.title(), moduleRequestPayload.description(), moduleRequestPayload.difficulty(), course);
         moduleRepository.save(newModule);
 

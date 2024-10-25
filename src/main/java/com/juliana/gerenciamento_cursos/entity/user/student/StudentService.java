@@ -12,10 +12,12 @@ import java.util.UUID;
 
 @NoArgsConstructor
 public class StudentService {
+    //criar metodo privado para verificação
+
     @Autowired
     StudentRepository studentRepository;
 
-    public UserResponse createNewStudent(UserRequestPayload userRequestPayload, String description, EducationalLevel educationalLevel) {
+    public UserResponse createNewStudent(UserRequestPayload userRequestPayload, String description, EducationalLevel educationalLevel) throws UnderageException {
         Student newStudent = new Student(userRequestPayload.name(),
                 userRequestPayload.username(),
                 userRequestPayload.email(),
@@ -33,6 +35,7 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
+    //ja tem um metodo
     public void verifyExistenceOfStudent(String email) throws InexistentOptionException {
 
     }

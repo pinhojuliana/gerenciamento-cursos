@@ -3,12 +3,14 @@ package com.juliana.gerenciamento_cursos.entity.module_section;
 import com.juliana.gerenciamento_cursos.entity.course.Course;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "module_section")
 @Getter
+@Setter
 public class ModuleSection {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,7 +33,7 @@ public class ModuleSection {
 
     @Override
     public String toString(){
-        return String.format("{Title: %s, Description: %s, Dificultity: %s}", title, description, dificultity.getLabel());
+        return String.format("{Title: %s, Description: %s, Dificultity: %s}", title, description, difficulty.getLabel());
     }
 
 }
