@@ -1,8 +1,7 @@
-package com.juliana.gerenciamento_cursos.entity.user.student;
+package com.juliana.gerenciamento_cursos.entity.student;
 
 import com.juliana.gerenciamento_cursos.entity.user.User;
 import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
-import com.juliana.gerenciamento_cursos.util.DateValidation;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

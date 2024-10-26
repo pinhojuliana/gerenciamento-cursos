@@ -1,7 +1,7 @@
 package com.juliana.gerenciamento_cursos.entity.enrollment;
 
 import com.juliana.gerenciamento_cursos.entity.course.Course;
-import com.juliana.gerenciamento_cursos.entity.user.student.Student;
+import com.juliana.gerenciamento_cursos.entity.student.Student;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

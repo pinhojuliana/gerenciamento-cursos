@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.entity.user.teacher;
+package com.juliana.gerenciamento_cursos.entity.teacher;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

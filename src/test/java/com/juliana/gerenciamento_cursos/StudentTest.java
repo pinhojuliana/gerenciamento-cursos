@@ -2,10 +2,10 @@ package com.juliana.gerenciamento_cursos;
 
 import com.juliana.gerenciamento_cursos.entity.user.UserRequestPayload;
 import com.juliana.gerenciamento_cursos.entity.user.UserResponse;
-import com.juliana.gerenciamento_cursos.entity.user.student.EducationalLevel;
-import com.juliana.gerenciamento_cursos.entity.user.student.Student;
-import com.juliana.gerenciamento_cursos.entity.user.student.StudentRepository;
-import com.juliana.gerenciamento_cursos.entity.user.student.StudentService;
+import com.juliana.gerenciamento_cursos.entity.student.EducationalLevel;
+import com.juliana.gerenciamento_cursos.entity.student.Student;
+import com.juliana.gerenciamento_cursos.entity.student.StudentRepository;
+import com.juliana.gerenciamento_cursos.entity.student.StudentService;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.juliana.gerenciamento_cursos.exceptions.UnderageException;

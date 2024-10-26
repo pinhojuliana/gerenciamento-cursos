@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.entity.user.student;
+package com.juliana.gerenciamento_cursos.entity.student;
 
 public enum EducationalLevel {
     FUNDAMENTAL("Fundamental"),

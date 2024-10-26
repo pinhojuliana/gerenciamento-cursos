@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.entity.user.teacher;
+package com.juliana.gerenciamento_cursos.entity.teacher;
 
 import com.juliana.gerenciamento_cursos.entity.user.User;
 import com.juliana.gerenciamento_cursos.exceptions.UnderageException;

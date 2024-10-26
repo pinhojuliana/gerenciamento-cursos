@@ -1,9 +1,9 @@
-package com.juliana.gerenciamento_cursos.entity.user.student;
+package com.juliana.gerenciamento_cursos.entity.class_section;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/students")
-public class StudentController {
+@RequestMapping("/classes")
+public class ClassSectionController {
 }

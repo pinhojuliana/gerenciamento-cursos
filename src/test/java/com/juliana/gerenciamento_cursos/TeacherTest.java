@@ -2,9 +2,9 @@ package com.juliana.gerenciamento_cursos;
 
 import com.juliana.gerenciamento_cursos.entity.user.UserRequestPayload;
 import com.juliana.gerenciamento_cursos.entity.user.UserResponse;
-import com.juliana.gerenciamento_cursos.entity.user.teacher.Teacher;
-import com.juliana.gerenciamento_cursos.entity.user.teacher.TeacherRepository;
-import com.juliana.gerenciamento_cursos.entity.user.teacher.TeacherService;
+import com.juliana.gerenciamento_cursos.entity.teacher.Teacher;
+import com.juliana.gerenciamento_cursos.entity.teacher.TeacherRepository;
+import com.juliana.gerenciamento_cursos.entity.teacher.TeacherService;
 import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

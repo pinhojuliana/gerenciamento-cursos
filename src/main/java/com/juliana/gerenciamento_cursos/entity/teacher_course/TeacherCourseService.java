@@ -2,8 +2,8 @@ package com.juliana.gerenciamento_cursos.entity.teacher_course;
 
 import com.juliana.gerenciamento_cursos.entity.course.Course;
 import com.juliana.gerenciamento_cursos.entity.course.CourseRepository;
-import com.juliana.gerenciamento_cursos.entity.user.teacher.Teacher;
-import com.juliana.gerenciamento_cursos.entity.user.teacher.TeacherRepository;
+import com.juliana.gerenciamento_cursos.entity.teacher.Teacher;
+import com.juliana.gerenciamento_cursos.entity.teacher.TeacherRepository;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import org.springframework.beans.factory.annotation.Autowired;
 

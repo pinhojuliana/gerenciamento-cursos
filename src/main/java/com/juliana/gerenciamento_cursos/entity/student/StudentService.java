@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.entity.user.student;
+package com.juliana.gerenciamento_cursos.entity.student;
 
 import com.juliana.gerenciamento_cursos.entity.user.UserRequestPayload;
 import com.juliana.gerenciamento_cursos.entity.user.UserResponse;
