@@ -1,6 +1,5 @@
 package com.juliana.gerenciamento_cursos.entity.user.teacher;
 
-import com.juliana.gerenciamento_cursos.entity.course.Course;
 import com.juliana.gerenciamento_cursos.entity.user.UserRequestPayload;
 import com.juliana.gerenciamento_cursos.entity.user.UserResponse;
 import com.juliana.gerenciamento_cursos.exceptions.*;
@@ -75,14 +74,6 @@ public class TeacherService {
         return repository.findByName(name).stream()
                 .map(t -> new Teacher(t.getName(), t.getUsername(), t.getEmail(), t.getDateOfBirth(), t.getSkills()))
                 .toList();
-    }
-
-    public void findTeacherCourse(Course course, String nameTeacher){
-
-    }
-
-    public void showAllCoursesTaught(UUID id){
-
     }
 
     private void validateUniqueUsername(String username) {

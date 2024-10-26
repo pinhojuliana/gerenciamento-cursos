@@ -8,9 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "teacher")
@@ -25,14 +23,14 @@ public class Teacher extends User {
     @ElementCollection
     @CollectionTable(name = "teacher_skill", joinColumns = @JoinColumn(name = "teacher_id"))
     @Column(name = "skill")
-    private List<String> skills;
+    private Set<String> skills;
 
     public Teacher(String name, String username, String email, String password, LocalDate dateOfBirth) throws UnderageException {
         super(name, username, email, password, dateOfBirth);
-        this.skills = new ArrayList<>();
+        this.skills = new HashSet<>();
     }
 
-    public Teacher(String name, String username, String email, LocalDate dateOfBirth, List<String> skills) throws UnderageException {
+    public Teacher(String name, String username, String email, LocalDate dateOfBirth, Set<String> skills) throws UnderageException {
         super(name, username, email, dateOfBirth);
         this.skills = skills;
     }
