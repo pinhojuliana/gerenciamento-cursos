@@ -25,7 +25,7 @@ public class EnrollmentService {
     }
 
     public List<Enrollment> showEnrollmentsStudent(UUID studentId){
-        return repository.findByStudentIdList(studentId);
+        return repository.findByStudentId(studentId);
     }
 
     public List<Enrollment> showAllEnrollments(){
@@ -40,7 +40,7 @@ public class EnrollmentService {
     }
 
     public void unsubscribleStudentOfCourse(UUID studentId, UUID courseId) throws InexistentOptionException {
-      Enrollment enrollment = repository.findByStudentId(studentId).orElseThrow(() -> new InexistentOptionException("Usuario não encontrado"));
+      Enrollment enrollment = repository.findFirstByStudentId(studentId).orElseThrow(() -> new InexistentOptionException("Usuario não encontrado"));
         if (enrollment.getCourse().getId() == courseId){
             enrollment.setActive(false);
             repository.save(enrollment);
