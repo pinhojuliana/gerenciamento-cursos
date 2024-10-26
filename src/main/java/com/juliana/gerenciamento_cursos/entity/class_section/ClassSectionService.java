@@ -1,39 +1,45 @@
 package com.juliana.gerenciamento_cursos.entity.class_section;
 
-import com.juliana.gerenciamento_cursos.entity.course.Course;
 import com.juliana.gerenciamento_cursos.entity.module_section.ModuleSection;
+import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
+@Service
 public class ClassSectionService {
     @Autowired
-    ClassSectionRepository classRepository;
+    ClassSectionRepository repository;
 
     public ClassSectionResponse createClass(ClassSectionRequestPayload classRequestPayload, ModuleSection module){
         ClassSection newClass = new ClassSection(classRequestPayload.title(), classRequestPayload.description(), module);
-        classRepository.save(newClass);
+        repository.save(newClass);
 
         return new ClassSectionResponse(newClass.getId());
     }
 
     public void deleteClass(UUID id){
-        classRepository.deleteById(id);
+        repository.deleteById(id);
     }
 
-    public void showClasses(ModuleSection moduleSection){
-
+    public List<ClassSection> showClasses(UUID moduleId) throws InexistentOptionException {
+        List<ClassSection> classes = repository.findByModuleId(moduleId);
+        if (classes.isEmpty()){
+            throw new InexistentOptionException("Nenhuma aula encontrada");
+        }
+        return classes;
     }
 
-    public void findClasses(Course course, ModuleSection moduleSection ,String title){
-        //retorna um item
+    public List<ClassSection> findClasses(UUID moduleSectionId ,String title) throws InexistentOptionException {
+        List<ClassSection> classes = repository.findByTitle(title).stream()
+                .filter(c -> c.getModuleSection().getId().equals(moduleSectionId))
+                .toList();
+        if (classes.isEmpty()){
+            throw new InexistentOptionException("Nenhuma aula encontrada");
+        }
+        return classes;
     }
 
-    public void findClasses(Course course, String title){
-        //pode ter uma lista
-    }
-
-    public void verifyExistenceOfClass(ClassSection classSection){
-        //boolean ou obj?
-    }
 }
