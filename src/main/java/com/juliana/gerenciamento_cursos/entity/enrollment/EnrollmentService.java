@@ -1,5 +1,7 @@
 package com.juliana.gerenciamento_cursos.entity.enrollment;
 
+import com.juliana.gerenciamento_cursos.entity.course.Course;
+import com.juliana.gerenciamento_cursos.entity.user.student.Student;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +34,8 @@ public class EnrollmentService {
         return repository.findAll();
     }
 
-    public EnrollmentResponse enrollStudentInCourse(EnrollmentRequestPayload enrollmentRequestPayload){
-        Enrollment newEnrollment = new Enrollment(enrollmentRequestPayload.course(), enrollmentRequestPayload.student());
+    public EnrollmentResponse enrollStudentInCourse(Course course, Student student){
+        Enrollment newEnrollment = new Enrollment(course, student);
         repository.save(newEnrollment);
 
         return new EnrollmentResponse(newEnrollment.getId());
