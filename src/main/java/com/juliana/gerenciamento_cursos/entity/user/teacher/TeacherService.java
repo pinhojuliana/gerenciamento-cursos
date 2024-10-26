@@ -9,10 +9,12 @@ import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
 import com.juliana.gerenciamento_cursos.exceptions.UsernameAlreadyInUseException;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 @NoArgsConstructor
 public class TeacherService {
     @Autowired
@@ -37,6 +39,7 @@ public class TeacherService {
         repository.deleteById(id);
     }
 
+    //ver como fica a tabela teacher_skill
     public void addSkill(UUID id, String skill) throws InexistentOptionException {
         Teacher teacher = repository.findById(id).orElseThrow(() -> new InexistentOptionException("Esse usuário não existe"));
         teacher.getSkills().add(skill);
@@ -58,7 +61,7 @@ public class TeacherService {
     }
 
     public void showAllCoursesTaught(UUID id){
-        
+
     }
 
     private void validateUniqueUsername(String username) {
