@@ -17,11 +17,6 @@ import java.time.LocalDateTime;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 public class User implements Comparable<User>{
-    /* /estudar ano9tações heranca
-    * unique -> garante a unicidade a nível de banco de dados,
-    * mas pode gerar uma exceção se a tentativa de persistir um
-    * valor duplicado ocorrer. Você pode capturar essa exceção
-    * e retornar uma mensagem amigável.*/
 
     @Column(nullable = false)
     protected String name;
@@ -54,18 +49,14 @@ public class User implements Comparable<User>{
         this.username = username;
         this.email = email;
         this.password = password;
-        if(AgeValidation.validateAge(dateOfBirth)){
-            this.dateOfBirth = dateOfBirth;
-        }
+        this.dateOfBirth = AgeValidation.validateAge(dateOfBirth);
     }
 
     public User(String name, String username, String email, LocalDate dateOfBirth) throws UnderageException {
         this.name = name;
         this.username = username;
         this.email = email;
-        if(AgeValidation.validateAge(dateOfBirth)){
-            this.dateOfBirth = dateOfBirth;
-        }
+        this.dateOfBirth = AgeValidation.validateAge(dateOfBirth);
     }
 
     @Override

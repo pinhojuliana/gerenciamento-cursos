@@ -6,10 +6,10 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class AgeValidation {
-    public static boolean validateAge(LocalDate dateOfBirth) throws UnderageException{
+    public static LocalDate validateAge(LocalDate dateOfBirth) throws UnderageException{
         LocalDate currentlyDay = LocalDate.now();
         if (Period.between(dateOfBirth, currentlyDay).getYears() >= 18) {
-            return true;
+            return dateOfBirth;
         }
         throw new UnderageException("Menores de 18 anos não podem se inscrever na plataforma");
     }

@@ -4,15 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /*
-* quando for criar o metodo e criar cursos adicionar metodo para preencher a tabela
-de relacionamento
-* estudar classe repository (uso elas no servico com @Autowired)
-* nos repositories eu posso criar metodos de busca para implementar no service
-* modificar metodos
+* criar metodo para desativar inscrição automaticamente apos a data
 * ver como crio os controllers separados
-* criar handlers
+* criar handlers -> ivalidPassowrd pode ser usado para senhas fora do padrao
 * implementar testes
-* criar annotation persolnalizada para validar idade
 * implementar segurança
 * criar cas camadas de acesso manager, teacher e student
 * email de confirmação para users*/

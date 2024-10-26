@@ -1,6 +1,5 @@
 package com.juliana.gerenciamento_cursos.entity.course;
 
-import com.juliana.gerenciamento_cursos.entity.user.teacher.Teacher;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.exceptions.TitleAlreadyInUseException;
 import lombok.NoArgsConstructor;
