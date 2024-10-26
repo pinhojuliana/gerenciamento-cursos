@@ -40,18 +40,6 @@ public class CourseService {
         return repository.findAll();
     }
 
-    public void addTeacher(Teacher teacher){
-
-    }
-
-    public void addTeachers(List<Teacher> teachers){
-
-    }
-
-    public void showTeachersOfCourse(Course course) {
-
-    }
-
     private void validateUniqueTitle(String title) {
         if (repository.existsByTitle(title)) {
             throw new TitleAlreadyInUseException("Esse curso já existe");
