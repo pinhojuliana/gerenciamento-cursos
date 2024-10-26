@@ -3,10 +3,7 @@ package com.juliana.gerenciamento_cursos.entity.user.teacher;
 import com.juliana.gerenciamento_cursos.entity.course.Course;
 import com.juliana.gerenciamento_cursos.entity.user.UserRequestPayload;
 import com.juliana.gerenciamento_cursos.entity.user.UserResponse;
-import com.juliana.gerenciamento_cursos.exceptions.EmailAlreadyInUseException;
-import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
-import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
-import com.juliana.gerenciamento_cursos.exceptions.UsernameAlreadyInUseException;
+import com.juliana.gerenciamento_cursos.exceptions.*;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +36,6 @@ public class TeacherService {
         repository.deleteById(id);
     }
 
-    //ver como fica a tabela teacher_skill
     public void addSkill(UUID id, String skill) throws InexistentOptionException {
         Teacher teacher = repository.findById(id).orElseThrow(() -> new InexistentOptionException("Esse usuário não existe"));
         teacher.getSkills().add(skill);
@@ -52,8 +48,33 @@ public class TeacherService {
         repository.save(teacher);
     }
 
+    public void updateTeacherUsername(UUID id, String username) throws InexistentOptionException {
+        validateUniqueUsername(username);
+        Teacher teacher = repository.findById(id).orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
+        teacher.setUsername(username);
+        repository.save(teacher);
+    }
+
+    public void updateTeacherEmail(UUID id, String email) throws InexistentOptionException {
+        validateUniqueEmail(email);
+        Teacher teacher = repository.findById(id).orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
+        teacher.setEmail(email);
+        repository.save(teacher);
+    }
+
+    public void updateTeacherPassword(UUID id, String oldPassword, String newPassword) throws InexistentOptionException {
+        Teacher teacher = repository.findById(id).orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
+        if(!teacher.getPassword().equals(oldPassword)){
+            throw new InvalidPasswordException("A senha atual está incorreta");
+        }
+        teacher.setPassword(newPassword);
+        repository.save(teacher);
+    }
+
     public List<Teacher> findTeacher(String name){
-        return repository.findByName(name);
+        return repository.findByName(name).stream()
+                .map(t -> new Teacher(t.getName(), t.getUsername(), t.getEmail(), t.getDateOfBirth(), t.getSkills()))
+                .toList();
     }
 
     public void findTeacherCourse(Course course, String nameTeacher){

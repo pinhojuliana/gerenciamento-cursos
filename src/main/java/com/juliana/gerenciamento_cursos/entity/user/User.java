@@ -59,6 +59,15 @@ public class User implements Comparable<User>{
         }
     }
 
+    public User(String name, String username, String email, LocalDate dateOfBirth) throws UnderageException {
+        this.name = name;
+        this.username = username;
+        this.email = email;
+        if(AgeValidation.validateAge(dateOfBirth)){
+            this.dateOfBirth = dateOfBirth;
+        }
+    }
+
     @Override
     public int compareTo(User user) {
         return this.getName().compareTo(user.getName());

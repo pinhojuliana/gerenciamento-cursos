@@ -2,10 +2,7 @@ package com.juliana.gerenciamento_cursos.entity.user.student;
 
 import com.juliana.gerenciamento_cursos.entity.user.UserRequestPayload;
 import com.juliana.gerenciamento_cursos.entity.user.UserResponse;
-import com.juliana.gerenciamento_cursos.exceptions.EmailAlreadyInUseException;
-import com.juliana.gerenciamento_cursos.exceptions.UsernameAlreadyInUseException;
-import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
-import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
+import com.juliana.gerenciamento_cursos.exceptions.*;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +13,6 @@ import java.util.UUID;
 @Service
 @NoArgsConstructor
 public class StudentService {
-    //criar metodo privado para verificação
-
     @Autowired
     StudentRepository repository;
 
@@ -50,17 +45,26 @@ public class StudentService {
         repository.save(student);
     }
 
-    public void updateStudentUsername(UUID id, String username) throws RuntimeException {
+    public void updateStudentUsername(UUID id, String username) throws InexistentOptionException {
         validateUniqueUsername(username);
-        Student student = repository.findById(id).orElseThrow(()-> new RuntimeException("Esse usuário não existe"));
+        Student student = repository.findById(id).orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
         student.setUsername(username);
         repository.save(student);
     }
 
-    public void updateStudentEmail(UUID id, String email) throws RuntimeException {
+    public void updateStudentEmail(UUID id, String email) throws InexistentOptionException {
         validateUniqueEmail(email);
-        Student student = repository.findById(id).orElseThrow(()-> new RuntimeException("Esse usuário não existe"));
+        Student student = repository.findById(id).orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
         student.setEmail(email);
+        repository.save(student);
+    }
+
+    public void updateStudentPassword(UUID id, String oldPassword, String newPassword) throws InexistentOptionException {
+        Student student = repository.findById(id).orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
+        if(!student.getPassword().equals(oldPassword)){
+            throw new InvalidPasswordException("A senha atual está incorreta");
+        }
+        student.setPassword(newPassword);
         repository.save(student);
     }
 
@@ -69,7 +73,8 @@ public class StudentService {
     }
 
     public List<Student> searchStudentName(String name) throws InexistentOptionException {
-        List<Student> students = repository.findByName(name);
+        List<Student> students = repository.findByName(name).stream().map(s -> new Student(s.getName(), s.getUsername(), s.getEmail(), s.getDateOfBirth(), s.getDescription(), s.getEducationalLevel()))
+                .toList();
 
         if (students.isEmpty()) {
             throw new InexistentOptionException("Esse nome não foi encontrado");
@@ -80,12 +85,9 @@ public class StudentService {
 
     public Student searchStudent(UUID id) throws InexistentOptionException {
         return repository.findById(id)
-                .orElseThrow(() ->new InexistentOptionException("Esse id não foi encontrado"));
+                .map(s -> new Student(s.getName(), s.getUsername(), s.getEmail(), s.getDateOfBirth(), s.getDescription(), s.getEducationalLevel()))
+                .orElseThrow(() -> new InexistentOptionException("Esse id não foi encontrado"));
     }
-
-   public String showStudentPublicProfile(Student student){
-        return String.format("{Nome: %s, Escolaridade: %s\nUsername: %s, Email: %s",student.getName(), student.getEducationalLevel(),student.getUsername(), student.getEmail());
-   }
 
     private void validateUniqueUsername(String username) {
         if (repository.existsByUsername(username)) {

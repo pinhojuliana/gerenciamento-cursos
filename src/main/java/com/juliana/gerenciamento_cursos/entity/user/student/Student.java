@@ -6,6 +6,7 @@ import com.juliana.gerenciamento_cursos.util.DateValidation;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @Table(name = "student")
 @Getter
 @Setter
+@ToString
 public class Student extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,9 +34,9 @@ public class Student extends User {
         this.educationalLevel = educationalLevel;
     }
 
-    @Override
-    public String toString(){
-        return String.format("Name: %s\nEmail: %s\nDate of birth: %s\nCreated at: %s", name, email, DateValidation.formatDate(dateOfBirth), DateValidation.formatDateTime(createdAt));
+    public Student(String name, String username, String email, LocalDate dateOfBirth, String description, EducationalLevel educationalLevel) throws UnderageException {
+        super(name, username, email, dateOfBirth);
+        this.description = description;
+        this.educationalLevel = educationalLevel;
     }
-
 }
