@@ -18,6 +18,12 @@ public class EnrollmentService {
         return repository.findByCourseId(courseId);
     }
 
+    public List<Enrollment> showStudentsActive(UUID courseId) {
+        return repository.findByCourseId(courseId).stream()
+                .filter(Enrollment::isActive)
+                .toList();
+    }
+
     public List<Enrollment> showEnrollmentsStudent(UUID studentId){
         return repository.findByStudentIdList(studentId);
     }
@@ -26,7 +32,6 @@ public class EnrollmentService {
         return repository.findAll();
     }
 
-    //checar como vou receber isso -> UUID?
     public EnrollmentResponse enrollStudentInCourse(EnrollmentRequestPayload enrollmentRequestPayload){
         Enrollment newEnrollment = new Enrollment(enrollmentRequestPayload.course(), enrollmentRequestPayload.student());
         repository.save(newEnrollment);

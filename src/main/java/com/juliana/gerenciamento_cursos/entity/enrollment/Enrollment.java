@@ -2,9 +2,9 @@ package com.juliana.gerenciamento_cursos.entity.enrollment;
 
 import com.juliana.gerenciamento_cursos.entity.course.Course;
 import com.juliana.gerenciamento_cursos.entity.user.student.Student;
-import com.juliana.gerenciamento_cursos.util.DateValidation;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
@@ -14,6 +14,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "enrollment")
 @Data
+@ToString
 public class Enrollment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -52,10 +53,5 @@ public class Enrollment {
         this.student = student;
         this.duration = duration;
         this.deadlineForCompletion = LocalDateTime.now().plusDays(duration).toLocalDate();
-    }
-
-    @Override
-    public String toString(){
-       return String.format("{Course: %s, Student: %s, Enrollment date: %s, Final date: %s, Active: %s}", course.getTitle(), student.getEmail(), DateValidation.formatDateTime(enrollmentDateTime) , DateValidation.formatDate(deadlineForCompletion), isActive());
     }
 }
