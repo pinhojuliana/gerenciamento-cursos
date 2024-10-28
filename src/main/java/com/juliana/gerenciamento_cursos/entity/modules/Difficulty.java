@@ -1,21 +1,18 @@
-package com.juliana.gerenciamento_cursos.entity.module_section;
+package com.juliana.gerenciamento_cursos.entity.modules;
 
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
+import lombok.Getter;
 
-//verificar como funcionam enums com spring
+@Getter
 public enum Difficulty {
-    BEGINNER("Beginner"),
-    INTERMEDIARY("Intermediate"),
-    ADVANCED("Advanced");
+    BEGINNER("BEGINNER"),
+    INTERMEDIATE("INTERMEDIATE"),
+    ADVANCED("ADVANCED");
 
     private final String label;
 
     Difficulty(String label){
         this.label = label;
-    }
-
-    public String getLabel() {
-        return label;
     }
 
     public static Difficulty validDifficultyValue(String value) throws InexistentOptionException{

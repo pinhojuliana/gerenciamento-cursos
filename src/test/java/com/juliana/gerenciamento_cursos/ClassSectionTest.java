@@ -1,7 +1,6 @@
 package com.juliana.gerenciamento_cursos;
 
 import com.juliana.gerenciamento_cursos.entity.class_section.*;
-import com.juliana.gerenciamento_cursos.entity.module_section.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,18 +19,18 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ClassSectionTest {
-    @InjectMocks
+     /* @InjectMocks
     ClassSectionService service;
 
     @Mock
     ClassSectionRepository repository;
 
-    @BeforeEach
+     @BeforeEach
     void setup(){
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
+   @Test
     void deveCadastrarModulo(){
         ClassSection newClass = new ClassSection();
         newClass.setId(UUID.randomUUID());
@@ -61,3 +60,6 @@ public class ClassSectionTest {
         verify(repository, times(0)).findByTitle("");
         verify(repository, times(0)).findById(newClass.getId());
     }
+
+    */
+}

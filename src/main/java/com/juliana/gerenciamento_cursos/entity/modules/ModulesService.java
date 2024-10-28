@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.entity.module_section;
+package com.juliana.gerenciamento_cursos.entity.modules;
 
 import com.juliana.gerenciamento_cursos.entity.course.Course;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
@@ -11,33 +11,33 @@ import java.util.UUID;
 
 @Service
 @NoArgsConstructor
-public class ModuleSectionService {
+public class ModulesService {
     @Autowired
-    ModuleSectionRepository repository;
+    ModulesRepository repository;
 
-    public ModuleSectionResponse createNewModule(ModuleSectionRequestPayload moduleRequestPayload, Course course){
-        ModuleSection newModule = new ModuleSection(moduleRequestPayload.title(), moduleRequestPayload.description(), moduleRequestPayload.difficulty(), course);
+    public ModulesResponse createNewModule(ModulesRequestPayload moduleRequestPayload, Course course){
+        Modules newModule = new Modules(moduleRequestPayload.title(), moduleRequestPayload.description(), moduleRequestPayload.difficulty(), course);
         repository.save(newModule);
 
-        return new ModuleSectionResponse(newModule.getId());
+        return new ModulesResponse(newModule.getId());
     }
 
     public void deleteModule(UUID id){
         repository.deleteById(id);
     }
 
-    public List<ModuleSection> showModules(UUID courseId){
+    public List<Modules> showModules(UUID courseId){
         return repository.findByCourseId(courseId);
     }
 
-    public List<ModuleSection> findModuleCourse(UUID courseId, String title) throws InexistentOptionException {
+    public List<Modules> findModuleCourse(UUID courseId, String title) throws InexistentOptionException {
         return repository.findByCourseId(courseId).stream()
                 .filter(m -> m.getCourse().getTitle().equalsIgnoreCase(title))
                 .toList();
     }
 
-    public List<ModuleSection> findModule(String title) throws InexistentOptionException {
-        List<ModuleSection> modules = repository.findByTitle(title);
+    public List<Modules> findModule(String title) throws InexistentOptionException {
+        List<Modules> modules = repository.findByTitle(title);
         if(modules.isEmpty()){
             throw new InexistentOptionException("Modulo não encontrado");
         }

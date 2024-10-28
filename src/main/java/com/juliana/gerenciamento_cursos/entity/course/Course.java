@@ -2,7 +2,9 @@ package com.juliana.gerenciamento_cursos.entity.course;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,6 +15,8 @@ import java.util.UUID;
 @Table(name = "course")
 @Getter
 @Setter
+@NoArgsConstructor
+@ToString
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,10 +40,4 @@ public class Course {
         this.title = title;
         this.description = description;
     }
-
-    @Override
-    public String toString(){
-        return String.format("{Title: %s, Description: %s}", title, description);
-    }
-
 }

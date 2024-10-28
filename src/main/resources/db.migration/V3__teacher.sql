@@ -1,5 +1,5 @@
 CREATE TABLE teacher(
-    id UUID DEFAULT RANDOM_UUID() PRIMARY KEY,
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     username VARCHAR(10) NOT NULL UNIQUE,
     password VARCHAR(50) NOT NULL,

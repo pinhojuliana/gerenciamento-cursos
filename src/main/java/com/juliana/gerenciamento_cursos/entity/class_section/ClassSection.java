@@ -1,13 +1,15 @@
 package com.juliana.gerenciamento_cursos.entity.class_section;
 
-import com.juliana.gerenciamento_cursos.entity.module_section.ModuleSection;
+import com.juliana.gerenciamento_cursos.entity.modules.Modules;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "class_section")
+@ToString
 @Data
 public class ClassSection {
     @Id
@@ -18,17 +20,12 @@ public class ClassSection {
     @Column
     private String description;
     @Column(name = "module_id", nullable = false)
-    private ModuleSection moduleSection;
+    private Modules modules;
 
-    public ClassSection(String title, String description, ModuleSection moduleSection) {
+    public ClassSection(String title, String description, Modules modules) {
         this.title = title;
         this.description = description;
-        this.moduleSection = moduleSection;
-    }
-
-    @Override
-    public String toString(){
-        return String.format("{Title: %s, Description: %s\nModule: %s}", title, description, moduleSection.getTitle());
+        this.modules = modules;
     }
 }
 

@@ -1,6 +1,6 @@
 package com.juliana.gerenciamento_cursos.entity.class_section;
 
-import com.juliana.gerenciamento_cursos.entity.module_section.ModuleSection;
+import com.juliana.gerenciamento_cursos.entity.modules.Modules;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ public class ClassSectionService {
     @Autowired
     ClassSectionRepository repository;
 
-    public ClassSectionResponse createClass(ClassSectionRequestPayload classRequestPayload, ModuleSection module){
+    public ClassSectionResponse createClass(ClassSectionRequestPayload classRequestPayload, Modules module){
         ClassSection newClass = new ClassSection(classRequestPayload.title(), classRequestPayload.description(), module);
         repository.save(newClass);
 
@@ -34,7 +34,7 @@ public class ClassSectionService {
 
     public List<ClassSection> findClasses(UUID moduleSectionId ,String title) throws InexistentOptionException {
         List<ClassSection> classes = repository.findByTitle(title).stream()
-                .filter(c -> c.getModuleSection().getId().equals(moduleSectionId))
+                .filter(c -> c.getModules().getId().equals(moduleSectionId))
                 .toList();
         if (classes.isEmpty()){
             throw new InexistentOptionException("Nenhuma aula encontrada");
