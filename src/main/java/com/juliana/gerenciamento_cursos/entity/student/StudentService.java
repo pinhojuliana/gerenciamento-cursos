@@ -68,16 +68,30 @@ public class StudentService {
         repository.save(student);
     }
 
-    public void deleteStudent(UUID id) {
+    public void deleteStudent(UUID id) throws InexistentOptionException {
+       if(!repository.existsById(id)){
+            throw new InexistentOptionException("Esse id não existe");
+        }
         repository.deleteById(id);
     }
 
-    public List<Student> searchStudentName(String name) throws InexistentOptionException {
+    public List<Student> getAllStudents() throws EmptyListException {
+        List<Student> students = repository.findAll().stream().map(s -> new Student(s.getName(), s.getUsername(), s.getEmail(), s.getDateOfBirth(), s.getDescription(), s.getEducationalLevel()))
+                .toList();
+
+        if (students.isEmpty()) {
+            throw new EmptyListException("Não há estudantes cadastrados");
+        }
+
+        return students;
+    }
+
+    public List<Student> searchStudentName(String name) throws EmptyListException {
         List<Student> students = repository.findByName(name).stream().map(s -> new Student(s.getName(), s.getUsername(), s.getEmail(), s.getDateOfBirth(), s.getDescription(), s.getEducationalLevel()))
                 .toList();
 
         if (students.isEmpty()) {
-            throw new InexistentOptionException("Esse nome não foi encontrado");
+            throw new EmptyListException("Esse nome não foi encontrado");
         }
 
         return students;

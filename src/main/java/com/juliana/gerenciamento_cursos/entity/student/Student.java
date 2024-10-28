@@ -16,10 +16,6 @@ import java.util.UUID;
 @Setter
 @ToString
 public class Student extends User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    protected UUID id;
-
     @Column
     private String description;
 
