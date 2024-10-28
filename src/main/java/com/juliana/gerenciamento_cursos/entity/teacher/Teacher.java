@@ -16,10 +16,6 @@ import java.util.*;
 @Setter
 @ToString
 public class Teacher extends User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    protected UUID id;
-
     @ElementCollection
     @CollectionTable(name = "teacher_skill", joinColumns = @JoinColumn(name = "teacher_id"))
     @Column(name = "skill")

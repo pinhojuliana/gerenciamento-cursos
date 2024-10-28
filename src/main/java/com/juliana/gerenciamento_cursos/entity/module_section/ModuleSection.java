@@ -21,7 +21,8 @@ public class ModuleSection {
     private String description;
     @Enumerated(EnumType.STRING)
     private Difficulty difficulty;
-    @Column(name = "course_id")
+    @ManyToOne
+    @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
     public ModuleSection(String title, String description, Difficulty difficulty, Course course) {

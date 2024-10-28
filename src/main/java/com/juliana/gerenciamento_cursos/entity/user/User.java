@@ -12,11 +12,15 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 public class User implements Comparable<User>{
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected UUID id;
 
     @Column(nullable = false)
     protected String name;
