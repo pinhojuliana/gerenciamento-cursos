@@ -1,5 +1,3 @@
-CREATE TYPE educational_level AS ENUM ('FUNDAMENTAL','AVERAGE','HIGHER','POSTGRADUATE','MASTERS_DEGREE','DOCTORATE');
-
 CREATE TABLE student(
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -9,5 +7,5 @@ CREATE TABLE student(
     date_of_birth TIMESTAMP NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     description VARCHAR(255),
-    educational_level educational_level NOT NULL
+    educational_level VARCHAR(20) NOT NULL
 );

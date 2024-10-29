@@ -7,13 +7,13 @@ public enum EducationalLevel {
     MASTERS_DEGREE("Master's Degree"),
     DOCTORATE("Doctorate");
 
-    private final String name;
+    private final String degree;
 
-    EducationalLevel(String name){
-        this.name = name;
+    EducationalLevel(String degree){
+        this.degree = degree;
     }
 
-    public String getName(){
-        return name;
+    public String getDegree(){
+        return degree;
     }
 }

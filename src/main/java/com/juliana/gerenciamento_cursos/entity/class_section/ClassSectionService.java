@@ -13,8 +13,8 @@ public class ClassSectionService {
     @Autowired
     ClassSectionRepository repository;
 
-    public ClassSectionResponse createClass(ClassSectionRequestPayload classRequestPayload, Modules module){
-        ClassSection newClass = new ClassSection(classRequestPayload.title(), classRequestPayload.description(), module);
+    public ClassSectionResponse createClass(ClassSectionRequestPayload classRequestPayload, Modules modules){
+        ClassSection newClass = new ClassSection(classRequestPayload.title(), classRequestPayload.description(), modules);
         repository.save(newClass);
 
         return new ClassSectionResponse(newClass.getId());

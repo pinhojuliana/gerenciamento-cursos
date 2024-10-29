@@ -22,6 +22,7 @@ public class ClassSection {
     @Column(name = "module_id", nullable = false)
     private Modules modules;
 
+
     public ClassSection(String title, String description, Modules modules) {
         this.title = title;
         this.description = description;

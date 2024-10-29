@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos;
+package com.juliana.gerenciamento_cursos.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
