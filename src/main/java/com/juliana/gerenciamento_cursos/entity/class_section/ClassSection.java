@@ -1,6 +1,6 @@
-package com.juliana.gerenciamento_cursos.entity.class_section;
+package com.juliana.gerenciamento_cursos.application.entity.class_section;
 
-import com.juliana.gerenciamento_cursos.entity.modules.Modules;
+import com.juliana.gerenciamento_cursos.application.entity.modules.Modules;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;

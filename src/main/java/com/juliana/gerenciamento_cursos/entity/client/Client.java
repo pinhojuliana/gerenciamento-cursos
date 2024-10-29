@@ -17,7 +17,7 @@ import java.util.UUID;
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
-public class User implements Comparable<User>{
+public class Client implements Comparable<Client>{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected UUID id;
@@ -48,7 +48,7 @@ public class User implements Comparable<User>{
     @CreationTimestamp
     protected LocalDateTime createdAt;
 
-    public User(String name, String username, String email, String password, LocalDate dateOfBirth) throws UnderageException {
+    public Client(String name, String username, String email, String password, LocalDate dateOfBirth) throws UnderageException {
         this.name = name;
         this.username = username;
         this.email = email;
@@ -56,7 +56,7 @@ public class User implements Comparable<User>{
         this.dateOfBirth = AgeValidation.validateAge(dateOfBirth);
     }
 
-    public User(String name, String username, String email, LocalDate dateOfBirth) throws UnderageException {
+    public Client(String name, String username, String email, LocalDate dateOfBirth) throws UnderageException {
         this.name = name;
         this.username = username;
         this.email = email;
@@ -64,7 +64,7 @@ public class User implements Comparable<User>{
     }
 
     @Override
-    public int compareTo(User user) {
-        return this.getName().compareTo(user.getName());
+    public int compareTo(Client client) {
+        return this.getName().compareTo(client.getName());
     }
 }

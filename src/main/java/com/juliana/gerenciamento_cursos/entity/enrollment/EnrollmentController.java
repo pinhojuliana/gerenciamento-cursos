@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.entity.enrollment;
+package com.juliana.gerenciamento_cursos.application.entity.enrollment;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

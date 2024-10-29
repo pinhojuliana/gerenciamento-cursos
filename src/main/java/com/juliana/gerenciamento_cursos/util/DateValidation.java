@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.util;
+package com.juliana.gerenciamento_cursos.application.util;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;

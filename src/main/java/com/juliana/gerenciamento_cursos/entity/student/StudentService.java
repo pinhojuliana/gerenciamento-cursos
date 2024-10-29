@@ -1,7 +1,7 @@
 package com.juliana.gerenciamento_cursos.entity.student;
 
-import com.juliana.gerenciamento_cursos.entity.user.UserRequestPayload;
-import com.juliana.gerenciamento_cursos.entity.user.UserResponse;
+import com.juliana.gerenciamento_cursos.entity.client.ClientRequestPayload;
+import com.juliana.gerenciamento_cursos.entity.client.ClientResponse;
 import com.juliana.gerenciamento_cursos.exceptions.*;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class StudentService {
     @Autowired
     StudentRepository repository;
 
-    public UserResponse createNewStudent(UserRequestPayload userRequestPayload, String description, EducationalLevel educationalLevel) throws UnderageException {
+    public ClientResponse createNewStudent(ClientRequestPayload userRequestPayload, String description, EducationalLevel educationalLevel) throws UnderageException {
         validateUniqueUsername(userRequestPayload.username());
         validateUniqueEmail(userRequestPayload.email());
 
@@ -30,7 +30,7 @@ public class StudentService {
 
         repository.save(newStudent);
 
-        return new UserResponse(newStudent.getId());
+        return new ClientResponse(newStudent.getId());
     }
 
     public void updateStudentDescription(UUID id, String description) throws InexistentOptionException {

@@ -1,7 +1,7 @@
-package com.juliana.gerenciamento_cursos.entity.teacher;
+package com.juliana.gerenciamento_cursos.application.entity.teacher;
 
-import com.juliana.gerenciamento_cursos.entity.user.User;
-import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
+import com.juliana.gerenciamento_cursos.application.entity.user.User;
+import com.juliana.gerenciamento_cursos.application.exceptions.UnderageException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

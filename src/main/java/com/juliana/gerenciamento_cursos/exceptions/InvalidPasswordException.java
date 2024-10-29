@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.exceptions;
+package com.juliana.gerenciamento_cursos.application.exceptions;
 
 public class InvalidPasswordException extends RuntimeException {
     public InvalidPasswordException(String message) {

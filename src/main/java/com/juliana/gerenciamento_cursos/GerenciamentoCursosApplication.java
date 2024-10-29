@@ -3,10 +3,10 @@ package com.juliana.gerenciamento_cursos.application;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/*
+/* por que nao recebo o id como path variable?
 * criar metodo para desativar inscrição automaticamente apos a data
 * ver como crio os controllers separados
-* criar handlers -> ivalidPassowrd pode ser usado para senhas fora do padrao
+* criar handlers
 * implementar testes
 * implementar segurança
 * criar cas camadas de acesso manager, teacher e student

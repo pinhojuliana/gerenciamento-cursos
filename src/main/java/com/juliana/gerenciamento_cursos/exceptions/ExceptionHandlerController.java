@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.exceptions;
+package com.juliana.gerenciamento_cursos.application.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class ExceptionHandlerController {
-
     @ExceptionHandler(EmptyListException.class)
     public ResponseEntity<String> emptyListException(EmptyListException e){
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(e.getMessage());
     }
 
     @ExceptionHandler(InexistentOptionException.class)
@@ -18,29 +17,19 @@ public class ExceptionHandlerController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
-    @ExceptionHandler(UsernameAlreadyInUseException.class)
-    public void usernameAlreadyInUse(UsernameAlreadyInUseException e){
-
-    }
-
-    @ExceptionHandler(EmailAlreadyInUseException.class)
-    public void emailAlreadyInUse(EmailAlreadyInUseException e){
-
+    @ExceptionHandler({UsernameAlreadyInUseException.class, EmailAlreadyInUseException.class, TitleAlreadyInUseException.class})
+    public ResponseEntity<String> handleConflictExceptions(RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
 
     @ExceptionHandler(UnderageException.class)
-    public void underageException(UnderageException e){
-
+    public ResponseEntity<String> underageException(UnderageException e){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
     }
 
     @ExceptionHandler(InvalidPasswordException.class)
-    public void InvalidPasswordException(InvalidPasswordException e){
-
-    }
-
-    @ExceptionHandler(TitleAlreadyInUseException.class)
-    public void titleAlreadyInUse(TitleAlreadyInUseException e){
-
+    public ResponseEntity<String> invalidPasswordException(InvalidPasswordException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
 }

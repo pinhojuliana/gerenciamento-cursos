@@ -1,6 +1,6 @@
-package com.juliana.gerenciamento_cursos.exceptions;
+package com.juliana.gerenciamento_cursos.application.exceptions;
 
-public class InexistentOptionException extends Exception {
+public class InexistentOptionException extends RuntimeException {
     public InexistentOptionException(String message) {
         super(message);
     }

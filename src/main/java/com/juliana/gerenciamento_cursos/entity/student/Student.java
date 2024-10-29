@@ -1,6 +1,6 @@
 package com.juliana.gerenciamento_cursos.entity.student;
 
-import com.juliana.gerenciamento_cursos.entity.user.User;
+import com.juliana.gerenciamento_cursos.entity.client.Client;
 import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -8,14 +8,13 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 @Table(name = "student")
 @Getter
 @Setter
 @ToString
-public class Student extends User {
+public class Student extends Client {
     @Column
     private String description;
 

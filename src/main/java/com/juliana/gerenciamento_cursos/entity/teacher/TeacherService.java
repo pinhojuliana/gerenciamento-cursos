@@ -1,8 +1,8 @@
-package com.juliana.gerenciamento_cursos.entity.teacher;
+package com.juliana.gerenciamento_cursos.application.entity.teacher;
 
-import com.juliana.gerenciamento_cursos.entity.user.UserRequestPayload;
-import com.juliana.gerenciamento_cursos.entity.user.UserResponse;
-import com.juliana.gerenciamento_cursos.exceptions.*;
+import com.juliana.gerenciamento_cursos.application.entity.user.UserRequestPayload;
+import com.juliana.gerenciamento_cursos.application.entity.user.UserResponse;
+import com.juliana.gerenciamento_cursos.application.exceptions.*;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,7 +61,7 @@ public class TeacherService {
         repository.save(teacher);
     }
 
-    public void updateTeacherPassword(UUID id, String oldPassword, String newPassword) throws InexistentOptionException {
+    public void updateTeacherPassword(UUID id, String oldPassword, String newPassword) throws RuntimeException {
         Teacher teacher = repository.findById(id).orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
         if(!teacher.getPassword().equals(oldPassword)){
             throw new InvalidPasswordException("A senha atual está incorreta");
@@ -71,9 +71,24 @@ public class TeacherService {
     }
 
     public List<Teacher> findTeacher(String name){
-        return repository.findByName(name).stream()
+        List<Teacher> teachers = repository.findByName(name).stream()
                 .map(t -> new Teacher(t.getName(), t.getUsername(), t.getEmail(), t.getDateOfBirth(), t.getSkills()))
                 .toList();
+        if(teachers.isEmpty()){
+            throw new EmptyListException("Nenhum professor com esse nome foi encontrado");
+        }
+        return teachers;
+    }
+
+    public List<Teacher> getAllTeachers() throws EmptyListException {
+        List<Teacher> teachers = repository.findAll().stream().map(t -> new Teacher(t.getName(), t.getUsername(), t.getEmail(), t.getDateOfBirth(), t.getSkills()))
+                .toList();
+
+        if (teachers.isEmpty()) {
+            throw new EmptyListException("Não há estudantes cadastrados");
+        }
+
+        return teachers;
     }
 
     private void validateUniqueUsername(String username) {

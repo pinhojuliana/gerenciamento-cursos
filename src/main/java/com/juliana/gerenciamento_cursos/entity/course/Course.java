@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.entity.course;
+package com.juliana.gerenciamento_cursos.application.entity.course;
 
 import jakarta.persistence.*;
 import lombok.Getter;
