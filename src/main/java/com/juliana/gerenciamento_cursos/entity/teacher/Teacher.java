@@ -1,7 +1,7 @@
-package com.juliana.gerenciamento_cursos.application.entity.teacher;
+package com.juliana.gerenciamento_cursos.entity.teacher;
 
-import com.juliana.gerenciamento_cursos.application.entity.user.User;
-import com.juliana.gerenciamento_cursos.application.exceptions.UnderageException;
+import com.juliana.gerenciamento_cursos.entity.client.Client;
+import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ import java.util.*;
 @Getter
 @Setter
 @ToString
-public class Teacher extends User {
+public class Teacher extends Client {
     @ElementCollection
     @CollectionTable(name = "teacher_skill", joinColumns = @JoinColumn(name = "teacher_id"))
     @Column(name = "skill")

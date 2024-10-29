@@ -1,8 +1,8 @@
-package com.juliana.gerenciamento_cursos.application.entity.teacher;
+package com.juliana.gerenciamento_cursos.entity.teacher;
 
-import com.juliana.gerenciamento_cursos.application.entity.user.UserRequestPayload;
-import com.juliana.gerenciamento_cursos.application.entity.user.UserResponse;
-import com.juliana.gerenciamento_cursos.application.exceptions.*;
+import com.juliana.gerenciamento_cursos.entity.client.ClientRequestPayload;
+import com.juliana.gerenciamento_cursos.entity.client.ClientResponse;
+import com.juliana.gerenciamento_cursos.exceptions.*;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class TeacherService {
     @Autowired
     TeacherRepository repository;
 
-    public UserResponse createNewTeacher(UserRequestPayload userRequestPayload) throws UnderageException {
+    public ClientResponse createNewTeacher(ClientRequestPayload userRequestPayload) throws UnderageException {
         validateUniqueUsername(userRequestPayload.username());
         validateUniqueEmail(userRequestPayload.email());
 
@@ -28,7 +28,7 @@ public class TeacherService {
 
         repository.save(newTeacher);
 
-        return new UserResponse(newTeacher.getId());
+        return new ClientResponse(newTeacher.getId());
     }
 
     public void deleteTeacher(UUID id) {
