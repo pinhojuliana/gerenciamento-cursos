@@ -1,8 +1,9 @@
-package com.juliana.gerenciamento_cursos.application.entity.class_section;
+package com.juliana.gerenciamento_cursos.entity.class_section;
 
-import com.juliana.gerenciamento_cursos.application.entity.modules.Modules;
+import com.juliana.gerenciamento_cursos.entity.modules.Modules;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.UUID;
@@ -10,6 +11,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "class_section")
 @ToString
+@NoArgsConstructor
 @Data
 public class ClassSection {
     @Id
@@ -19,7 +21,8 @@ public class ClassSection {
     private String title;
     @Column
     private String description;
-    @Column(name = "module_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "module_id", nullable = false)
     private Modules modules;
 
 

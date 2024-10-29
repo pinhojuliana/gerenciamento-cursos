@@ -1,7 +1,7 @@
-package com.juliana.gerenciamento_cursos.application.entity.course;
+package com.juliana.gerenciamento_cursos.entity.course;
 
-import com.juliana.gerenciamento_cursos.application.exceptions.InexistentOptionException;
-import com.juliana.gerenciamento_cursos.application.exceptions.TitleAlreadyInUseException;
+import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
+import com.juliana.gerenciamento_cursos.exceptions.TitleAlreadyInUseException;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

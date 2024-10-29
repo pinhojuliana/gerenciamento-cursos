@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.application.entity.modules;
+package com.juliana.gerenciamento_cursos.entity.modules;
 
 import java.util.UUID;
 

@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.application.exceptions;
+package com.juliana.gerenciamento_cursos.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

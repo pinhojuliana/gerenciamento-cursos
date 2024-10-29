@@ -1,6 +1,6 @@
-package com.juliana.gerenciamento_cursos.application.entity.modules;
+package com.juliana.gerenciamento_cursos.entity.modules;
 
-import com.juliana.gerenciamento_cursos.application.entity.course.Course;
+import com.juliana.gerenciamento_cursos.entity.course.Course;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

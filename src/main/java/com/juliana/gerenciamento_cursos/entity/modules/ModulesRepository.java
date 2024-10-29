@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.application.entity.modules;
+package com.juliana.gerenciamento_cursos.entity.modules;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

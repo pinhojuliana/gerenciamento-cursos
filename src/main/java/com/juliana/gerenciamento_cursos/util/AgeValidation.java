@@ -1,6 +1,6 @@
-package com.juliana.gerenciamento_cursos.application.util;
+package com.juliana.gerenciamento_cursos.util;
 
-import com.juliana.gerenciamento_cursos.application.exceptions.UnderageException;
+import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
 
 import java.time.LocalDate;
 import java.time.Period;
