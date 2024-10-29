@@ -1,10 +1,10 @@
-package com.juliana.gerenciamento_cursos.entity.user;
+package com.juliana.gerenciamento_cursos.entity.client;
 
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
-public record UserRequestPayload(
+public record ClientRequestPayload(
         @NotNull(message = "O nome é obrigatório")
         @Size(min = 2, message = "O nome deve ter no mínimo 2 caracteres")
         String name,

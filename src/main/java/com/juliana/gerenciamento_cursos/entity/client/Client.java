@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.entity.user;
+package com.juliana.gerenciamento_cursos.entity.client;
 
 import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
 import com.juliana.gerenciamento_cursos.util.AgeValidation;

@@ -1,6 +1,6 @@
-package com.juliana.gerenciamento_cursos.entity.user;
+package com.juliana.gerenciamento_cursos.entity.client;
 
 import java.util.UUID;
 
-public record UserResponse(UUID id) {
+public record ClientResponse(UUID id) {
 }
