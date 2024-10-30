@@ -11,5 +11,5 @@ import java.util.UUID;
 @Repository
 public interface ModulesRepository extends JpaRepository<Modules, UUID> {
     List<Modules> findByTitle(String title);
-    Optional<Course> findByCourseId(UUID courseId);
+    Optional<List<Modules>> findByCourseId(UUID courseId);
 }

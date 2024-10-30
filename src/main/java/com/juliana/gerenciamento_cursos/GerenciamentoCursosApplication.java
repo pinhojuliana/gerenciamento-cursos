@@ -3,14 +3,14 @@ package com.juliana.gerenciamento_cursos;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/* por que nao recebo o id como path variable?
+/* ver como as validações funcionam
 * criar metodo para desativar inscrição automaticamente apos a data
-* ver como crio os controllers separados
-* criar handlers
+* melhorar handlers
 * implementar testes
 * implementar segurança
 * criar cas camadas de acesso manager, teacher e student
-* email de confirmação para users*/
+* email de confirmação para users -> posso ter que a inscrição é inativa até o estudante confirmar
+* */
 @SpringBootApplication
 public class GerenciamentoCursosApplication {
 

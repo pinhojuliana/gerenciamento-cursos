@@ -28,12 +28,8 @@ public class ModulesService {
     }
 
     public List<Modules> findModulesByCourse(UUID courseId){
-        List<Modules> modules = repository.findAll();
-        Course course = repository.findByCourseId(courseId).orElseThrow(() -> new InexistentOptionException("Nenhum módulo para este curso"));
-
-        return modules.stream()
-                .filter(m -> m.getCourse().equals(course))
-                .toList();
+       return repository.findByCourseId(courseId)
+               .orElseThrow(() -> new InexistentOptionException("Nenhum modulo encontrado"));
     }
 
     public List<Modules> findModuleCourse(UUID courseId, String title) throws InexistentOptionException {
