@@ -13,7 +13,7 @@ public class ClassSectionService {
     @Autowired
     ClassSectionRepository repository;
 
-    public ClassSectionResponse createClass(ClassSectionRequestPayload classRequestPayload, Modules modules){
+    public ClassSectionResponse createNewClass(ClassSectionRequestPayload classRequestPayload, Modules modules){
         ClassSection newClass = new ClassSection(classRequestPayload.title(), classRequestPayload.description(), modules);
         repository.save(newClass);
 
@@ -21,10 +21,11 @@ public class ClassSectionService {
     }
 
     public void deleteClass(UUID id){
+        validateId(id);
         repository.deleteById(id);
     }
 
-    public List<ClassSection> showClasses(UUID moduleId) throws InexistentOptionException {
+    public List<ClassSection> showClassesOfModule(UUID moduleId) throws InexistentOptionException {
         List<ClassSection> classes = repository.findByModules_Id(moduleId);
         if (classes.isEmpty()){
             throw new InexistentOptionException("Nenhuma aula encontrada");
@@ -32,7 +33,7 @@ public class ClassSectionService {
         return classes;
     }
 
-    public List<ClassSection> findClasses(UUID moduleSectionId ,String title) throws InexistentOptionException {
+    public List<ClassSection> findClassesByTitle(UUID moduleSectionId ,String title) throws InexistentOptionException {
         List<ClassSection> classes = repository.findByTitle(title).stream()
                 .filter(c -> c.getModules().getId().equals(moduleSectionId))
                 .toList();
@@ -40,6 +41,11 @@ public class ClassSectionService {
             throw new InexistentOptionException("Nenhuma aula encontrada");
         }
         return classes;
+    }
+
+    private ClassSection validateId(UUID id){
+        return repository.findById(id)
+                .orElseThrow(() -> new InexistentOptionException("Modulo não encontrado"));
     }
 
 }
