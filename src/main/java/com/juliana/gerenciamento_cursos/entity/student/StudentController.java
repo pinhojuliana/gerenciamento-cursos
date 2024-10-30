@@ -21,7 +21,7 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/search/{name}")
     public ResponseEntity<List<StudentDTO>> getStudentsByName(@PathVariable String name){
         List<StudentDTO> students = service.searchStudentName(name);
         return ResponseEntity.ok(students);
