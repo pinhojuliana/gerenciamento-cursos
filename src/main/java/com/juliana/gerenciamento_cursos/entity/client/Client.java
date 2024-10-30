@@ -56,13 +56,6 @@ public class Client implements Comparable<Client>{
         this.dateOfBirth = AgeValidation.validateAge(dateOfBirth);
     }
 
-    public Client(String name, String username, String email, LocalDate dateOfBirth) throws UnderageException {
-        this.name = name;
-        this.username = username;
-        this.email = email;
-        this.dateOfBirth = AgeValidation.validateAge(dateOfBirth);
-    }
-
     @Override
     public int compareTo(Client client) {
         return this.getName().compareTo(client.getName());
