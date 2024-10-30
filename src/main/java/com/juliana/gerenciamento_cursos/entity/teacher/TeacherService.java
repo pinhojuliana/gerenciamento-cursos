@@ -32,37 +32,41 @@ public class TeacherService {
     }
 
     public void deleteTeacher(UUID id) {
+        validateId(id);
         repository.deleteById(id);
     }
 
     public void addSkill(UUID id, String skill) throws InexistentOptionException {
-        Teacher teacher = repository.findById(id).orElseThrow(() -> new InexistentOptionException("Esse usuário não existe"));
+        Teacher teacher = validateId(id);
         teacher.getSkills().add(skill);
         repository.save(teacher);
     }
 
     public void removeSkill(UUID id, String skill) throws InexistentOptionException {
-        Teacher teacher = repository.findById(id).orElseThrow(() -> new InexistentOptionException("Esse usuário não existe"));
+        Teacher teacher = validateId(id);
         teacher.getSkills().remove(skill);
         repository.save(teacher);
     }
 
     public void updateTeacherUsername(UUID id, String username) throws InexistentOptionException {
+        Teacher teacher = validateId(id);
+        checkForNoUpdate(teacher.getUsername(), username);
         validateUniqueUsername(username);
-        Teacher teacher = repository.findById(id).orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
         teacher.setUsername(username);
         repository.save(teacher);
     }
 
     public void updateTeacherEmail(UUID id, String email) throws InexistentOptionException {
+        Teacher teacher = validateId(id);
+        checkForNoUpdate(teacher.getEmail(), email);
         validateUniqueEmail(email);
-        Teacher teacher = repository.findById(id).orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
         teacher.setEmail(email);
         repository.save(teacher);
     }
 
     public void updateTeacherPassword(UUID id, String oldPassword, String newPassword) throws RuntimeException {
-        Teacher teacher = repository.findById(id).orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
+        Teacher teacher = validateId(id);
+        checkForNoUpdate(teacher.getPassword(), newPassword);
         if(!teacher.getPassword().equals(oldPassword)){
             throw new InvalidPasswordException("A senha atual está incorreta");
         }
@@ -70,9 +74,9 @@ public class TeacherService {
         repository.save(teacher);
     }
 
-    public List<Teacher> findTeacher(String name){
-        List<Teacher> teachers = repository.findByName(name).stream()
-                .map(t -> new Teacher(t.getName(), t.getUsername(), t.getEmail(), t.getDateOfBirth(), t.getSkills()))
+    public List<TeacherDTO> findTeacher(String name){
+        List<TeacherDTO> teachers = repository.findByName(name).stream()
+                .map(this::convertToDTO)
                 .toList();
         if(teachers.isEmpty()){
             throw new EmptyListException("Nenhum professor com esse nome foi encontrado");
@@ -80,8 +84,8 @@ public class TeacherService {
         return teachers;
     }
 
-    public List<Teacher> getAllTeachers() throws EmptyListException {
-        List<Teacher> teachers = repository.findAll().stream().map(t -> new Teacher(t.getName(), t.getUsername(), t.getEmail(), t.getDateOfBirth(), t.getSkills()))
+    public List<TeacherDTO> getAllTeachers() throws EmptyListException {
+        List<TeacherDTO> teachers = repository.findAll().stream().map(this::convertToDTO)
                 .toList();
 
         if (teachers.isEmpty()) {
@@ -101,5 +105,26 @@ public class TeacherService {
         if (repository.existsByEmail(email)) {
             throw new EmailAlreadyInUseException("Esse e-mail está sendo utilizado por outro usuário");
         }
+    }
+
+    private Teacher validateId(UUID id){
+        return repository.findById(id)
+                .orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
+    }
+
+    private <T> void checkForNoUpdate(T oldValue, T newValue) {
+        if (oldValue.equals(newValue)) {
+            throw new NoUpdateRequiredException("Os campos 'novo' e 'atual' não devem ser iguais");
+        }
+    }
+
+    private TeacherDTO convertToDTO(Teacher teacher) {
+        return new TeacherDTO(
+                teacher.getName(),
+                teacher.getUsername(),
+                teacher.getEmail(),
+                teacher.getDateOfBirth(),
+                teacher.getSkills()
+        );
     }
 }

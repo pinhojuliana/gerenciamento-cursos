@@ -25,9 +25,4 @@ public class Teacher extends Client {
         super(name, username, email, password, dateOfBirth);
         this.skills = new HashSet<>();
     }
-
-    public Teacher(String name, String username, String email, LocalDate dateOfBirth, Set<String> skills) throws UnderageException {
-        super(name, username, email, dateOfBirth);
-        this.skills = skills;
-    }
 }

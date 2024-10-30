@@ -16,14 +16,14 @@ public class TeacherController {
     TeacherService service;
 
     @GetMapping
-    public ResponseEntity<List<Teacher>> getAllTeachers(){
-        List<Teacher> teachers = service.getAllTeachers();
+    public ResponseEntity<List<TeacherDTO>> getAllTeachers(){
+        List<TeacherDTO> teachers = service.getAllTeachers();
         return ResponseEntity.ok(teachers);
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<List<Teacher>> getTeachersByName(@PathVariable String name){
-        List<Teacher> teachers = service.findTeacher(name);
+    public ResponseEntity<List<TeacherDTO>> getTeachersByName(@PathVariable String name){
+        List<TeacherDTO> teachers = service.findTeacher(name);
         return ResponseEntity.ok(teachers);
     }
 
