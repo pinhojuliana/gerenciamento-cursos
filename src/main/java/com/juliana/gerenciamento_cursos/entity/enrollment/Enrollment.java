@@ -39,19 +39,14 @@ public class Enrollment {
     private int duration;
 
     @Column
-    private boolean active = true;
+    private boolean active;
 
     public Enrollment(Course course, Student student) {
         this.course = course;
         this.student = student;
+        this.active = true;
         this.duration = 365;
         this.deadlineForCompletion = LocalDateTime.now().plusDays(duration).toLocalDate();
     }
 
-    public Enrollment(Course course, Student student, int duration) {
-        this.course = course;
-        this.student = student;
-        this.duration = duration;
-        this.deadlineForCompletion = LocalDateTime.now().plusDays(duration).toLocalDate();
-    }
 }

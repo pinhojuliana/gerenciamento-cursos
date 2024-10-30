@@ -2,6 +2,7 @@ package com.juliana.gerenciamento_cursos.entity.enrollment;
 
 import com.juliana.gerenciamento_cursos.entity.course.Course;
 import com.juliana.gerenciamento_cursos.entity.student.Student;
+import com.juliana.gerenciamento_cursos.exceptions.EmptyListException;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,29 +17,36 @@ public class EnrollmentService {
     @Autowired
     EnrollmentRepository repository;
 
-    public List<Enrollment> showEnrollmentsCourse(UUID courseId){
-        return repository.findByCourseId(courseId);
-    }
-
-    public List<Enrollment> showStudentsActive(UUID courseId) {
-        return repository.findByCourseId(courseId).stream()
-                .filter(Enrollment::isActive)
-                .toList();
-    }
-
-    public List<Enrollment> showEnrollmentsStudent(UUID studentId){
-        return repository.findByStudentId(studentId);
-    }
-
-    public List<Enrollment> showAllEnrollments(){
-        return repository.findAll();
-    }
-
     public EnrollmentResponse enrollStudentInCourse(Course course, Student student){
         Enrollment newEnrollment = new Enrollment(course, student);
         repository.save(newEnrollment);
 
         return new EnrollmentResponse(newEnrollment.getId());
+    }
+
+    public List<Enrollment> showAllEnrollments(){
+        List<Enrollment> enrollments = repository.findAll();
+        if(enrollments.isEmpty()){
+            throw new EmptyListException("Nenhuma inscrição encontrada");
+        }
+        return enrollments;
+    }
+
+    public List<Enrollment> showEnrollmentsCourse(UUID courseId){
+        return repository.findByCourseId(courseId)
+                .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse curso"));
+    }
+
+    public List<Enrollment> showEnrollmentsStudent(UUID studentId){
+        return repository.findByStudentId(studentId)
+                .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse aluno"));
+    }
+
+    public List<Enrollment> showStudentsActive(UUID courseId) {
+        return showEnrollmentsCourse(courseId)
+                .stream()
+                .filter(Enrollment::isActive)
+                .toList();
     }
 
     public void unsubscribleStudentOfCourse(UUID studentId, UUID courseId) throws InexistentOptionException {
