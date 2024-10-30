@@ -100,9 +100,9 @@ public class StudentService {
         return students;
     }
 
-    public Student searchStudent(UUID id) throws InexistentOptionException {
+    public StudentDTO searchStudent(UUID id) throws InexistentOptionException {
         return repository.findById(id)
-                .map(s -> new Student(s.getName(), s.getUsername(), s.getEmail(), s.getDateOfBirth(), s.getDescription(), s.getEducationalLevel()))
+                .map(s -> new StudentDTO(s.getName(), s.getUsername(), s.getEmail(), s.getDateOfBirth(), s.getDescription(), s.getEducationalLevel()))
                 .orElseThrow(() -> new InexistentOptionException("Esse id não foi encontrado"));
     }
 
