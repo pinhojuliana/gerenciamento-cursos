@@ -15,8 +15,8 @@ public class ModulesController {
     ModulesService service;
 
     @GetMapping("/course/{id}")
-    public ResponseEntity<List<Modules>> findModulesByCourse(@PathVariable UUID id){
-        List<Modules> modules = service.findModulesByCourse(id);
+    public ResponseEntity<List<Modules>> findModulesByCourse(@PathVariable UUID courseId){
+        List<Modules> modules = service.findModulesByCourse(courseId);
         return ResponseEntity.ok(modules);
     }
 
@@ -26,8 +26,8 @@ public class ModulesController {
     }
 
     @PostMapping("/course/{id}")
-    public ResponseEntity<List<Modules>> findModulesCourse(@PathVariable UUID id, @RequestBody String title){
-        List<Modules> modules = service.findModuleCourse(id, title);
+    public ResponseEntity<List<Modules>> findModulesCourse(@PathVariable UUID courseId, @RequestBody String moduleTitle){
+        List<Modules> modules = service.findModuleCourse(courseId, moduleTitle);
         return ResponseEntity.ok(modules);
     }
 
