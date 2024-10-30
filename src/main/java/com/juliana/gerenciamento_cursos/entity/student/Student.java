@@ -27,10 +27,4 @@ public class Student extends Client {
         this.description = description;
         this.educationalLevel = educationalLevel;
     }
-
-    public Student(String name, String username, String email, LocalDate dateOfBirth, String description, EducationalLevel educationalLevel) throws UnderageException {
-        super(name, username, email, dateOfBirth);
-        this.description = description;
-        this.educationalLevel = educationalLevel;
-    }
 }

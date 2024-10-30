@@ -33,34 +33,39 @@ public class StudentService {
         return new ClientResponse(newStudent.getId());
     }
 
-    public void updateStudentDescription(UUID id, String description) throws InexistentOptionException {
-        Student student = repository.findById(id).orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
+    public void updateStudentDescription(UUID id, String description) {
+        Student student = validateId(id);
+        checkForNoUpdate(student.getDescription(), description);
         student.setDescription(description);
         repository.save(student);
     }
 
-    public void updateStudentEducationalLevel(UUID id, EducationalLevel educationalLevel) throws InexistentOptionException {
-        Student student = repository.findById(id).orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
+    public void updateStudentEducationalLevel(UUID id, EducationalLevel educationalLevel) {
+        Student student = validateId(id);
+        checkForNoUpdate(student.getEducationalLevel(), educationalLevel);
         student.setEducationalLevel(educationalLevel);
         repository.save(student);
     }
 
-    public void updateStudentUsername(UUID id, String username) throws InexistentOptionException {
+    public void updateStudentUsername(UUID id, String username) {
+        Student student = validateId(id);
+        checkForNoUpdate(student.getUsername(), username);
         validateUniqueUsername(username);
-        Student student = repository.findById(id).orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
         student.setUsername(username);
         repository.save(student);
     }
 
-    public void updateStudentEmail(UUID id, String email) throws InexistentOptionException {
+    public void updateStudentEmail(UUID id, String email) {
+        Student student = validateId(id);
+        checkForNoUpdate(student.getEmail(), email);
         validateUniqueEmail(email);
-        Student student = repository.findById(id).orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
         student.setEmail(email);
         repository.save(student);
     }
 
-    public void updateStudentPassword(UUID id, String oldPassword, String newPassword) throws InexistentOptionException {
-        Student student = repository.findById(id).orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
+    public void updateStudentPassword(UUID id, String oldPassword, String newPassword) {
+        Student student = validateId(id);
+        checkForNoUpdate(oldPassword, newPassword);
         if(!student.getPassword().equals(oldPassword)){
             throw new InvalidPasswordException("A senha atual está incorreta");
         }
@@ -68,15 +73,13 @@ public class StudentService {
         repository.save(student);
     }
 
-    public void deleteStudent(UUID id) throws InexistentOptionException {
-       if(!repository.existsById(id)){
-            throw new InexistentOptionException("Esse id não existe");
-        }
-        repository.deleteById(id);
+    public void deleteStudent(UUID id) {
+       validateId(id);
+       repository.deleteById(id);
     }
 
-    public List<Student> getAllStudents() throws EmptyListException {
-        List<Student> students = repository.findAll().stream().map(s -> new Student(s.getName(), s.getUsername(), s.getEmail(), s.getDateOfBirth(), s.getDescription(), s.getEducationalLevel()))
+    public List<StudentDTO> getAllStudents() throws EmptyListException {
+        List<StudentDTO> students = repository.findAll().stream().map(this::convertToDTO)
                 .toList();
 
         if (students.isEmpty()) {
@@ -86,8 +89,8 @@ public class StudentService {
         return students;
     }
 
-    public List<Student> searchStudentName(String name) throws EmptyListException {
-        List<Student> students = repository.findByName(name).stream().map(s -> new Student(s.getName(), s.getUsername(), s.getEmail(), s.getDateOfBirth(), s.getDescription(), s.getEducationalLevel()))
+    public List<StudentDTO> searchStudentName(String name) throws EmptyListException {
+        List<StudentDTO> students = repository.findByName(name).stream().map(this::convertToDTO)
                 .toList();
 
         if (students.isEmpty()) {
@@ -113,6 +116,28 @@ public class StudentService {
         if (repository.existsByEmail(email)) {
             throw new EmailAlreadyInUseException("Esse e-mail está sendo utilizado por outro usuário");
         }
+    }
+
+    private Student validateId(UUID id){
+        return repository.findById(id)
+                .orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
+    }
+
+    private <T> void checkForNoUpdate(T oldValue, T newValue) {
+        if (oldValue.equals(newValue)) {
+            throw new NoUpdateRequiredException("Os campos 'novo' e 'atual' não devem ser iguais");
+        }
+    }
+
+    private StudentDTO convertToDTO(Student student) {
+        return new StudentDTO(
+                student.getName(),
+                student.getUsername(),
+                student.getEmail(),
+                student.getDateOfBirth(),
+                student.getDescription(),
+                student.getEducationalLevel()
+        );
     }
 
 }

@@ -16,14 +16,14 @@ public class StudentController {
     StudentService service;
 
     @GetMapping
-    public ResponseEntity<List<Student>> getAllStudents(){
-        List<Student> students = service.getAllStudents();
+    public ResponseEntity<List<StudentDTO>> getAllStudents(){
+        List<StudentDTO> students = service.getAllStudents();
         return ResponseEntity.ok(students);
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<List<Student>> getStudentsByName(@PathVariable String name){
-        List<Student> students = service.searchStudentName(name);
+    public ResponseEntity<List<StudentDTO>> getStudentsByName(@PathVariable String name){
+        List<StudentDTO> students = service.searchStudentName(name);
         return ResponseEntity.ok(students);
     }
 
