@@ -23,16 +23,23 @@ public class ModulesService {
     }
 
     public void deleteModule(UUID id){
+        validateId(id);
         repository.deleteById(id);
     }
 
-    public List<Modules> showModules(UUID courseId){
-        return repository.findByCourseId(courseId);
+    public List<Modules> findModulesByCourse(UUID courseId){
+        List<Modules> modules = repository.findAll();
+        Course course = repository.findByCourseId(courseId).orElseThrow(() -> new InexistentOptionException("Nenhum módulo para este curso"));
+
+        return modules.stream()
+                .filter(m -> m.getCourse().equals(course))
+                .toList();
     }
 
     public List<Modules> findModuleCourse(UUID courseId, String title) throws InexistentOptionException {
-        return repository.findByCourseId(courseId).stream()
-                .filter(m -> m.getCourse().getTitle().equalsIgnoreCase(title))
+        List<Modules> modules = findModulesByCourse(courseId);
+        return modules.stream()
+                .filter(m -> m.getTitle().equalsIgnoreCase(title))
                 .toList();
     }
 
@@ -42,6 +49,11 @@ public class ModulesService {
             throw new InexistentOptionException("Modulo não encontrado");
         }
         return modules;
+    }
+
+    private Modules validateId(UUID id){
+        return repository.findById(id)
+                .orElseThrow(() -> new InexistentOptionException("Modulo não encontrado"));
     }
 
 }
