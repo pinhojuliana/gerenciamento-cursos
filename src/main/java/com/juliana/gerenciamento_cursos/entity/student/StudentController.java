@@ -22,7 +22,7 @@ public class StudentController {
     }
 
     @GetMapping("/search/{name}")
-    public ResponseEntity<List<StudentDTO>> getStudentsByName(@PathVariable String name){
+    public ResponseEntity<List<StudentDTO>> searchStudentName(@PathVariable String name){
         List<StudentDTO> students = service.searchStudentName(name);
         return ResponseEntity.ok(students);
     }

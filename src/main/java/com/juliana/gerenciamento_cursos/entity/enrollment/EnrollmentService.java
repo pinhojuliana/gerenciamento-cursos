@@ -14,6 +14,7 @@ import java.util.UUID;
 @Service
 @NoArgsConstructor
 public class EnrollmentService {
+    // ver se tem como implementar dry
     @Autowired
     EnrollmentRepository repository;
 
@@ -32,14 +33,21 @@ public class EnrollmentService {
         return enrollments;
     }
 
-    public List<Enrollment> showEnrollmentsCourse(UUID courseId){
-        return repository.findByCourseId(courseId)
-                .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse curso"));
+    public List<Enrollment> showEnrollmentsCourse(UUID courseId) {
+        if (repository.existsByCourseId(courseId)) {
+            return repository.
+                    findByCourseId(courseId)
+                    .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse curso"));
+        }
+        throw new InexistentOptionException("Esse curso não existe");
     }
 
     public List<Enrollment> showEnrollmentsStudent(UUID studentId){
-        return repository.findByStudentId(studentId)
-                .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse aluno"));
+        if (repository.existsByStudentId(studentId)) {
+            return repository.findByStudentId(studentId)
+                    .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse aluno"));
+        }
+        throw new InexistentOptionException("Esse aluno não existe");
     }
 
     public List<Enrollment> showStudentsActive(UUID courseId) {
