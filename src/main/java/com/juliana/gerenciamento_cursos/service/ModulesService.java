@@ -1,7 +1,7 @@
 package com.juliana.gerenciamento_cursos.service;
 
-import com.juliana.gerenciamento_cursos.domain.Course;
-import com.juliana.gerenciamento_cursos.domain.Modules;
+import com.juliana.gerenciamento_cursos.domain.course.Course;
+import com.juliana.gerenciamento_cursos.domain.modules.Modules;
 import com.juliana.gerenciamento_cursos.DTOs.ModulesRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.ModulesResponse;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;

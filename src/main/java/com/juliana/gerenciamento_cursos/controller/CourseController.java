@@ -1,6 +1,6 @@
 package com.juliana.gerenciamento_cursos.controller;
 
-import com.juliana.gerenciamento_cursos.domain.Course;
+import com.juliana.gerenciamento_cursos.domain.course.Course;
 import com.juliana.gerenciamento_cursos.DTOs.CourseRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.CourseResponse;
 import com.juliana.gerenciamento_cursos.service.CourseService;

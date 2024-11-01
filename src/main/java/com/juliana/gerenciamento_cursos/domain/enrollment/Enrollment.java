@@ -1,5 +1,7 @@
-package com.juliana.gerenciamento_cursos.domain;
+package com.juliana.gerenciamento_cursos.domain.enrollment;
 
+import com.juliana.gerenciamento_cursos.domain.course.Course;
+import com.juliana.gerenciamento_cursos.domain.client.Student;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;

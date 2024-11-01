@@ -1,5 +1,6 @@
-package com.juliana.gerenciamento_cursos.domain;
+package com.juliana.gerenciamento_cursos.domain.modules;
 
+import com.juliana.gerenciamento_cursos.domain.course.Course;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

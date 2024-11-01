@@ -1,9 +1,9 @@
 package com.juliana.gerenciamento_cursos.service;
 
-import com.juliana.gerenciamento_cursos.domain.Course;
+import com.juliana.gerenciamento_cursos.domain.course.Course;
 import com.juliana.gerenciamento_cursos.DTOs.CourseRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.CourseResponse;
-import com.juliana.gerenciamento_cursos.domain.Teacher;
+import com.juliana.gerenciamento_cursos.domain.client.Teacher;
 import com.juliana.gerenciamento_cursos.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.repository.TeacherRepository;
 import com.juliana.gerenciamento_cursos.repository.TeacherCourseRepository;

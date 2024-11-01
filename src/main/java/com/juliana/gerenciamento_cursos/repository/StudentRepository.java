@@ -1,6 +1,6 @@
 package com.juliana.gerenciamento_cursos.repository;
 
-import com.juliana.gerenciamento_cursos.domain.Student;
+import com.juliana.gerenciamento_cursos.domain.client.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.domain;
+package com.juliana.gerenciamento_cursos.domain.client;
 
 import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
 import jakarta.persistence.*;

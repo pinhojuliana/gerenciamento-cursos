@@ -1,10 +1,10 @@
 package com.juliana.gerenciamento_cursos.controller;
 
-import com.juliana.gerenciamento_cursos.domain.Course;
-import com.juliana.gerenciamento_cursos.domain.Enrollment;
+import com.juliana.gerenciamento_cursos.domain.course.Course;
+import com.juliana.gerenciamento_cursos.domain.enrollment.Enrollment;
 import com.juliana.gerenciamento_cursos.DTOs.EnrollmentResponse;
 import com.juliana.gerenciamento_cursos.service.EnrollmentService;
-import com.juliana.gerenciamento_cursos.domain.Student;
+import com.juliana.gerenciamento_cursos.domain.client.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

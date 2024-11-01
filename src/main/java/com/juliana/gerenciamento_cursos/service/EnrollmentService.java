@@ -1,9 +1,9 @@
 package com.juliana.gerenciamento_cursos.service;
 
-import com.juliana.gerenciamento_cursos.domain.Course;
-import com.juliana.gerenciamento_cursos.domain.Enrollment;
+import com.juliana.gerenciamento_cursos.domain.course.Course;
+import com.juliana.gerenciamento_cursos.domain.enrollment.Enrollment;
 import com.juliana.gerenciamento_cursos.DTOs.EnrollmentResponse;
-import com.juliana.gerenciamento_cursos.domain.Student;
+import com.juliana.gerenciamento_cursos.domain.client.Student;
 import com.juliana.gerenciamento_cursos.exceptions.EmptyListException;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.repository.EnrollmentRepository;

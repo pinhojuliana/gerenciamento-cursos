@@ -1,6 +1,6 @@
 package com.juliana.gerenciamento_cursos.DTOs;
 
-import com.juliana.gerenciamento_cursos.domain.EducationalLevel;
+import com.juliana.gerenciamento_cursos.domain.client.EducationalLevel;
 
 import java.time.LocalDate;
 

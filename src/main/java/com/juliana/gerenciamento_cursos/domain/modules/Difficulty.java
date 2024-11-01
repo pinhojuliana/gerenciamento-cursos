@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.domain;
+package com.juliana.gerenciamento_cursos.domain.modules;
 
 public enum Difficulty {
     BEGINNER("BEGINNER"),

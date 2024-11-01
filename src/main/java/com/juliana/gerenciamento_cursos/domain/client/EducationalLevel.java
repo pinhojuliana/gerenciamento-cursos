@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.domain;
+package com.juliana.gerenciamento_cursos.domain.client;
 
 public enum EducationalLevel {
     FUNDAMENTAL("Fundamental"),

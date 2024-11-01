@@ -1,9 +1,9 @@
 package com.juliana.gerenciamento_cursos.service;
 
-import com.juliana.gerenciamento_cursos.domain.ClassSection;
+import com.juliana.gerenciamento_cursos.domain.class_section.ClassSection;
 import com.juliana.gerenciamento_cursos.DTOs.ClassSectionRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.ClassSectionResponse;
-import com.juliana.gerenciamento_cursos.domain.Modules;
+import com.juliana.gerenciamento_cursos.domain.modules.Modules;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.repository.ClassSectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,7 +2,7 @@ package com.juliana.gerenciamento_cursos.controller;
 
 import com.juliana.gerenciamento_cursos.DTOs.ClientRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.ClientResponse;
-import com.juliana.gerenciamento_cursos.domain.EducationalLevel;
+import com.juliana.gerenciamento_cursos.domain.client.EducationalLevel;
 import com.juliana.gerenciamento_cursos.DTOs.StudentDTO;
 import com.juliana.gerenciamento_cursos.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;

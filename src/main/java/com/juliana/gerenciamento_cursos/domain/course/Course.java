@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.domain;
+package com.juliana.gerenciamento_cursos.domain.course;
 
 import jakarta.persistence.*;
 import lombok.Getter;
