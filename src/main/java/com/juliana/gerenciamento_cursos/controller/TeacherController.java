@@ -1,7 +1,7 @@
 package com.juliana.gerenciamento_cursos.controller;
 
-import com.juliana.gerenciamento_cursos.DTOs.ClientRequestPayload;
-import com.juliana.gerenciamento_cursos.DTOs.ClientResponse;
+import com.juliana.gerenciamento_cursos.DTOs.request_payload.ClientRequestPayload;
+import com.juliana.gerenciamento_cursos.DTOs.response.ClientResponse;
 import com.juliana.gerenciamento_cursos.DTOs.TeacherDTO;
 import com.juliana.gerenciamento_cursos.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,12 @@ public class TeacherController {
     public ResponseEntity<List<TeacherDTO>> getTeachersByName(@PathVariable String name){
         List<TeacherDTO> teachers = service.findTeacher(name);
         return ResponseEntity.ok(teachers);
+    }
+
+    @GetMapping("courses-taught/{id}")
+    public ResponseEntity<List<String>> showAllCoursesTaught(@PathVariable UUID id){
+        List<String> courses = service.showAllCoursesTaught(id);
+        return ResponseEntity.ok(courses);
     }
 
     @PostMapping("/register")
