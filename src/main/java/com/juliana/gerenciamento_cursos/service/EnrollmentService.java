@@ -1,12 +1,15 @@
 package com.juliana.gerenciamento_cursos.service;
 
+import com.juliana.gerenciamento_cursos.DTOs.request_payload.EnrollmentRequestPayload;
 import com.juliana.gerenciamento_cursos.domain.course.Course;
 import com.juliana.gerenciamento_cursos.domain.enrollment.Enrollment;
-import com.juliana.gerenciamento_cursos.DTOs.EnrollmentResponse;
+import com.juliana.gerenciamento_cursos.DTOs.response.EnrollmentResponse;
 import com.juliana.gerenciamento_cursos.domain.client.Student;
 import com.juliana.gerenciamento_cursos.exceptions.EmptyListException;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
+import com.juliana.gerenciamento_cursos.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.repository.EnrollmentRepository;
+import com.juliana.gerenciamento_cursos.repository.StudentRepository;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,11 +20,23 @@ import java.util.UUID;
 @Service
 @NoArgsConstructor
 public class EnrollmentService {
-    // ver se tem como implementar dry
     @Autowired
     EnrollmentRepository repository;
 
-    public EnrollmentResponse enrollStudentInCourse(Course course, Student student){
+    @Autowired
+    StudentRepository studentRepository;
+
+    @Autowired
+    CourseRepository courseRepository;
+
+    public EnrollmentResponse enrollStudentInCourse(EnrollmentRequestPayload requestPayload){
+        Course course = courseRepository.findById(requestPayload.courseId()).orElseThrow(()-> new InexistentOptionException("Curso não encontrado"));
+        Student student = studentRepository.findById(requestPayload.studentId()).orElseThrow(()-> new InexistentOptionException("Aluno não encontrado"));
+
+        if (repository.existsByStudentIdAndCourseId(requestPayload.studentId(), requestPayload.courseId())) {
+            throw new InexistentOptionException("Aluno já inscrito neste curso");
+        }
+
         Enrollment newEnrollment = new Enrollment(course, student);
         repository.save(newEnrollment);
 
@@ -53,21 +68,22 @@ public class EnrollmentService {
         throw new InexistentOptionException("Esse aluno não existe");
     }
 
-    public List<Enrollment> showStudentsActive(UUID courseId) {
+    public List<Enrollment> showStudentsEnrollmentsActive(UUID courseId) {
         return showEnrollmentsCourse(courseId)
                 .stream()
                 .filter(Enrollment::isActive)
                 .toList();
     }
 
-    public void unsubscribleStudentOfCourse(UUID studentId, UUID courseId) throws InexistentOptionException {
-      Enrollment enrollment = repository.findFirstByStudentId(studentId).orElseThrow(() -> new InexistentOptionException("Usuario não encontrado"));
-        if (enrollment.getCourse().getId() == courseId){
-            enrollment.setActive(false);
-            repository.save(enrollment);
-        } else {
-            throw new InexistentOptionException("Inscrição ou curso inexistente");
-        }
-    }
+    public void unsubscribeStudentOfCourse(EnrollmentRequestPayload requestPayload) throws InexistentOptionException {
+      Enrollment enrollment = repository.findByStudentIdAndCourseId(requestPayload.studentId(), requestPayload.courseId()).orElseThrow(() -> new InexistentOptionException("Inscrição não encontrada"));
 
+        if (!enrollment.isActive()) {
+            throw new InexistentOptionException("A inscrição já está inativa");
+        }
+
+      enrollment.setActive(false);
+      repository.save(enrollment);
+
+    }
 }

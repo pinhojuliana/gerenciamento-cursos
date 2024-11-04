@@ -1,8 +1,8 @@
 package com.juliana.gerenciamento_cursos.service;
 
 import com.juliana.gerenciamento_cursos.domain.course.Course;
-import com.juliana.gerenciamento_cursos.DTOs.CourseRequestPayload;
-import com.juliana.gerenciamento_cursos.DTOs.CourseResponse;
+import com.juliana.gerenciamento_cursos.DTOs.request_payload.CourseRequestPayload;
+import com.juliana.gerenciamento_cursos.DTOs.response.CourseResponse;
 import com.juliana.gerenciamento_cursos.domain.client.Teacher;
 import com.juliana.gerenciamento_cursos.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.repository.TeacherRepository;
@@ -63,6 +63,11 @@ public class CourseService {
         }
 
         return  courses;
+    }
+
+    public Course findCourseByTitle(String title){
+        return repository.findByTitle(title)
+                .orElseThrow(()-> new InexistentOptionException("Nenhum curso encontrado"));
     }
 
     public void addTeacher(UUID teacherId, UUID courseId){

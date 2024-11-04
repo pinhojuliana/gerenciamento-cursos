@@ -1,7 +1,7 @@
 package com.juliana.gerenciamento_cursos.controller;
 
-import com.juliana.gerenciamento_cursos.DTOs.ClientRequestPayload;
-import com.juliana.gerenciamento_cursos.DTOs.ClientResponse;
+import com.juliana.gerenciamento_cursos.DTOs.request_payload.ClientRequestPayload;
+import com.juliana.gerenciamento_cursos.DTOs.response.ClientResponse;
 import com.juliana.gerenciamento_cursos.domain.client.EducationalLevel;
 import com.juliana.gerenciamento_cursos.DTOs.StudentDTO;
 import com.juliana.gerenciamento_cursos.service.StudentService;
@@ -31,7 +31,7 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StudentDTO> getStudentById(@PathVariable UUID id){
+    public ResponseEntity<StudentDTO> searchStudentById(@PathVariable UUID id){
         StudentDTO student = service.searchStudent(id);
         return ResponseEntity.ok(student);
     }
@@ -42,31 +42,31 @@ public class StudentController {
     }
 
     @PutMapping("/{id}/description")
-    public ResponseEntity<String> alterStudentDescription(@PathVariable UUID id, @RequestBody String description){
+    public ResponseEntity<String> updateStudentDescription(@PathVariable UUID id, @RequestBody String description){
         service.updateStudentDescription(id, description);
         return ResponseEntity.ok("Descrição atualizada com sucesso");
     }
 
     @PutMapping("/{id}/education-level")
-    public ResponseEntity<String> alterStudentEducationalLevel(@PathVariable  UUID id, @RequestBody EducationalLevel educationalLevel){
+    public ResponseEntity<String> updateStudentEducationalLevel(@PathVariable  UUID id, @RequestBody EducationalLevel educationalLevel){
         service.updateStudentEducationalLevel(id, educationalLevel);
         return ResponseEntity.ok("Nivel de escolaridade atualizado com sucesso");
     }
 
     @PutMapping("/{id}/username")
-    public ResponseEntity<String> alterStudentUsername(@PathVariable UUID id, @RequestBody String username){
+    public ResponseEntity<String> updateStudentUsername(@PathVariable UUID id, @RequestBody String username){
         service.updateStudentUsername(id, username);
         return ResponseEntity.ok("Nome de usuario atualizado com sucesso");
     }
 
     @PutMapping("/{id}/email")
-    public ResponseEntity<String> alterStudentEmail(@PathVariable UUID id, @RequestBody String email){
+    public ResponseEntity<String> updateStudentEmail(@PathVariable UUID id, @RequestBody String email){
         service.updateStudentEmail(id, email);
         return ResponseEntity.ok("Email atualizado com sucesso");
     }
 
     @PutMapping(("/{id}/password"))
-    public ResponseEntity<String> alterStudentPassword(@PathVariable UUID id, @RequestBody String oldPassword, String newPassword){
+    public ResponseEntity<String> updateStudentPassword(@PathVariable UUID id, @RequestBody String oldPassword, String newPassword){
         service.updateStudentPassword(id, oldPassword,newPassword);
         return ResponseEntity.ok("Senha atualizada com sucesso");
     }

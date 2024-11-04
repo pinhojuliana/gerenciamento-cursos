@@ -8,7 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface StudentRepository extends JpaRepository<Student, UUID> {
-    Optional<Student> findByUsername(String username);
     List<Student> findByName(String name);
 
     boolean existsByUsername(String username);

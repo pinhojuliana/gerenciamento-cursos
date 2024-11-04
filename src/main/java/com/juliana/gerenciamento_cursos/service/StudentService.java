@@ -1,7 +1,7 @@
 package com.juliana.gerenciamento_cursos.service;
 
-import com.juliana.gerenciamento_cursos.DTOs.ClientRequestPayload;
-import com.juliana.gerenciamento_cursos.DTOs.ClientResponse;
+import com.juliana.gerenciamento_cursos.DTOs.request_payload.ClientRequestPayload;
+import com.juliana.gerenciamento_cursos.DTOs.response.ClientResponse;
 import com.juliana.gerenciamento_cursos.domain.client.EducationalLevel;
 import com.juliana.gerenciamento_cursos.domain.client.Student;
 import com.juliana.gerenciamento_cursos.DTOs.StudentDTO;

@@ -29,35 +29,34 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(EmptyListException.class)
     public ResponseEntity<String> handleEmptyListException(EmptyListException e){
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(e.getMessage());
-        //return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
     }
 
     @ExceptionHandler(InexistentOptionException.class)
     public ResponseEntity<String> handleInexistentOptionException(InexistentOptionException e){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({UsernameAlreadyInUseException.class, EmailAlreadyInUseException.class, TitleAlreadyInUseException.class})
     public ResponseEntity<String> handleConflictExceptions(RuntimeException e) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UnderageException.class)
     public ResponseEntity<String> handleUnderageException(UnderageException e){
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(InvalidPasswordException.class)
     public ResponseEntity<String> handleInvalidPasswordException(InvalidPasswordException e){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<String> handleUnexpectedException(Throwable e) {
         var message = "Unexpected server error, see the logs";
         logger.error(message, e);
-        return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

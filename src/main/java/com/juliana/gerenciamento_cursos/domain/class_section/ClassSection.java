@@ -17,9 +17,9 @@ public class ClassSection {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    @Column
+    @Column(nullable = false)
     private String title;
-    @Column
+
     private String description;
     @ManyToOne
     @JoinColumn(name = "module_id", nullable = false)

@@ -1,8 +1,8 @@
 package com.juliana.gerenciamento_cursos.controller;
 
 import com.juliana.gerenciamento_cursos.domain.class_section.ClassSection;
-import com.juliana.gerenciamento_cursos.DTOs.ClassSectionRequestPayload;
-import com.juliana.gerenciamento_cursos.DTOs.ClassSectionResponse;
+import com.juliana.gerenciamento_cursos.DTOs.request_payload.ClassSectionRequestPayload;
+import com.juliana.gerenciamento_cursos.DTOs.response.ClassSectionResponse;
 import com.juliana.gerenciamento_cursos.service.ClassSectionService;
 import com.juliana.gerenciamento_cursos.domain.modules.Modules;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +19,13 @@ public class ClassSectionController {
     ClassSectionService service;
 
     @GetMapping("/modules/{id}")
-    public ResponseEntity<List<ClassSection>> showClassSectionOfModule(@PathVariable UUID moduleId){
+    public ResponseEntity<List<ClassSection>> showClassesOfModule(@PathVariable UUID moduleId){
         List<ClassSection> classes = service.showClassesOfModule(moduleId);
         return ResponseEntity.ok(classes);
     }
 
     @PostMapping("/register")
-    public ClassSectionResponse createNewModule(@RequestBody ClassSectionRequestPayload requestPayload, Modules module){
+    public ClassSectionResponse createNewClass(@RequestBody ClassSectionRequestPayload requestPayload, Modules module){
         return service.createNewClass(requestPayload, module);
     }
 

@@ -2,8 +2,8 @@ package com.juliana.gerenciamento_cursos.controller;
 
 import com.juliana.gerenciamento_cursos.domain.course.Course;
 import com.juliana.gerenciamento_cursos.domain.modules.Modules;
-import com.juliana.gerenciamento_cursos.DTOs.ModulesRequestPayload;
-import com.juliana.gerenciamento_cursos.DTOs.ModulesResponse;
+import com.juliana.gerenciamento_cursos.DTOs.request_payload.ModulesRequestPayload;
+import com.juliana.gerenciamento_cursos.DTOs.response.ModulesResponse;
 import com.juliana.gerenciamento_cursos.service.ModulesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

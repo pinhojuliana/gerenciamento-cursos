@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Setter
 @ToString
 public class Student extends Client {
-    @Column
+
     private String description;
 
     @Enumerated(EnumType.STRING)

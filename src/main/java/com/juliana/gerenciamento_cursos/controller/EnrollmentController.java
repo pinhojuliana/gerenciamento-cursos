@@ -1,10 +1,9 @@
 package com.juliana.gerenciamento_cursos.controller;
 
-import com.juliana.gerenciamento_cursos.domain.course.Course;
+import com.juliana.gerenciamento_cursos.DTOs.request_payload.EnrollmentRequestPayload;
 import com.juliana.gerenciamento_cursos.domain.enrollment.Enrollment;
-import com.juliana.gerenciamento_cursos.DTOs.EnrollmentResponse;
+import com.juliana.gerenciamento_cursos.DTOs.response.EnrollmentResponse;
 import com.juliana.gerenciamento_cursos.service.EnrollmentService;
-import com.juliana.gerenciamento_cursos.domain.client.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,19 +36,19 @@ public class EnrollmentController {
     }
 
     @GetMapping("/course/active?{id}")
-    public ResponseEntity<List<Enrollment>> showEnrollmentsActive(@PathVariable UUID courseId){
-        List<Enrollment> enrollments =  service.showStudentsActive(courseId);
+    public ResponseEntity<List<Enrollment>> showStudentsEnrollmentsActive(@PathVariable UUID courseId){
+        List<Enrollment> enrollments =  service.showStudentsEnrollmentsActive(courseId);
         return ResponseEntity.ok(enrollments);
     }
 
     @PostMapping("/subscrible")
-    public EnrollmentResponse subscribleStudentInCourse(@RequestBody Student student, @RequestBody Course course){
-        return service.enrollStudentInCourse(course, student);
+    public EnrollmentResponse enrollStudentInCourse(@RequestBody EnrollmentRequestPayload requestPayload){
+        return service.enrollStudentInCourse(requestPayload);
     }
 
-    @PutMapping("/unsubscrible")
-    public ResponseEntity<String> subscribleStudentInCourse(@RequestBody UUID studentId, @RequestBody UUID courseId){
-       service.unsubscribleStudentOfCourse(studentId, courseId);
+    @PutMapping("/unsubscribe")
+    public ResponseEntity<String> unsubscribeStudentInCourse(@RequestBody EnrollmentRequestPayload requestPayload){
+       service.unsubscribeStudentOfCourse(requestPayload);
        return ResponseEntity.ok("Esta inscrição foi inativada");
     }
 

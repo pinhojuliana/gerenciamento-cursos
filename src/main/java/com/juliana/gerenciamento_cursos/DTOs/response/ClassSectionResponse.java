@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.DTOs;
+package com.juliana.gerenciamento_cursos.DTOs.response;
 
 import java.util.UUID;
 

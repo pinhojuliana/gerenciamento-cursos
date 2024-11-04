@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.DTOs;
+package com.juliana.gerenciamento_cursos.DTOs.request_payload;
 
 import com.juliana.gerenciamento_cursos.domain.modules.Difficulty;
 
