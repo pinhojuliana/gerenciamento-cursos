@@ -1,12 +1,13 @@
 package com.juliana.gerenciamento_cursos.service;
 
-import com.juliana.gerenciamento_cursos.DTOs.request_payload.ClientRequestPayload;
+import com.juliana.gerenciamento_cursos.DTOs.request_payload.StudentRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.response.ClientResponse;
 import com.juliana.gerenciamento_cursos.domain.client.EducationalLevel;
 import com.juliana.gerenciamento_cursos.domain.client.Student;
 import com.juliana.gerenciamento_cursos.DTOs.StudentDTO;
 import com.juliana.gerenciamento_cursos.exceptions.*;
 import com.juliana.gerenciamento_cursos.repository.StudentRepository;
+import com.juliana.gerenciamento_cursos.util.AgeValidation;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,17 +21,17 @@ public class StudentService {
     @Autowired
     StudentRepository repository;
 
-    public ClientResponse createNewStudent(ClientRequestPayload userRequestPayload, String description, EducationalLevel educationalLevel) throws UnderageException {
-        validateUniqueUsername(userRequestPayload.username());
-        validateUniqueEmail(userRequestPayload.email());
+    public ClientResponse createNewStudent(StudentRequestPayload requestPayload) throws UnderageException {
+        validateUniqueUsername(requestPayload.username());
+        validateUniqueEmail(requestPayload.email());
 
-        Student newStudent = new Student(userRequestPayload.name(),
-                userRequestPayload.username(),
-                userRequestPayload.email(),
-                userRequestPayload.password(),
-                userRequestPayload.dateOfBirth(),
-                description,
-                educationalLevel);
+        Student newStudent = new Student(requestPayload.name(),
+                requestPayload.username(),
+                requestPayload.email(),
+                requestPayload.password(),
+                AgeValidation.validateAge(requestPayload.dateOfBirth()),
+                requestPayload.description(),
+                requestPayload.educationalLevel());
 
         repository.save(newStudent);
 
@@ -112,13 +113,13 @@ public class StudentService {
 
     private void validateUniqueUsername(String username) {
         if (repository.existsByUsername(username)) {
-            throw new UsernameAlreadyInUseException("Esse username está sendo utilizado por outro usuário");
+            throw new UsernameAlreadyInUseException("Esse username já está sendo utilizado por outro usuário");
         }
     }
 
     private void validateUniqueEmail(String email) {
         if (repository.existsByEmail(email)) {
-            throw new EmailAlreadyInUseException("Esse e-mail está sendo utilizado por outro usuário");
+            throw new EmailAlreadyInUseException("Esse e-mail já está sendo utilizado por outro usuário");
         }
     }
 
