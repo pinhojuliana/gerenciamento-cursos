@@ -1,6 +1,6 @@
 package com.juliana.gerenciamento_cursos.service;
 
-import com.juliana.gerenciamento_cursos.DTOs.request_payload.ClientRequestPayload;
+import com.juliana.gerenciamento_cursos.DTOs.request_payload.TeacherRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.response.ClientResponse;
 import com.juliana.gerenciamento_cursos.domain.course.Course;
 import com.juliana.gerenciamento_cursos.domain.client.Teacher;
@@ -28,7 +28,7 @@ public class TeacherService {
     @Autowired
     CourseRepository courseRepository;
 
-    public ClientResponse createNewTeacher(ClientRequestPayload userRequestPayload) throws UnderageException {
+    public ClientResponse createNewTeacher(TeacherRequestPayload userRequestPayload) throws UnderageException {
         validateUniqueUsername(userRequestPayload.username());
         validateUniqueEmail(userRequestPayload.email());
 
