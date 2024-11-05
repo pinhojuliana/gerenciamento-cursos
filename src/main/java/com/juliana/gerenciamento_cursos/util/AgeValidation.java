@@ -11,6 +11,6 @@ public class AgeValidation {
         if (Period.between(dateOfBirth, currentlyDay).getYears() >= 18) {
             return dateOfBirth;
         }
-        throw new UnderageException("Menores de 18 anos não podem se inscrever na plataforma");
+        throw new UnderageException("Você precisa ter no mínimo 18 anos para se inscrever na plataforma");
     }
 }
