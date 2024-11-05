@@ -1,9 +1,13 @@
 package com.juliana.gerenciamento_cursos.controller;
 
-import com.juliana.gerenciamento_cursos.DTOs.request_payload.ClientRequestPayload;
+import com.juliana.gerenciamento_cursos.DTOs.EmailUpdateRequest;
+import com.juliana.gerenciamento_cursos.DTOs.PasswordUpdateRequest;
+import com.juliana.gerenciamento_cursos.DTOs.UsernameUpdateRequest;
+import com.juliana.gerenciamento_cursos.DTOs.request_payload.TeacherRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.response.ClientResponse;
 import com.juliana.gerenciamento_cursos.DTOs.TeacherDTO;
 import com.juliana.gerenciamento_cursos.service.TeacherService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +40,8 @@ public class TeacherController {
     }
 
     @PostMapping("/register")
-    public ClientResponse createTeacher(@RequestBody ClientRequestPayload clientRequestPayload) {
-        return service.createNewTeacher(clientRequestPayload);
+    public ClientResponse createTeacher(@RequestBody TeacherRequestPayload teacherRequestPayload) {
+        return service.createNewTeacher(teacherRequestPayload);
     }
 
     @PutMapping("/{id}/add-skill")
@@ -47,20 +51,20 @@ public class TeacherController {
     }
 
     @PutMapping("/{id}/username")
-    public ResponseEntity<String> updateTeacherUsername(@PathVariable UUID id, @RequestBody String username){
-        service.updateTeacherUsername(id, username);
+    public ResponseEntity<String> updateTeacherUsername(@PathVariable UUID id, @Valid @RequestBody UsernameUpdateRequest usernameUpdateRequest){
+        service.updateTeacherUsername(id, usernameUpdateRequest.username());
         return ResponseEntity.ok("Nome de usuario atualizado com sucesso");
     }
 
     @PutMapping("/{id}/email")
-    public ResponseEntity<String> updateTeacherEmail(@PathVariable UUID id, @RequestBody String email){
-        service.updateTeacherEmail(id, email);
+    public ResponseEntity<String> updateTeacherEmail(@PathVariable UUID id,@Valid @RequestBody EmailUpdateRequest emailUpdateRequest){
+        service.updateTeacherEmail(id, emailUpdateRequest.email());
         return ResponseEntity.ok("Email atualizado com sucesso");
     }
 
     @PutMapping("/{id}/password")
-    public ResponseEntity<String> updateTeacherPassword(@PathVariable UUID id, @RequestBody String oldPassword, @RequestBody String newPassword){
-        service.updateTeacherPassword(id, oldPassword,newPassword);
+    public ResponseEntity<String> updateTeacherPassword(@PathVariable UUID id, @Valid @RequestBody PasswordUpdateRequest passwordUpdateRequest){
+        service.updateTeacherPassword(id, passwordUpdateRequest.oldPassword(), passwordUpdateRequest.newPassword());
         return ResponseEntity.ok("Senha atualizada com sucesso");
     }
 
