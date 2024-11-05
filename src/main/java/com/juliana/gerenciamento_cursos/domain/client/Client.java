@@ -1,7 +1,5 @@
 package com.juliana.gerenciamento_cursos.domain.client;
 
-import com.juliana.gerenciamento_cursos.exceptions.UnderageException;
-import com.juliana.gerenciamento_cursos.util.AgeValidation;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -48,12 +46,12 @@ public class Client implements Comparable<Client>{
     @CreationTimestamp
     protected LocalDateTime createdAt;
 
-    public Client(String name, String username, String email, String password, LocalDate dateOfBirth) throws UnderageException {
+    public Client(String name, String username, String email, String password, LocalDate dateOfBirth){
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.dateOfBirth = AgeValidation.validateAge(dateOfBirth);
+        this.dateOfBirth = dateOfBirth;
     }
 
     @Override

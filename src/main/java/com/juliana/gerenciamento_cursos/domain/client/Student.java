@@ -21,7 +21,7 @@ public class Student extends Client {
     @Column(name = "educational_level")
     private EducationalLevel educationalLevel;
 
-    public Student(String name, String username, String email, String password, LocalDate dateOfBirth, String description, EducationalLevel educationalLevel) throws UnderageException {
+    public Student(String name, String username, String email, String password, LocalDate dateOfBirth, String description, EducationalLevel educationalLevel) {
         super(name, username, email, password, dateOfBirth);
         this.description = description;
         this.educationalLevel = educationalLevel;

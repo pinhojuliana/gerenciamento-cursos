@@ -20,7 +20,7 @@ public class Teacher extends Client {
     @Column(name = "skill")
     private Set<String> skills;
 
-    public Teacher(String name, String username, String email, String password, LocalDate dateOfBirth) throws UnderageException {
+    public Teacher(String name, String username, String email, String password, LocalDate dateOfBirth) {
         super(name, username, email, password, dateOfBirth);
         this.skills = new HashSet<>();
     }
