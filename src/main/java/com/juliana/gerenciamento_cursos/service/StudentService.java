@@ -16,10 +16,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class StudentService {
-    @Autowired
-    StudentRepository repository;
+    private final StudentRepository repository;
 
     public ClientResponse createNewStudent(StudentRequestPayload requestPayload) throws UnderageException {
         validateUniqueUsername(requestPayload.username());
