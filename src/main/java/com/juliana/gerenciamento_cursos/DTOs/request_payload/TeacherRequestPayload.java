@@ -4,7 +4,7 @@ import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
-public record ClientRequestPayload(
+public record TeacherRequestPayload(
         @NotNull(message = "O nome é obrigatório")
         @Size(min = 2, message = "O nome deve ter no mínimo 2 caracteres")
         String name,
