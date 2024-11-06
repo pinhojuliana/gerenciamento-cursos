@@ -10,6 +10,7 @@ import lombok.ToString;
 import java.util.UUID;
 
 @Entity
+@Table(name = "unit")
 @NoArgsConstructor
 @ToString
 @Getter

@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.DTOs;
+package com.juliana.gerenciamento_cursos.DTOs.update_request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

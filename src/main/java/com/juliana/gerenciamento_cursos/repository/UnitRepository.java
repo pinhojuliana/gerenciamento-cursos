@@ -1,6 +1,6 @@
 package com.juliana.gerenciamento_cursos.repository;
 
-import com.juliana.gerenciamento_cursos.domain.modules.Modules;
+import com.juliana.gerenciamento_cursos.domain.unit.Unit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ModulesRepository extends JpaRepository<Modules, UUID> {
-    List<Modules> findByTitle(String title);
-    Optional<List<Modules>> findByCourseId(UUID courseId);
+public interface ModulesRepository extends JpaRepository<Unit, UUID> {
+    List<Unit> findByTitle(String title);
+    Optional<List<Unit>> findByCourseId(UUID courseId);
 }

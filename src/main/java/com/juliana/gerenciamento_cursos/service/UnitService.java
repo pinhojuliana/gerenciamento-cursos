@@ -1,7 +1,7 @@
 package com.juliana.gerenciamento_cursos.service;
 
 import com.juliana.gerenciamento_cursos.domain.course.Course;
-import com.juliana.gerenciamento_cursos.domain.modules.Modules;
+import com.juliana.gerenciamento_cursos.domain.unit.Unit;
 import com.juliana.gerenciamento_cursos.DTOs.request_payload.ModulesRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.response.ModulesResponse;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
@@ -18,7 +18,7 @@ public class ModulesService {
     private final ModulesRepository repository;
 
     public ModulesResponse createNewModule(ModulesRequestPayload moduleRequestPayload, Course course){
-        Modules newModule = new Modules(moduleRequestPayload.title(), moduleRequestPayload.description(), moduleRequestPayload.difficulty(), course);
+        Unit newModule = new Unit(moduleRequestPayload.title(), moduleRequestPayload.description(), moduleRequestPayload.difficulty(), course);
         repository.save(newModule);
 
         return new ModulesResponse(newModule.getId());
@@ -29,13 +29,13 @@ public class ModulesService {
         repository.deleteById(id);
     }
 
-    public List<Modules> findModulesByCourse(UUID courseId){
+    public List<Unit> findModulesByCourse(UUID courseId){
        return repository.findByCourseId(courseId)
                .orElseThrow(() -> new InexistentOptionException("Nenhum modulo encontrado"));
     }
 
-    public List<Modules> findModuleCourse(UUID courseId, String title) throws InexistentOptionException {
-        List<Modules> modules = findModulesByCourse(courseId);
+    public List<Unit> findModuleCourse(UUID courseId, String title) throws InexistentOptionException {
+        List<Unit> modules = findModulesByCourse(courseId);
         return modules.stream()
                 .filter(m -> m.getTitle().equalsIgnoreCase(title))
                 .toList();
