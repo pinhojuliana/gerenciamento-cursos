@@ -1,5 +1,6 @@
 package com.juliana.gerenciamento_cursos.controller;
 
+import com.juliana.gerenciamento_cursos.DTOs.CourseDTO;
 import com.juliana.gerenciamento_cursos.DTOs.update_request.EmailUpdateRequest;
 import com.juliana.gerenciamento_cursos.DTOs.update_request.PasswordUpdateRequest;
 import com.juliana.gerenciamento_cursos.DTOs.update_request.UsernameUpdateRequest;
@@ -34,8 +35,8 @@ public class TeacherController {
     }
 
     @GetMapping("courses-taught/{id}")
-    public ResponseEntity<List<String>> showAllCoursesTaught(@PathVariable UUID id){
-        List<String> courses = service.showAllCoursesTaught(id);
+    public ResponseEntity<List<CourseDTO>> showAllCoursesTaught(@PathVariable UUID id){
+        List<CourseDTO> courses = service.showAllCoursesTaught(id);
         return ResponseEntity.ok(courses);
     }
 

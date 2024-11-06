@@ -1,9 +1,10 @@
 package com.juliana.gerenciamento_cursos.service;
 
+import com.juliana.gerenciamento_cursos.DTOs.CourseDTO;
+import com.juliana.gerenciamento_cursos.DTOs.TeacherDTO;
 import com.juliana.gerenciamento_cursos.domain.course.Course;
 import com.juliana.gerenciamento_cursos.DTOs.request_payload.CourseRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.response.CourseResponse;
-import com.juliana.gerenciamento_cursos.domain.client.Teacher;
 import com.juliana.gerenciamento_cursos.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.repository.TeacherRepository;
 import com.juliana.gerenciamento_cursos.repository.TeacherCourseRepository;
@@ -51,19 +52,20 @@ public class CourseService {
         repository.save(course);
     }
 
-    public List<Course> showCourses() {
+    public List<CourseDTO> showCourses() {
         List<Course> courses = repository.findAll();
 
         if(courses.isEmpty()){
             throw new EmptyListException("Nenhum curso encontrado");
         }
 
-        return  courses;
+        return courses.stream().map(this::convertToDTO).toList();
     }
 
-    public Course findCourseByTitle(String title){
-        return repository.findByTitle(title)
+    public CourseDTO findCourseByTitle(String title){
+        Course course = repository.findByTitle(title)
                 .orElseThrow(()-> new InexistentOptionException("Nenhum curso encontrado"));
+        return convertToDTO(course);
     }
 
     public void addTeacher(UUID teacherId, UUID courseId){
@@ -74,7 +76,7 @@ public class CourseService {
         teacherCourseRepository.removeTeacherFromCourse(teacherId, courseId);
     }
 
-    public List<String> showTeachersOfCourse(UUID courseId) throws InexistentOptionException {
+    public List<TeacherDTO> showTeachersOfCourse(UUID courseId) throws InexistentOptionException {
         List<UUID> idTeachers = teacherCourseRepository.findTeachersByCourseId(courseId);
 
         if(idTeachers.isEmpty()){
@@ -89,7 +91,7 @@ public class CourseService {
                         throw new RuntimeException(e);
                     }
                 })
-                .map(Teacher::getName)
+                .map(t -> new TeacherDTO(t.getName(), t.getUsername(), t.getUsername(), t.getDateOfBirth(), t.getSkills()))
                 .toList();
     }
 
@@ -102,5 +104,11 @@ public class CourseService {
     private Course validateId(UUID id){
         return repository.findById(id)
                 .orElseThrow(() -> new InexistentOptionException("Esse curso não existe"));
+    }
+
+    private CourseDTO convertToDTO(Course course){
+        return new CourseDTO(course.getTitle(),
+                course.getDescription(),
+                course.getCreatedAt());
     }
 }

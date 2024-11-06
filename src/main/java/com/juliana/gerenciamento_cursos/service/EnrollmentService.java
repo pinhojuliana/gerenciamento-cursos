@@ -1,5 +1,6 @@
 package com.juliana.gerenciamento_cursos.service;
 
+import com.juliana.gerenciamento_cursos.DTOs.EnrollmentDTO;
 import com.juliana.gerenciamento_cursos.DTOs.request_payload.EnrollmentRequestPayload;
 import com.juliana.gerenciamento_cursos.domain.course.Course;
 import com.juliana.gerenciamento_cursos.domain.enrollment.Enrollment;
@@ -39,35 +40,49 @@ public class EnrollmentService {
         return new EnrollmentResponse(newEnrollment.getId());
     }
 
-    public List<Enrollment> showAllEnrollments(){
+    public List<EnrollmentDTO> showAllEnrollments(){
         List<Enrollment> enrollments = repository.findAll();
         if(enrollments.isEmpty()){
             throw new EmptyListException("Nenhuma inscrição encontrada");
         }
-        return enrollments;
+        return enrollments.stream()
+                .map(this::convertToDTO)
+                .toList();
     }
 
-    public List<Enrollment> showCourseEnrollments(UUID courseId) {
+    public List<EnrollmentDTO> showCourseEnrollments(UUID courseId) {
         if (repository.existsByCourseId(courseId)) {
-            return repository.
+            List<Enrollment> enrollments = repository.
                     findByCourseId(courseId)
                     .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse curso"));
+
+            return enrollments.stream()
+                    .map(this::convertToDTO)
+                    .toList();
         }
         throw new InexistentOptionException("Esse curso não existe");
     }
 
-    public List<Enrollment> showStudentEnrollments(UUID studentId){
+    public List<EnrollmentDTO> showStudentEnrollments(UUID studentId){
         if (repository.existsByStudentId(studentId)) {
-            return repository.findByStudentId(studentId)
+            List<Enrollment> enrollments = repository.findByStudentId(studentId)
                     .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse aluno"));
+
+            return enrollments.stream()
+                    .map(this::convertToDTO)
+                    .toList();
         }
         throw new InexistentOptionException("Esse aluno não existe");
     }
 
-    public List<Enrollment> showStudentsEnrollmentsActive(UUID courseId) {
-        return showCourseEnrollments(courseId)
-                .stream()
+    public List<EnrollmentDTO> showStudentsEnrollmentsActive(UUID courseId) {
+        List<Enrollment> enrollments = repository.
+                findByCourseId(courseId)
+                .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse curso"));
+
+        return enrollments.stream()
                 .filter(Enrollment::isActive)
+                .map(this::convertToDTO)
                 .toList();
     }
 
@@ -81,5 +96,14 @@ public class EnrollmentService {
       enrollment.setActive(false);
       repository.save(enrollment);
 
+    }
+
+    private EnrollmentDTO convertToDTO(Enrollment enrollment){
+        return new EnrollmentDTO(enrollment.getCourse().getTitle(),
+                enrollment.getStudent().getUsername(),
+                enrollment.getEnrollmentDateTime(),
+                enrollment.getDeadlineForCompletion(),
+                enrollment.getDuration(),
+                enrollment.isActive());
     }
 }

@@ -1,6 +1,7 @@
 package com.juliana.gerenciamento_cursos.controller;
 
-import com.juliana.gerenciamento_cursos.domain.course.Course;
+import com.juliana.gerenciamento_cursos.DTOs.CourseDTO;
+import com.juliana.gerenciamento_cursos.DTOs.TeacherDTO;
 import com.juliana.gerenciamento_cursos.DTOs.request_payload.CourseRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.response.CourseResponse;
 import com.juliana.gerenciamento_cursos.service.CourseService;
@@ -18,20 +19,20 @@ public class CourseController {
     CourseService service;
 
     @GetMapping
-    public ResponseEntity<List<Course>> showCourses(){
-        List<Course> courses = service.showCourses();
+    public ResponseEntity<List<CourseDTO>> showCourses(){
+        List<CourseDTO> courses = service.showCourses();
         return ResponseEntity.ok(courses);
     }
 
     @GetMapping("/{title}")
-    public ResponseEntity<Course> findCourseByTitle(@PathVariable String title){
-       Course course = service.findCourseByTitle(title);
+    public ResponseEntity<CourseDTO> findCourseByTitle(@PathVariable String title){
+       CourseDTO course = service.findCourseByTitle(title);
         return ResponseEntity.ok(course);
     }
 
     @GetMapping("/teachers/{id}")
-    public ResponseEntity<List<String>> showTeachersOfCourse(@PathVariable UUID id){
-        List<String> teachers = service.showTeachersOfCourse(id);
+    public ResponseEntity<List<TeacherDTO>> showTeachersOfCourse(@PathVariable UUID id){
+        List<TeacherDTO> teachers = service.showTeachersOfCourse(id);
         return ResponseEntity.ok(teachers);
     }
 

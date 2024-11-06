@@ -1,10 +1,12 @@
 package com.juliana.gerenciamento_cursos.service;
 
+import com.juliana.gerenciamento_cursos.DTOs.UnitDTO;
 import com.juliana.gerenciamento_cursos.domain.course.Course;
 import com.juliana.gerenciamento_cursos.domain.unit.Unit;
 import com.juliana.gerenciamento_cursos.DTOs.request_payload.UnitRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.response.UnitResponse;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
+import com.juliana.gerenciamento_cursos.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.repository.UnitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,10 @@ import java.util.UUID;
 public class UnitService {
     private final UnitRepository repository;
 
-    public UnitResponse createNewUnit(UnitRequestPayload requestPayload, Course course){
+    private final CourseRepository courseRepository;
+
+    public UnitResponse createNewUnit(UnitRequestPayload requestPayload){
+        Course course = courseRepository.findById(requestPayload.courseId()).orElseThrow(() -> new InexistentOptionException("Curso não encontrado"));
         Unit newUnit = new Unit(requestPayload.title(), requestPayload.description(), requestPayload.difficulty(), course);
         repository.save(newUnit);
 
@@ -29,15 +34,22 @@ public class UnitService {
         repository.deleteById(id);
     }
 
-    public List<Unit> findUnitsByCourse(UUID courseId){
-       return repository.findByCourseId(courseId)
+    public List<UnitDTO> findUnitsByCourse(UUID courseId){
+        List<Unit> units = repository.findByCourseId(courseId)
                .orElseThrow(() -> new InexistentOptionException("Nenhum modulo encontrado"));
+
+        return units.stream()
+                .map(this::convertToDTO)
+                .toList();
     }
 
-    public List<Unit> findUnitCourse(UUID courseId, String title) throws InexistentOptionException {
-        List<Unit> units = findUnitsByCourse(courseId);
+    public List<UnitDTO> findUnitCourse(UUID courseId, String title) throws InexistentOptionException {
+        List<Unit> units = repository.findByCourseId(courseId)
+                .orElseThrow(() -> new InexistentOptionException("Nenhum modulo encontrado"));
+
         return units.stream()
                 .filter(m -> m.getTitle().equalsIgnoreCase(title))
+                .map(this::convertToDTO)
                 .toList();
     }
 
@@ -45,6 +57,13 @@ public class UnitService {
         if (!repository.existsById(id)) {
             throw new InexistentOptionException("Modulo não encontrado");
         }
+    }
+
+    private UnitDTO convertToDTO(Unit unit){
+        return new UnitDTO(unit.getTitle(),
+                unit.getDescription(),
+                unit.getDifficulty().getName(),
+                unit.getCourse().getTitle());
     }
 
 }

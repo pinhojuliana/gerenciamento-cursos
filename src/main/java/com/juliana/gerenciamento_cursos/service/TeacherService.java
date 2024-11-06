@@ -1,5 +1,6 @@
 package com.juliana.gerenciamento_cursos.service;
 
+import com.juliana.gerenciamento_cursos.DTOs.CourseDTO;
 import com.juliana.gerenciamento_cursos.DTOs.request_payload.TeacherRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.response.ClientResponse;
 import com.juliana.gerenciamento_cursos.domain.course.Course;
@@ -109,7 +110,7 @@ public class TeacherService {
         return teachers;
     }
 
-    public List<String> showAllCoursesTaught(UUID teacherId) throws InexistentOptionException {
+    public List<CourseDTO> showAllCoursesTaught(UUID teacherId) throws InexistentOptionException {
         List<UUID> idCourses = teacherCourseRepository.findCoursesByTeacherId(teacherId);
 
         if(idCourses.isEmpty()){
@@ -124,7 +125,7 @@ public class TeacherService {
                         throw new RuntimeException(e);
                     }
                 })
-                .map(Course::getTitle)
+                .map(c -> new CourseDTO(c.getTitle(), c.getDescription(), c.getCreatedAt()))
                 .toList();
     }
 

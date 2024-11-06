@@ -1,9 +1,8 @@
 package com.juliana.gerenciamento_cursos.controller;
 
+import com.juliana.gerenciamento_cursos.DTOs.UnitDTO;
 import com.juliana.gerenciamento_cursos.DTOs.request_payload.UnitRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.response.UnitResponse;
-import com.juliana.gerenciamento_cursos.domain.course.Course;
-import com.juliana.gerenciamento_cursos.domain.unit.Unit;
 import com.juliana.gerenciamento_cursos.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,19 +18,19 @@ public class UnitController {
     UnitService service;
 
     @GetMapping("/course/{id}")
-    public ResponseEntity<List<Unit>> findUnitsByCourse(@PathVariable UUID courseId){
-        List<Unit> modules = service.findUnitsByCourse(courseId);
+    public ResponseEntity<List<UnitDTO>> findUnitsByCourse(@PathVariable UUID courseId){
+        List<UnitDTO> modules = service.findUnitsByCourse(courseId);
         return ResponseEntity.ok(modules);
     }
 
     @PostMapping("/register")
-    public UnitResponse createNewUnit(@RequestBody UnitRequestPayload moduleRequestPayload, Course course){
-        return service.createNewUnit(moduleRequestPayload, course);
+    public UnitResponse createNewUnit(@RequestBody UnitRequestPayload requestPayload){
+        return service.createNewUnit(requestPayload);
     }
 
     @PostMapping("/course/{id}")
-    public ResponseEntity<List<Unit>> findUnitsCourse(@PathVariable UUID courseId, @RequestBody String moduleTitle){
-        List<Unit> modules = service.findUnitCourse(courseId, moduleTitle);
+    public ResponseEntity<List<UnitDTO>> findUnitsCourse(@PathVariable UUID courseId, @RequestBody String moduleTitle){
+        List<UnitDTO> modules = service.findUnitCourse(courseId, moduleTitle);
         return ResponseEntity.ok(modules);
     }
 

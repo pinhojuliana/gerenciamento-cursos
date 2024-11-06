@@ -1,5 +1,6 @@
 package com.juliana.gerenciamento_cursos.controller;
 
+import com.juliana.gerenciamento_cursos.DTOs.EnrollmentDTO;
 import com.juliana.gerenciamento_cursos.DTOs.request_payload.EnrollmentRequestPayload;
 import com.juliana.gerenciamento_cursos.domain.enrollment.Enrollment;
 import com.juliana.gerenciamento_cursos.DTOs.response.EnrollmentResponse;
@@ -18,26 +19,26 @@ public class EnrollmentController {
     EnrollmentService service;
 
     @GetMapping
-    public ResponseEntity<List<Enrollment>> showAllEnrollments(){
-        List<Enrollment> enrollments = service.showAllEnrollments();
+    public ResponseEntity<List<EnrollmentDTO>> showAllEnrollments(){
+        List<EnrollmentDTO> enrollments = service.showAllEnrollments();
         return ResponseEntity.ok(enrollments);
     }
 
     @GetMapping("/course/{id}")
-    public ResponseEntity<List<Enrollment>> showEnrollmentsCourse(@PathVariable UUID courseId){
-        List<Enrollment> enrollments =  service.showCourseEnrollments(courseId);
+    public ResponseEntity<List<EnrollmentDTO>> showEnrollmentsCourse(@PathVariable UUID courseId){
+        List<EnrollmentDTO> enrollments =  service.showCourseEnrollments(courseId);
         return ResponseEntity.ok(enrollments);
     }
 
     @GetMapping("/student/{id}")
-    public ResponseEntity<List<Enrollment>> showEnrollmentsStudent(@PathVariable UUID studentId){
-        List<Enrollment> enrollments =  service.showStudentEnrollments(studentId);
+    public ResponseEntity<List<EnrollmentDTO>> showEnrollmentsStudent(@PathVariable UUID studentId){
+        List<EnrollmentDTO> enrollments =  service.showStudentEnrollments(studentId);
         return ResponseEntity.ok(enrollments);
     }
 
     @GetMapping("/course/active?{id}")
-    public ResponseEntity<List<Enrollment>> showStudentsEnrollmentsActive(@PathVariable UUID courseId){
-        List<Enrollment> enrollments =  service.showStudentsEnrollmentsActive(courseId);
+    public ResponseEntity<List<EnrollmentDTO>> showStudentsEnrollmentsActive(@PathVariable UUID courseId){
+        List<EnrollmentDTO> enrollments =  service.showStudentsEnrollmentsActive(courseId);
         return ResponseEntity.ok(enrollments);
     }
 
