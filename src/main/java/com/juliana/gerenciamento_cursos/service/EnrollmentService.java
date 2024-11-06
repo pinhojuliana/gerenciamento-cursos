@@ -11,24 +11,20 @@ import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.repository.EnrollmentRepository;
 import com.juliana.gerenciamento_cursos.repository.StudentRepository;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class EnrollmentService {
-    @Autowired
-    EnrollmentRepository repository;
+    private final EnrollmentRepository repository;
 
-    @Autowired
-    StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
-    @Autowired
-    CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
 
     public EnrollmentResponse enrollStudentInCourse(EnrollmentRequestPayload requestPayload){
         Course course = courseRepository.findById(requestPayload.courseId()).orElseThrow(()-> new InexistentOptionException("Curso não encontrado"));

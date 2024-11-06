@@ -3,31 +3,26 @@ package com.juliana.gerenciamento_cursos.service;
 import com.juliana.gerenciamento_cursos.DTOs.CourseDTO;
 import com.juliana.gerenciamento_cursos.DTOs.request_payload.TeacherRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.response.ClientResponse;
-import com.juliana.gerenciamento_cursos.domain.course.Course;
 import com.juliana.gerenciamento_cursos.domain.client.Teacher;
 import com.juliana.gerenciamento_cursos.DTOs.TeacherDTO;
 import com.juliana.gerenciamento_cursos.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.repository.TeacherCourseRepository;
 import com.juliana.gerenciamento_cursos.exceptions.*;
 import com.juliana.gerenciamento_cursos.repository.TeacherRepository;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class TeacherService {
-    @Autowired
-    TeacherRepository repository;
+    private final TeacherRepository repository;
 
-    @Autowired
-    TeacherCourseRepository teacherCourseRepository;
+    private final TeacherCourseRepository teacherCourseRepository;
 
-    @Autowired
-    CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
 
     public ClientResponse createNewTeacher(TeacherRequestPayload userRequestPayload) throws UnderageException {
         validateUniqueUsername(userRequestPayload.username());
@@ -50,7 +45,7 @@ public class TeacherService {
     }
 
     public void addSkill(UUID id, String skill) throws InexistentOptionException {
-        if(validateSkill(skill)){
+        if(validateSkill(id, skill)){
             throw new RuntimeException(String.format("A skill '%s' já existe neste perfil", skill));
         }
         Teacher teacher = validateId(id);
@@ -59,7 +54,7 @@ public class TeacherService {
     }
 
     public void removeSkill(UUID id, String skill) throws InexistentOptionException {
-        if(!validateSkill(skill)){
+        if(!validateSkill(id, skill)){
             throw new InexistentOptionException(String.format("A skill '%s' não foi encontrada", skill));
         }
         Teacher teacher = validateId(id);
@@ -166,7 +161,7 @@ public class TeacherService {
         );
     }
 
-    private boolean validateSkill(String skill){
-        return repository.existsSkill(skill);
+    private boolean validateSkill(UUID id, String skill){
+        return repository.existsSkill(id, skill);
     }
 }

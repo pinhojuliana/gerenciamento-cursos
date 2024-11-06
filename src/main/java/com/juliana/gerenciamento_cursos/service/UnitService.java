@@ -8,21 +8,18 @@ import com.juliana.gerenciamento_cursos.DTOs.response.UnitResponse;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.repository.UnitRepository;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class UnitService {
-    @Autowired
-    UnitRepository repository;
+    private final UnitRepository repository;
 
-    @Autowired
-    CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
 
     public UnitResponse createNewUnit(UnitRequestPayload requestPayload){
         Course course = courseRepository.findById(requestPayload.courseId()).orElseThrow(() -> new InexistentOptionException("Curso não encontrado"));

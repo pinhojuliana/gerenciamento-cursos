@@ -484,7 +484,7 @@ class StudentServiceTest {
                 LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
-        StudentDTO studentFound = service.searchStudent(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"));
+        StudentDTO studentFound = service.searchStudentId(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"));
 
         assertEquals(student.getUsername(), studentFound.username());
 
@@ -497,7 +497,7 @@ class StudentServiceTest {
         when(repository.findById(any())).thenThrow(new InexistentOptionException("Esse id não foi encontrado"));
 
         Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
-            service.searchStudent(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"));
+            service.searchStudentId(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"));
         });
 
         verify(repository, times(1)).findById(any());

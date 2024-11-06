@@ -19,6 +19,7 @@ public class Lesson {
     private UUID id;
     @Column(nullable = false)
     private String title;
+    @Column
     private String description;
     @ManyToOne
     @JoinColumn(name = "unit_id", nullable = false)
