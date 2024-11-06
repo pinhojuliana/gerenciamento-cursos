@@ -6,16 +6,18 @@ import com.juliana.gerenciamento_cursos.domain.lesson.Lesson;
 import com.juliana.gerenciamento_cursos.domain.unit.Unit;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.repository.LessonRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class LessonService {
-   private final LessonRepository repository;
+    @Autowired
+    LessonRepository repository;
 
     public LessonResponse createNewLesson(LessonRequestPayload lessonRequestPayload, Unit unit){
         Lesson newLesson = new Lesson(lessonRequestPayload.title(), lessonRequestPayload.description(), unit);

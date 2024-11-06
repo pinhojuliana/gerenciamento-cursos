@@ -12,20 +12,24 @@ import com.juliana.gerenciamento_cursos.exceptions.EmptyListException;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.exceptions.NoUpdateRequiredException;
 import com.juliana.gerenciamento_cursos.exceptions.TitleAlreadyInUseException;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class CourseService {
-    private final CourseRepository repository;
+    @Autowired
+    CourseRepository repository;
 
-    private final TeacherCourseRepository teacherCourseRepository;
+    @Autowired
+    TeacherCourseRepository teacherCourseRepository;
 
-    private final TeacherRepository teacherRepository;
+    @Autowired
+    TeacherRepository teacherRepository;
 
     public CourseResponse createNewCourse(CourseRequestPayload courseRequestPayload){
         validateUniqueTitle(courseRequestPayload.title());

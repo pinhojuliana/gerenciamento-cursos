@@ -8,16 +8,19 @@ import com.juliana.gerenciamento_cursos.DTOs.StudentDTO;
 import com.juliana.gerenciamento_cursos.exceptions.*;
 import com.juliana.gerenciamento_cursos.repository.StudentRepository;
 import com.juliana.gerenciamento_cursos.util.AgeValidation;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class StudentService {
-    private final StudentRepository repository;
+    @Autowired
+    StudentRepository repository;
 
     public ClientResponse createNewStudent(StudentRequestPayload requestPayload) throws UnderageException {
         validateUniqueUsername(requestPayload.username());

@@ -10,20 +10,24 @@ import com.juliana.gerenciamento_cursos.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.repository.TeacherCourseRepository;
 import com.juliana.gerenciamento_cursos.exceptions.*;
 import com.juliana.gerenciamento_cursos.repository.TeacherRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class TeacherService {
-    private final TeacherRepository repository;
+    @Autowired
+    TeacherRepository repository;
 
-    private final TeacherCourseRepository teacherCourseRepository;
+    @Autowired
+    TeacherCourseRepository teacherCourseRepository;
 
-    private final CourseRepository courseRepository;
+    @Autowired
+    CourseRepository courseRepository;
 
     public ClientResponse createNewTeacher(TeacherRequestPayload userRequestPayload) throws UnderageException {
         validateUniqueUsername(userRequestPayload.username());
