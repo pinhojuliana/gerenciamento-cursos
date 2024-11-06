@@ -1,4 +1,6 @@
 package com.juliana.gerenciamento_cursos.DTOs;
 
-public record CourseDTO() {
+import java.time.LocalDateTime;
+
+public record CourseDTO(String title, String description, LocalDateTime createdAt) {
 }
