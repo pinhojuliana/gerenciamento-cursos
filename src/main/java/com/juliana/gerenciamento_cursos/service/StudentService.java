@@ -8,18 +8,16 @@ import com.juliana.gerenciamento_cursos.DTOs.StudentDTO;
 import com.juliana.gerenciamento_cursos.exceptions.*;
 import com.juliana.gerenciamento_cursos.repository.StudentRepository;
 import com.juliana.gerenciamento_cursos.util.AgeValidation;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class StudentService {
-    @Autowired
-    StudentRepository repository;
+    private final StudentRepository repository;
 
     public ClientResponse createNewStudent(StudentRequestPayload requestPayload) throws UnderageException {
         validateUniqueUsername(requestPayload.username());
@@ -105,7 +103,7 @@ public class StudentService {
         return students;
     }
 
-    public StudentDTO searchStudent(UUID id) throws InexistentOptionException {
+    public StudentDTO searchStudentId(UUID id) throws InexistentOptionException {
         return repository.findById(id)
                 .map(s -> new StudentDTO(s.getName(), s.getUsername(), s.getEmail(), s.getDateOfBirth(), s.getDescription(), s.getEducationalLevel()))
                 .orElseThrow(() -> new InexistentOptionException("Esse id não foi encontrado"));

@@ -6,18 +6,16 @@ import com.juliana.gerenciamento_cursos.DTOs.request_payload.ModulesRequestPaylo
 import com.juliana.gerenciamento_cursos.DTOs.response.ModulesResponse;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.repository.ModulesRepository;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class ModulesService {
-    @Autowired
-    ModulesRepository repository;
+    private final ModulesRepository repository;
 
     public ModulesResponse createNewModule(ModulesRequestPayload moduleRequestPayload, Course course){
         Modules newModule = new Modules(moduleRequestPayload.title(), moduleRequestPayload.description(), moduleRequestPayload.difficulty(), course);
@@ -43,17 +41,10 @@ public class ModulesService {
                 .toList();
     }
 
-    public List<Modules> findModule(String title) throws InexistentOptionException {
-        List<Modules> modules = repository.findByTitle(title);
-        if(modules.isEmpty()){
+    private void validateId(UUID id){
+        if (!repository.existsById(id)) {
             throw new InexistentOptionException("Modulo não encontrado");
         }
-        return modules;
-    }
-
-    private Modules validateId(UUID id){
-        return repository.findById(id)
-                .orElseThrow(() -> new InexistentOptionException("Modulo não encontrado"));
     }
 
 }

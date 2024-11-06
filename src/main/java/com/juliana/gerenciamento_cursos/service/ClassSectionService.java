@@ -6,16 +6,16 @@ import com.juliana.gerenciamento_cursos.DTOs.response.ClassSectionResponse;
 import com.juliana.gerenciamento_cursos.domain.modules.Modules;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.repository.ClassSectionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class ClassSectionService {
-    @Autowired
-    ClassSectionRepository repository;
+   private final ClassSectionRepository repository;
 
     public ClassSectionResponse createNewClass(ClassSectionRequestPayload classRequestPayload, Modules modules){
         ClassSection newClass = new ClassSection(classRequestPayload.title(), classRequestPayload.description(), modules);

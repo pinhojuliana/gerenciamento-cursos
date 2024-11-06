@@ -10,24 +10,20 @@ import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.repository.EnrollmentRepository;
 import com.juliana.gerenciamento_cursos.repository.StudentRepository;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class EnrollmentService {
-    @Autowired
-    EnrollmentRepository repository;
+    private final EnrollmentRepository repository;
 
-    @Autowired
-    StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
-    @Autowired
-    CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
 
     public EnrollmentResponse enrollStudentInCourse(EnrollmentRequestPayload requestPayload){
         Course course = courseRepository.findById(requestPayload.courseId()).orElseThrow(()-> new InexistentOptionException("Curso não encontrado"));
@@ -51,7 +47,7 @@ public class EnrollmentService {
         return enrollments;
     }
 
-    public List<Enrollment> showEnrollmentsCourse(UUID courseId) {
+    public List<Enrollment> showCourseEnrollments(UUID courseId) {
         if (repository.existsByCourseId(courseId)) {
             return repository.
                     findByCourseId(courseId)
@@ -60,7 +56,7 @@ public class EnrollmentService {
         throw new InexistentOptionException("Esse curso não existe");
     }
 
-    public List<Enrollment> showEnrollmentsStudent(UUID studentId){
+    public List<Enrollment> showStudentEnrollments(UUID studentId){
         if (repository.existsByStudentId(studentId)) {
             return repository.findByStudentId(studentId)
                     .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse aluno"));
@@ -69,7 +65,7 @@ public class EnrollmentService {
     }
 
     public List<Enrollment> showStudentsEnrollmentsActive(UUID courseId) {
-        return showEnrollmentsCourse(courseId)
+        return showCourseEnrollments(courseId)
                 .stream()
                 .filter(Enrollment::isActive)
                 .toList();
