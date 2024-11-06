@@ -9,24 +9,20 @@ import com.juliana.gerenciamento_cursos.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.repository.TeacherCourseRepository;
 import com.juliana.gerenciamento_cursos.exceptions.*;
 import com.juliana.gerenciamento_cursos.repository.TeacherRepository;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class TeacherService {
-    @Autowired
-    TeacherRepository repository;
+    private final TeacherRepository repository;
 
-    @Autowired
-    TeacherCourseRepository teacherCourseRepository;
+    private final TeacherCourseRepository teacherCourseRepository;
 
-    @Autowired
-    CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
 
     public ClientResponse createNewTeacher(TeacherRequestPayload userRequestPayload) throws UnderageException {
         validateUniqueUsername(userRequestPayload.username());
@@ -49,12 +45,18 @@ public class TeacherService {
     }
 
     public void addSkill(UUID id, String skill) throws InexistentOptionException {
+        if(validateSkill(skill)){
+            throw new RuntimeException(String.format("A skill '%s' já existe neste perfil", skill));
+        }
         Teacher teacher = validateId(id);
         teacher.getSkills().add(skill);
         repository.save(teacher);
     }
 
     public void removeSkill(UUID id, String skill) throws InexistentOptionException {
+        if(!validateSkill(skill)){
+            throw new InexistentOptionException(String.format("A skill '%s' não foi encontrada", skill));
+        }
         Teacher teacher = validateId(id);
         teacher.getSkills().remove(skill);
         repository.save(teacher);
@@ -108,13 +110,13 @@ public class TeacherService {
     }
 
     public List<String> showAllCoursesTaught(UUID teacherId) throws InexistentOptionException {
-        List<UUID> idCursos = teacherCourseRepository.findCoursesByTeacherId(teacherId);
+        List<UUID> idCourses = teacherCourseRepository.findCoursesByTeacherId(teacherId);
 
-        if(idCursos.isEmpty()){
+        if(idCourses.isEmpty()){
             throw new InexistentOptionException("Nada encontrado");
         }
 
-        return idCursos.stream()
+        return idCourses.stream()
                 .map(id -> {
                     try {
                         return courseRepository.findById(id).orElseThrow(() -> new InexistentOptionException("Nada encontrado"));
@@ -157,5 +159,9 @@ public class TeacherService {
                 teacher.getDateOfBirth(),
                 teacher.getSkills()
         );
+    }
+
+    private boolean validateSkill(String skill){
+        return repository.existsSkill(skill);
     }
 }
