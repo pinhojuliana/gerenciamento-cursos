@@ -15,7 +15,7 @@ import java.util.UUID;
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
-public class Client implements Comparable<Client>{
+public abstract class Client implements Comparable<Client>{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected UUID id;

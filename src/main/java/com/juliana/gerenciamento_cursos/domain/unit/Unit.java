@@ -1,4 +1,4 @@
-package com.juliana.gerenciamento_cursos.domain.modules;
+package com.juliana.gerenciamento_cursos.domain.unit;
 
 import com.juliana.gerenciamento_cursos.domain.course.Course;
 import jakarta.persistence.*;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @ToString
 @Getter
 @Setter
-public class Modules {
+public class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
@@ -30,7 +30,7 @@ public class Modules {
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    public Modules(String title, String description, Difficulty difficulty, Course course) {
+    public Unit(String title, String description, Difficulty difficulty, Course course) {
         this.title = title;
         this.description = description;
         this.difficulty = difficulty;

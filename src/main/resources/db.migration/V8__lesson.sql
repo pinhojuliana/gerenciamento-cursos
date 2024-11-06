@@ -1,7 +1,7 @@
-CREATE TABLE class_section(
+CREATE TABLE lesson(
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
-    module_id UUID NOT NULL,
-    FOREIGN KEY (module_id) REFERENCES modules(id) ON DELETE CASCADE
+    unit_id UUID NOT NULL,
+    FOREIGN KEY (unit_id) REFERENCES unit(id) ON DELETE CASCADE
 );

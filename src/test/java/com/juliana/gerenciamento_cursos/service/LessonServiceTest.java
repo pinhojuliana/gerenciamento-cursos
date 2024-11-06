@@ -8,7 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-class ClassSectionServiceTest {
+class LessonServiceTest {
 
     @BeforeEach
     void setUp() {

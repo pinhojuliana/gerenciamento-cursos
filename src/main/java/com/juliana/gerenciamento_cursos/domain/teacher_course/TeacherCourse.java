@@ -1,5 +1,7 @@
 package com.juliana.gerenciamento_cursos.domain.teacher_course;
 
+import com.juliana.gerenciamento_cursos.domain.client.Teacher;
+import com.juliana.gerenciamento_cursos.domain.course.Course;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,9 +17,9 @@ public class TeacherCourse {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(name = "teacher_id")
-    private UUID teacherId;
+    @Column(name = "teacher_id", nullable = false)
+    private Teacher teacher;
 
-    @Column(name = "course_id")
-    private UUID courseId;
+    @Column(name = "course_id", nullable = false)
+    private Course course;
 }

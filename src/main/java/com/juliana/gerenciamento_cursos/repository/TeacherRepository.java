@@ -12,4 +12,5 @@ public interface TeacherRepository extends JpaRepository<Teacher, UUID> {
 
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
+    boolean existsSkill(String skill);
 }

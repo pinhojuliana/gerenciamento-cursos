@@ -1,6 +1,6 @@
-package com.juliana.gerenciamento_cursos.domain.class_section;
+package com.juliana.gerenciamento_cursos.domain.lesson;
 
-import com.juliana.gerenciamento_cursos.domain.modules.Modules;
+import com.juliana.gerenciamento_cursos.domain.unit.Unit;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,27 +9,25 @@ import lombok.ToString;
 import java.util.UUID;
 
 @Entity
-@Table(name = "class_section")
+@Table(name = "lesson")
 @ToString
 @NoArgsConstructor
 @Data
-public class ClassSection {
+public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     @Column(nullable = false)
     private String title;
-
     private String description;
     @ManyToOne
-    @JoinColumn(name = "module_id", nullable = false)
-    private Modules modules;
+    @JoinColumn(name = "unit_id", nullable = false)
+    private Unit unit;
 
-
-    public ClassSection(String title, String description, Modules modules) {
+    public Lesson(String title, String description, Unit unit) {
         this.title = title;
         this.description = description;
-        this.modules = modules;
+        this.unit = unit;
     }
 }
 

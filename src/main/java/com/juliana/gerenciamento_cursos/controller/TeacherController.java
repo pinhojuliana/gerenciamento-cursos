@@ -1,8 +1,8 @@
 package com.juliana.gerenciamento_cursos.controller;
 
-import com.juliana.gerenciamento_cursos.DTOs.EmailUpdateRequest;
-import com.juliana.gerenciamento_cursos.DTOs.PasswordUpdateRequest;
-import com.juliana.gerenciamento_cursos.DTOs.UsernameUpdateRequest;
+import com.juliana.gerenciamento_cursos.DTOs.update_request.EmailUpdateRequest;
+import com.juliana.gerenciamento_cursos.DTOs.update_request.PasswordUpdateRequest;
+import com.juliana.gerenciamento_cursos.DTOs.update_request.UsernameUpdateRequest;
 import com.juliana.gerenciamento_cursos.DTOs.request_payload.TeacherRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.response.ClientResponse;
 import com.juliana.gerenciamento_cursos.DTOs.TeacherDTO;

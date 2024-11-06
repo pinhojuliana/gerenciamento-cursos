@@ -1,10 +1,10 @@
 package com.juliana.gerenciamento_cursos.controller;
 
+import com.juliana.gerenciamento_cursos.DTOs.request_payload.UnitRequestPayload;
+import com.juliana.gerenciamento_cursos.DTOs.response.UnitResponse;
 import com.juliana.gerenciamento_cursos.domain.course.Course;
-import com.juliana.gerenciamento_cursos.domain.modules.Modules;
-import com.juliana.gerenciamento_cursos.DTOs.request_payload.ModulesRequestPayload;
-import com.juliana.gerenciamento_cursos.DTOs.response.ModulesResponse;
-import com.juliana.gerenciamento_cursos.service.ModulesService;
+import com.juliana.gerenciamento_cursos.domain.unit.Unit;
+import com.juliana.gerenciamento_cursos.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,31 +13,31 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/modules")
-public class ModulesController {
+@RequestMapping("/units")
+public class UnitController {
     @Autowired
-    ModulesService service;
+    UnitService service;
 
     @GetMapping("/course/{id}")
-    public ResponseEntity<List<Modules>> findModulesByCourse(@PathVariable UUID courseId){
-        List<Modules> modules = service.findModulesByCourse(courseId);
+    public ResponseEntity<List<Unit>> findUnitsByCourse(@PathVariable UUID courseId){
+        List<Unit> modules = service.findUnitsByCourse(courseId);
         return ResponseEntity.ok(modules);
     }
 
     @PostMapping("/register")
-    public ModulesResponse createNewModule(@RequestBody ModulesRequestPayload moduleRequestPayload, Course course){
-        return service.createNewModule(moduleRequestPayload, course);
+    public UnitResponse createNewUnit(@RequestBody UnitRequestPayload moduleRequestPayload, Course course){
+        return service.createNewUnit(moduleRequestPayload, course);
     }
 
     @PostMapping("/course/{id}")
-    public ResponseEntity<List<Modules>> findModulesCourse(@PathVariable UUID courseId, @RequestBody String moduleTitle){
-        List<Modules> modules = service.findModuleCourse(courseId, moduleTitle);
+    public ResponseEntity<List<Unit>> findUnitsCourse(@PathVariable UUID courseId, @RequestBody String moduleTitle){
+        List<Unit> modules = service.findUnitCourse(courseId, moduleTitle);
         return ResponseEntity.ok(modules);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteModule(@PathVariable UUID id){
-        service.deleteModule(id);
+    public ResponseEntity<String> deleteUnit(@PathVariable UUID id){
+        service.deleteUnit(id);
         return ResponseEntity.ok("Modulo deletado com sucesso");
     }
 }

@@ -25,13 +25,13 @@ public class EnrollmentController {
 
     @GetMapping("/course/{id}")
     public ResponseEntity<List<Enrollment>> showEnrollmentsCourse(@PathVariable UUID courseId){
-        List<Enrollment> enrollments =  service.showEnrollmentsCourse(courseId);
+        List<Enrollment> enrollments =  service.showCourseEnrollments(courseId);
         return ResponseEntity.ok(enrollments);
     }
 
     @GetMapping("/student/{id}")
     public ResponseEntity<List<Enrollment>> showEnrollmentsStudent(@PathVariable UUID studentId){
-        List<Enrollment> enrollments =  service.showEnrollmentsStudent(studentId);
+        List<Enrollment> enrollments =  service.showStudentEnrollments(studentId);
         return ResponseEntity.ok(enrollments);
     }
 

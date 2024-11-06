@@ -1,5 +1,8 @@
-package com.juliana.gerenciamento_cursos.domain.modules;
+package com.juliana.gerenciamento_cursos.domain.unit;
 
+import lombok.Getter;
+
+@Getter
 public enum Difficulty {
     BEGINNER("BEGINNER"),
     INTERMEDIATE("INTERMEDIATE"),
@@ -11,7 +14,4 @@ public enum Difficulty {
         this.name = name;
     }
 
-    public String getName(){
-        return name;
-    }
 }

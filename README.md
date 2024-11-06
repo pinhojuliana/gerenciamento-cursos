@@ -124,7 +124,7 @@ classDiagram
     -id : UUID
     -title : String
     -description : String
-    -modules : Modules
+    -unit : Modules
     +createNewClass(requestPayload : ClassRequestPayload) : ClassSectionResponse
     +deleteClass(id : UUID) : void
     +showClassesOfModule (moduleId : UUID) : List<ClassSection>
