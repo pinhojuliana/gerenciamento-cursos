@@ -98,7 +98,7 @@ public class StudentService {
                 .toList();
 
         if (students.isEmpty()) {
-            throw new EmptyListException("Esse nome não foi encontrado");
+            throw new EmptyListException("Nenhum estudante com esse nome foi encontrado");
         }
 
         return students;

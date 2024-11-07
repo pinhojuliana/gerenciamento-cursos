@@ -29,8 +29,8 @@ public class TeacherController {
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<List<TeacherDTO>> getTeachersByName(@PathVariable String name){
-        List<TeacherDTO> teachers = service.findTeacher(name);
+    public ResponseEntity<List<TeacherDTO>> findTeacherByName(@PathVariable String name){
+        List<TeacherDTO> teachers = service.findTeacherByName(name);
         return ResponseEntity.ok(teachers);
     }
 

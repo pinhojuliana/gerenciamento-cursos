@@ -6,10 +6,10 @@ import com.juliana.gerenciamento_cursos.DTOs.response.ClientResponse;
 import com.juliana.gerenciamento_cursos.domain.client.Teacher;
 import com.juliana.gerenciamento_cursos.DTOs.TeacherDTO;
 import com.juliana.gerenciamento_cursos.domain.course.Course;
-import com.juliana.gerenciamento_cursos.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.repository.TeacherCourseRepository;
 import com.juliana.gerenciamento_cursos.exceptions.*;
 import com.juliana.gerenciamento_cursos.repository.TeacherRepository;
+import com.juliana.gerenciamento_cursos.util.AgeValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,17 +23,16 @@ public class TeacherService {
 
     private final TeacherCourseRepository teacherCourseRepository;
 
-    private final CourseRepository courseRepository;
+    public ClientResponse createNewTeacher(TeacherRequestPayload requestPayload) throws UnderageException {
+        validateUniqueUsername(requestPayload.username());
+        validateUniqueEmail(requestPayload.email());
 
-    public ClientResponse createNewTeacher(TeacherRequestPayload userRequestPayload) throws UnderageException {
-        validateUniqueUsername(userRequestPayload.username());
-        validateUniqueEmail(userRequestPayload.email());
-
-        Teacher newTeacher = new Teacher(userRequestPayload.name(),
-                userRequestPayload.username(),
-                userRequestPayload.email(),
-                userRequestPayload.password(),
-                userRequestPayload.dateOfBirth());
+        Teacher newTeacher = new Teacher(requestPayload.name(),
+                requestPayload.username(),
+                requestPayload.email(),
+                requestPayload.password(),
+                AgeValidation.validateAge(requestPayload.dateOfBirth())
+        );
 
         repository.save(newTeacher);
 
@@ -45,20 +44,24 @@ public class TeacherService {
         repository.deleteById(id);
     }
 
-    public void addSkill(UUID id, String skill) throws InexistentOptionException {
-        if(validateSkill(id, skill)){
-            throw new RuntimeException(String.format("A skill '%s' já existe neste perfil", skill));
-        }
+    public void addSkill(UUID id, String skill) throws SkillAlreadyExistsException {
         Teacher teacher = validateId(id);
+
+        if(validateSkill(id, skill)){
+            throw new SkillAlreadyExistsException(String.format("A skill '%s' já existe neste perfil", skill));
+        }
+
         teacher.getSkills().add(skill);
         repository.save(teacher);
     }
 
     public void removeSkill(UUID id, String skill) throws InexistentOptionException {
+        Teacher teacher = validateId(id);
+
         if(!validateSkill(id, skill)){
             throw new InexistentOptionException(String.format("A skill '%s' não foi encontrada", skill));
         }
-        Teacher teacher = validateId(id);
+
         teacher.getSkills().remove(skill);
         repository.save(teacher);
     }
@@ -89,7 +92,7 @@ public class TeacherService {
         repository.save(teacher);
     }
 
-    public List<TeacherDTO> findTeacher(String name){
+    public List<TeacherDTO> findTeacherByName(String name){
         List<TeacherDTO> teachers = repository.findByName(name).stream()
                 .map(this::convertToDTO)
                 .toList();
@@ -104,7 +107,7 @@ public class TeacherService {
                 .toList();
 
         if (teachers.isEmpty()) {
-            throw new EmptyListException("Não há estudantes cadastrados");
+            throw new EmptyListException("Não há professores cadastrados");
         }
 
         return teachers;
