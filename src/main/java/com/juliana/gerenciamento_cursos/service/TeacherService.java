@@ -5,6 +5,7 @@ import com.juliana.gerenciamento_cursos.DTOs.request_payload.TeacherRequestPaylo
 import com.juliana.gerenciamento_cursos.DTOs.response.ClientResponse;
 import com.juliana.gerenciamento_cursos.domain.client.Teacher;
 import com.juliana.gerenciamento_cursos.DTOs.TeacherDTO;
+import com.juliana.gerenciamento_cursos.domain.course.Course;
 import com.juliana.gerenciamento_cursos.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.repository.TeacherCourseRepository;
 import com.juliana.gerenciamento_cursos.exceptions.*;
@@ -109,21 +110,16 @@ public class TeacherService {
         return teachers;
     }
 
-    public List<CourseDTO> showAllCoursesTaught(UUID teacherId) throws InexistentOptionException {
-        List<UUID> idCourses = teacherCourseRepository.findCoursesByTeacherId(teacherId);
+    public List<CourseDTO> showAllCoursesTaught(UUID teacherId) throws EmptyListException {
+        validateId(teacherId);
 
-        if(idCourses.isEmpty()){
-            throw new InexistentOptionException("Nada encontrado");
+        List<Course> courses = teacherCourseRepository.findCoursesByTeacherId(teacherId);
+
+        if(courses.isEmpty()){
+            throw new EmptyListException("Nada encontrado");
         }
 
-        return idCourses.stream()
-                .map(id -> {
-                    try {
-                        return courseRepository.findById(id).orElseThrow(() -> new InexistentOptionException("Nada encontrado"));
-                    } catch (InexistentOptionException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
+        return courses.stream()
                 .map(c -> new CourseDTO(c.getTitle(), c.getDescription(), c.getCreatedAt()))
                 .toList();
     }

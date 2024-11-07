@@ -1,5 +1,7 @@
 package com.juliana.gerenciamento_cursos.repository;
 
+import com.juliana.gerenciamento_cursos.domain.client.Teacher;
+import com.juliana.gerenciamento_cursos.domain.course.Course;
 import com.juliana.gerenciamento_cursos.domain.teacher_course.TeacherCourse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -21,9 +23,9 @@ public interface TeacherCourseRepository extends JpaRepository<TeacherCourse, UU
     @Query(value = "DELETE FROM teacher_course WHERE teacher_id = ?1 AND course_id = ?2", nativeQuery = true)
     void removeTeacherFromCourse(UUID teacherId, UUID courseId);
 
-    @Query(value = "SELECT teacher_id FROM teacher_course WHERE course_id = ?1", nativeQuery = true)
-    List<UUID> findTeachersByCourseId(UUID courseId);
+    @Query(value = "SELECT t FROM Teacher t JOIN TeacherCourse tc ON t.id = tc.teacher.id WHERE tc.course.id = ?1")
+    List<Teacher> findTeachersByCourseId(UUID courseId);
 
-    @Query(value = "SELECT course_id FROM teacher_course WHERE teacher_id = ?1", nativeQuery = true)
-    List<UUID> findCoursesByTeacherId(UUID teacherId);
+    @Query(value = "SELECT c FROM Course c JOIN TeacherCourse tc ON c.id = tc.course.id WHERE tc.teacher.id = ?1")
+    List<Course> findCoursesByTeacherId(UUID teacherId);
 }
