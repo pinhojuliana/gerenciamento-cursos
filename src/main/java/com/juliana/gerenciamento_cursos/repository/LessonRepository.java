@@ -8,5 +8,5 @@ import java.util.UUID;
 
 public interface LessonRepository extends JpaRepository<Lesson, UUID> {
     List<Lesson> findByTitle(String title);
-    List<Lesson> findByModules_Id(UUID moduleId);
+    List<Lesson> findByUnit_id(UUID unitId);
 }

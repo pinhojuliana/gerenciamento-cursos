@@ -30,7 +30,7 @@ public class LessonService {
     }
 
     public List<Lesson> showLessonsOfModule(UUID unitId) throws InexistentOptionException {
-        List<Lesson> classes = repository.findByModules_Id(unitId);
+        List<Lesson> classes = repository.findByUnit_id(unitId);
         if (classes.isEmpty()){
             throw new InexistentOptionException("Nenhuma aula encontrada");
         }
