@@ -50,6 +50,7 @@ classDiagram
     -validateId(id : UUID) : void
     -checkForNoUpdate(oldValue : T, newValue : T) : <T>
     -convertToDTO(student : Student) : StudentDTO
+    -validateSkill(skill : String) : boolean
  }
  class Teacher {
     -skills : List<String>
@@ -69,6 +70,7 @@ classDiagram
     -checkForNoUpdate(oldValue : T, newValue : T) : <T>
     -convertToDTO(teacher : Teacher) : TeacherDTO
  }
+
  class Enrollment {
     -id : UUID
     -student : Student
@@ -101,36 +103,38 @@ classDiagram
     -validateUniqueTitle(title : String) : void
     -validateId(id : UUID) : void
  }
+ direction BT
  class TeacherCourse{
     -id : UUID
-    -teacherId : UUID
-    -courseId: UUID
+    -teacher : Teacher
+    -course: Course
 
  }
- class Modules{
+ class Unit{
     -id : UUID
     -title : String
     -description : String
     -difficulty : Difficulty
     -course : Course
-    +createNewModule(requestPayload : ModuleRequestPayload) : ModuleResponse
-    +deleteModule(id : UUID) : void
-    +findModulesByCourse(courseId : UUID) : List<Modules>
-    +findModuleCourse(courseId : UUID, title : String) : List<Modules>
-    -validateId(id : UUID) : Modules
+    +createNewUnit(requestPayload : UnitRequestPayload) : UnitResponse
+    +deleteUnit(id : UUID) : void
+    +findUnitByCourse(courseId : UUID) : List<Unit>
+    +findMUnitCourse(courseId : UUID, title : String) : List<Unit>
+    -validateId(id : UUID) : Unit
 
  }
- class ClassSection{
+ class Lesson{
     -id : UUID
     -title : String
     -description : String
-    -unit : Modules
-    +createNewClass(requestPayload : ClassRequestPayload) : ClassSectionResponse
-    +deleteClass(id : UUID) : void
-    +showClassesOfModule (moduleId : UUID) : List<ClassSection>
-    +findClassesByTitle(title : String) : List<ClassSection>
+    -unit : Unit
+    +createNewLesson(requestPayload : LessonRequestPayload) : LessonResponse
+    +deleteLesson(id : UUID) : void
+    +showLessonsOfModule (unitId : UUID) : List<Lesson>
+    +findLessonsByTitle(title : String) : List<Lesson>
     -validateId(id : UUID) : ClassSection
  }
+
  class EducationalLevel{
     <<enumeration>>
  FUNDAMENTAL
@@ -150,5 +154,10 @@ ADVANCED
  Client <|-- Teacher
  Course "1" --> "0..*" Enrollment 
  Student "1" --> "0..*" Enrollment 
- Course "1" --> "0..*" TeacherCourse
- Teacher "1" --> "0..*" TeacherCourse
+ Course "0..*" --> "0..*" TeacherCourse
+ Teacher "0..*" --> "0..*" TeacherCourse
+ Course "1" --> "0..*" Unit
+ Unit "1" --> "0..*" Lesson
+ Student -- EducationalLevel
+ Unit -- Difficulty
+
