@@ -15,13 +15,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-//adicionar os 'verify()'
 @ExtendWith(MockitoExtension.class)
 class StudentServiceTest {
     @InjectMocks
@@ -65,16 +66,6 @@ class StudentServiceTest {
                 LocalDate.of(2008, 3, 7), "estudante de java", EducationalLevel.HIGHER
         );
 
-        Student student = new Student(
-                requestPayload.name(),
-                requestPayload.username(),
-                requestPayload.email(),
-                requestPayload.password(),
-                requestPayload.dateOfBirth(),
-                requestPayload.description(),
-                requestPayload.educationalLevel()
-        );
-
         Exception thrown = assertThrows(UnderageException.class, ()-> {
             service.createNewStudent(requestPayload);
         });
@@ -87,43 +78,16 @@ class StudentServiceTest {
     @Test
     @DisplayName("deve lançar exceção de email repetido")
     void createNewStudentCase3() {
-        StudentRequestPayload requestPayload1 = new StudentRequestPayload(
-                "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
-        );
 
-        Student student1 = new Student(
-                requestPayload1.name(),
-                requestPayload1.username(),
-                requestPayload1.email(),
-                requestPayload1.password(),
-                requestPayload1.dateOfBirth(),
-                requestPayload1.description(),
-                requestPayload1.educationalLevel()
-        );
-
-        when(repository.save(any(Student.class))).thenReturn(student1);
-        service.createNewStudent(requestPayload1);
-
-        StudentRequestPayload requestPayload2 = new StudentRequestPayload(
+        StudentRequestPayload requestPayload = new StudentRequestPayload(
                 "Maria Eduarda", "dudam_", "msilva@gmail.com", "P@ssw0rd!",
                 LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGHER
         );
 
-        Student student2 = new Student(
-                requestPayload2.name(),
-                requestPayload2.username(),
-                requestPayload2.email(),
-                requestPayload2.password(),
-                requestPayload2.dateOfBirth(),
-                requestPayload2.description(),
-                requestPayload2.educationalLevel()
-        );
-
-        when(repository.existsByEmail(student2.getEmail())).thenReturn(true);
+        when(repository.existsByEmail(requestPayload.email())).thenReturn(true);
 
         Exception thrown = assertThrows(EmailAlreadyInUseException.class, ()-> {
-            service.createNewStudent(requestPayload2);
+            service.createNewStudent(requestPayload);
         });
 
         assertEquals("Esse e-mail já está sendo utilizado por outro usuário", thrown.getMessage());
@@ -133,44 +97,15 @@ class StudentServiceTest {
     @Test
     @DisplayName("deve lançar exceção de username repetido")
     void createNewStudentCase4() {
-        StudentRequestPayload requestPayload1 = new StudentRequestPayload(
-                "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
-        );
-
-        Student student1 = new Student(
-                requestPayload1.name(),
-                requestPayload1.username(),
-                requestPayload1.email(),
-                requestPayload1.password(),
-                requestPayload1.dateOfBirth(),
-                requestPayload1.description(),
-                requestPayload1.educationalLevel()
-        );
-
-        when(repository.save(any(Student.class))).thenReturn(student1);
-        service.createNewStudent(requestPayload1);
-
-        StudentRequestPayload requestPayload2 = new StudentRequestPayload(
+        StudentRequestPayload requestPayload = new StudentRequestPayload(
                 "Maria Eduarda", "mmaria12", "mariaedu@outlook.com", "P@ssw0rd!",
                 LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGHER
         );
 
-        Student student2 = new Student(
-                requestPayload2.name(),
-                requestPayload2.username(),
-                requestPayload2.email(),
-                requestPayload2.password(),
-                requestPayload2.dateOfBirth(),
-                requestPayload2.description(),
-                requestPayload2.educationalLevel()
-        );
-
-
-        when(repository.existsByUsername(student2.getUsername())).thenReturn(true);
+        when(repository.existsByUsername(requestPayload.username())).thenReturn(true);
 
         Exception thrown = assertThrows(UsernameAlreadyInUseException.class, ()-> {
-            service.createNewStudent(requestPayload2);
+            service.createNewStudent(requestPayload);
         });
 
         assertEquals("Esse username já está sendo utilizado por outro usuário", thrown.getMessage());
@@ -334,9 +269,8 @@ class StudentServiceTest {
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
                 LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
         );
-
         when(repository.findById(any())).thenReturn(Optional.of(student));
-        when(repository.existsByUsername(any())).thenReturn(false);
+        when(repository.existsByEmail(any())).thenReturn(false);
         service.updateStudentEmail(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "svmaria@gmail.com");
         verify(repository, times(1)).save(student);
     }
@@ -381,13 +315,13 @@ class StudentServiceTest {
         );
 
         when(repository.findById(any())).thenReturn(Optional.of(student));
-        when(repository.existsByUsername(any())).thenReturn(true);
+        when(repository.existsByEmail(any())).thenReturn(true);
 
-        Exception thrown = assertThrows(UsernameAlreadyInUseException.class, ()-> {
+        Exception thrown = assertThrows(EmailAlreadyInUseException.class, ()-> {
             service.updateStudentEmail(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "maria.sv@gmail.com");
         });
 
-        assertEquals("Esse email já está sendo utilizado por outro usuário", thrown.getMessage());
+        assertEquals("Esse e-mail já está sendo utilizado por outro usuário", thrown.getMessage());
         verify(repository, never()).save(any());
     }
 
@@ -459,7 +393,7 @@ class StudentServiceTest {
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
         service.deleteStudent(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"));
-        verify(repository, times(1)).delete(any());
+        verify(repository, times(1)).deleteById(any());
     }
 
     @Test
@@ -504,32 +438,95 @@ class StudentServiceTest {
         assertEquals("Esse id não foi encontrado", thrown.getMessage());
     }
 
-
-
-    //terminar
-
     @Test
     @DisplayName("Deve retornar lista de todos os estudantes")
     void getAllStudentsCase1() {
+        Student student = new Student(
+                "Maria Eduarda", "dudam_", "msilva@gmail.com", "P@ssw0rd!",
+                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGHER
+        );
+
+        Student student2 = new Student(
+                "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+        );
+
+        List<Student> students = new ArrayList<>();
+        students.add(student);
+        students.add(student2);
+
+        List<StudentDTO> studentsConverted = students.stream().map(s -> new StudentDTO(
+                s.getName(),
+                s.getUsername(),
+                s.getEmail(),
+                s.getDateOfBirth(),
+                s.getDescription(),
+                s.getEducationalLevel()))
+                .toList();
+
+        when(repository.findAll()).thenReturn(students);
+        List<StudentDTO> result = service.getAllStudents();
+
+        assertEquals(studentsConverted, result);
     }
 
     @Test
     @DisplayName("Deve lançar exceção lista vazia")
     void getAllStudentsCase2() {
+        when(repository.findAll()).thenReturn(new ArrayList<>());
+
+        Exception thrown = assertThrows(EmptyListException.class, () ->
+        {
+            service.getAllStudents();
+        });
+
+        assertEquals("Não há estudantes cadastrados", thrown.getMessage());
     }
-
-
-
-    //terminar
 
     @Test
     @DisplayName("Deve retornar lista dos estudantes com o nome pesquisado")
     void searchStudentNameCase1() {
+        Student student = new Student(
+                "Maria", "silva.mr", "msilva@gmail.com", "P@ssw0rd!",
+                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGHER
+        );
+
+        Student student2 = new Student(
+                "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+        );
+
+        List<Student> students = new ArrayList<>();
+        students.add(student);
+        students.add(student2);
+
+        List<StudentDTO> studentsConverted = students.stream().map(s -> new StudentDTO(
+                        s.getName(),
+                        s.getUsername(),
+                        s.getEmail(),
+                        s.getDateOfBirth(),
+                        s.getDescription(),
+                        s.getEducationalLevel()))
+                .toList();
+
+        when(repository.findByName(any())).thenReturn(students);
+        List<StudentDTO> result = service.searchStudentName(any());
+
+        assertEquals(studentsConverted, result);
     }
 
     @Test
     @DisplayName("Deve lançar exceção nenhum nome encontrado")
     void searchStudentNameCase2() {
+        when(repository.findByName(any())).thenReturn(new ArrayList<>());
+
+        Exception thrown = assertThrows(EmptyListException.class, () ->
+        {
+            service.searchStudentName(any());
+        });
+
+        assertEquals("Nenhum estudante com esse nome foi encontrado", thrown.getMessage());
+
     }
 
 }
