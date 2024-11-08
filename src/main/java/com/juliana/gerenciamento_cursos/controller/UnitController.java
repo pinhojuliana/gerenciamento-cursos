@@ -30,7 +30,7 @@ public class UnitController {
 
     @PostMapping("/course/{id}")
     public ResponseEntity<List<UnitDTO>> findUnitsCourse(@PathVariable UUID courseId, @RequestBody String moduleTitle){
-        List<UnitDTO> modules = service.findUnitCourse(courseId, moduleTitle);
+        List<UnitDTO> modules = service.findUnitInCourse(courseId, moduleTitle);
         return ResponseEntity.ok(modules);
     }
 

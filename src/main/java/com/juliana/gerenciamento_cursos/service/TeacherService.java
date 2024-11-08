@@ -82,7 +82,7 @@ public class TeacherService {
         repository.save(teacher);
     }
 
-    public void updateTeacherPassword(UUID id, String oldPassword, String newPassword) throws RuntimeException {
+    public void updateTeacherPassword(UUID id, String oldPassword, String newPassword) throws InvalidPasswordException {
         Teacher teacher = validateId(id);
         checkForNoUpdate(teacher.getPassword(), newPassword);
         if(!teacher.getPassword().equals(oldPassword)){
@@ -129,13 +129,13 @@ public class TeacherService {
 
     private void validateUniqueUsername(String username) {
         if (repository.existsByUsername(username)) {
-            throw new UsernameAlreadyInUseException("Esse username está sendo utilizado por outro usuário");
+            throw new UsernameAlreadyInUseException("Esse username já está sendo utilizado por outro usuário");
         }
     }
 
     private void validateUniqueEmail(String email) {
         if (repository.existsByEmail(email)) {
-            throw new EmailAlreadyInUseException("Esse e-mail está sendo utilizado por outro usuário");
+            throw new EmailAlreadyInUseException("Esse e-mail já está sendo utilizado por outro usuário");
         }
     }
 

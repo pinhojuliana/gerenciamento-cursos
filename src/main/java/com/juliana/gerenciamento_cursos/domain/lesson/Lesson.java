@@ -3,6 +3,7 @@ package com.juliana.gerenciamento_cursos.domain.lesson;
 import com.juliana.gerenciamento_cursos.domain.unit.Unit;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -12,7 +13,7 @@ import java.util.UUID;
 @Table(name = "lesson")
 @ToString
 @NoArgsConstructor
-@Data
+@Getter
 public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

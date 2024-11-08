@@ -5,6 +5,7 @@ import com.juliana.gerenciamento_cursos.domain.course.Course;
 import com.juliana.gerenciamento_cursos.domain.unit.Unit;
 import com.juliana.gerenciamento_cursos.DTOs.request_payload.UnitRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.response.UnitResponse;
+import com.juliana.gerenciamento_cursos.exceptions.EmptyListException;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.repository.UnitRepository;
@@ -34,20 +35,18 @@ public class UnitService {
         repository.deleteById(id);
     }
 
-    public List<UnitDTO> findUnitsByCourse(UUID courseId){
-        List<Unit> units = repository.findByCourseId(courseId)
-               .orElseThrow(() -> new InexistentOptionException("Nenhum modulo encontrado"));
-
-        return units.stream()
+    public List<UnitDTO> findUnitsByCourse(UUID courseId) throws InexistentOptionException, EmptyListException{
+        return repository.findByCourseId(courseId)
+                .orElseThrow(() -> new InexistentOptionException("Nenhum modulo encontrado"))
+                .stream()
                 .map(this::convertToDTO)
                 .toList();
     }
 
-    public List<UnitDTO> findUnitCourse(UUID courseId, String title) throws InexistentOptionException {
-        List<Unit> units = repository.findByCourseId(courseId)
-                .orElseThrow(() -> new InexistentOptionException("Nenhum modulo encontrado"));
-
-        return units.stream()
+    public List<UnitDTO> findUnitInCourse(UUID courseId, String title) throws InexistentOptionException, EmptyListException {
+        return repository.findByCourseId(courseId)
+                .orElseThrow(() -> new InexistentOptionException("Nenhum modulo encontrado"))
+                .stream()
                 .filter(m -> m.getTitle().equalsIgnoreCase(title))
                 .map(this::convertToDTO)
                 .toList();

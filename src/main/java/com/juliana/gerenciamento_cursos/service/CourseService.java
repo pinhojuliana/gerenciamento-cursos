@@ -53,42 +53,47 @@ public class CourseService {
         repository.save(course);
     }
 
-    public List<CourseDTO> showCourses() {
-        List<Course> courses = repository.findAll();
+    public List<CourseDTO> showAllCourses() {
+        List<CourseDTO> courses = repository.findAll().stream()
+                .map(this::convertToDTO)
+                .toList();;
 
         if(courses.isEmpty()){
             throw new EmptyListException("Nenhum curso encontrado");
         }
 
-        return courses.stream().map(this::convertToDTO).toList();
+        return courses;
     }
 
     public CourseDTO findCourseByTitle(String title){
         Course course = repository.findByTitle(title)
                 .orElseThrow(()-> new InexistentOptionException("Nenhum curso encontrado"));
+
         return convertToDTO(course);
     }
 
     public void addTeacher(UUID teacherId, UUID courseId){
+        validateExistence(teacherId, courseId);
         teacherCourseRepository.addTeacherToCourse(teacherId, courseId);
     }
 
     public void removeTeacher(UUID teacherId, UUID courseId){
+        validateExistence(teacherId, courseId);
         teacherCourseRepository.removeTeacherFromCourse(teacherId, courseId);
     }
 
     public List<TeacherDTO> showTeachersOfCourse(UUID courseId) throws EmptyListException {
         validateId(courseId);
 
-        List<Teacher> teachers = teacherCourseRepository.findTeachersByCourseId(courseId);
+        List<TeacherDTO> teachers = teacherCourseRepository.findTeachersByCourseId(courseId).stream()
+                .map(t -> new TeacherDTO(t.getName(), t.getUsername(), t.getUsername(), t.getDateOfBirth(), t.getSkills()))
+                .toList();
 
         if(teachers.isEmpty()){
             throw new EmptyListException("Nada encontrado");
         }
 
-        return teachers.stream()
-                .map(t -> new TeacherDTO(t.getName(), t.getUsername(), t.getUsername(), t.getDateOfBirth(), t.getSkills()))
-                .toList();
+        return teachers;
     }
 
     private void validateUniqueTitle(String title) {
@@ -100,6 +105,12 @@ public class CourseService {
     private Course validateId(UUID id){
         return repository.findById(id)
                 .orElseThrow(() -> new InexistentOptionException("Esse curso não existe"));
+    }
+
+    private void validateExistence(UUID teacherId, UUID courseId){
+        if(!repository.existsById(courseId) || !teacherRepository.existsById(teacherId)){
+            throw new InexistentOptionException("Id não encontrado");
+        }
     }
 
     private CourseDTO convertToDTO(Course course){

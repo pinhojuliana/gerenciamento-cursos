@@ -20,7 +20,7 @@ public class CourseController {
 
     @GetMapping
     public ResponseEntity<List<CourseDTO>> showCourses(){
-        List<CourseDTO> courses = service.showCourses();
+        List<CourseDTO> courses = service.showAllCourses();
         return ResponseEntity.ok(courses);
     }
 

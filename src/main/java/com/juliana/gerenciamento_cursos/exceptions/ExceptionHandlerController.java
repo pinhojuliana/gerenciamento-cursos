@@ -37,7 +37,7 @@ public class ExceptionHandlerController {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({UsernameAlreadyInUseException.class, EmailAlreadyInUseException.class, TitleAlreadyInUseException.class})
+    @ExceptionHandler({UsernameAlreadyInUseException.class, EmailAlreadyInUseException.class, TitleAlreadyInUseException.class, SkillAlreadyExistsException.class})
     public ResponseEntity<String> handleConflictExceptions(RuntimeException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
     }

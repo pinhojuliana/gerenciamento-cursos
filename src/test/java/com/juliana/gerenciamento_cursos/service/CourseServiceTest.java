@@ -78,21 +78,25 @@ class CourseServiceTest {
     @Test
     @DisplayName("Deve apagar curso com sucesso")
     void deleteCourseCase1() {
+        UUID id = UUID.randomUUID();
+
         Course course = new Course("Java", "Faça aplicções utilizando java e Spring boot");
 
         when(repository.findById(any(UUID.class))).thenReturn(Optional.of(course));
 
-        service.deleteCourse(course.getId());
+        service.deleteCourse(id);
         verify(repository, times(1)).deleteById(any());
     }
 
     @Test
     @DisplayName("Deve lançar exceção id inválido")
     void deleteCourseCase2() {
-        when(repository.findById(any(UUID.class))).thenReturn(Optional.empty());
+        UUID id = UUID.randomUUID();
+
+        when(repository.findById(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(InexistentOptionException.class, () -> {
-            service.deleteCourse(any(UUID.class));
+            service.deleteCourse(any(id));
         });
 
         assertEquals("Esse curso não existe", thrown.getMessage());
@@ -103,10 +107,11 @@ class CourseServiceTest {
     @Test
     @DisplayName("Deve alterar descrição com sucesso")
     void alterDescriptionCase1() {
+        UUID id = UUID.randomUUID();
         Course course = new Course("Java", "Faça aplicações utilizando java e Spring boot");
 
-        when(repository.findById(any(UUID.class))).thenReturn(Optional.of(course));
-        service.alterDescription(any(UUID.class), "Construa aplicações modernas com Java e o framework Spring");
+        when(repository.findById(any())).thenReturn(Optional.of(course));
+        service.alterDescription(any(id), "Construa aplicações modernas com Java e o framework Spring");
 
         verify(repository, times(1)).save(any());
     }
@@ -114,10 +119,11 @@ class CourseServiceTest {
     @Test
     @DisplayName("Deve lançar erro id invalido")
     void alterDescriptionCase2() {
-        when(repository.findById(any(UUID.class))).thenReturn(Optional.empty());
+        UUID id = UUID.randomUUID();
+        when(repository.findById(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(InexistentOptionException.class, () -> {
-            service.alterDescription(any(UUID.class), "Construa aplicações modernas com Java e o framework Spring");
+            service.alterDescription(any(id), "Construa aplicações modernas com Java e o framework Spring");
         });
 
         assertEquals("Esse curso não existe", thrown.getMessage());
@@ -128,12 +134,13 @@ class CourseServiceTest {
     @Test
     @DisplayName("Deve lançar exceção campo atual igual ao novo")
     void alterDescriptionCase3() {
+        UUID id = UUID.randomUUID();
         Course course = new Course("Java", "Faça aplicações utilizando java e Spring boot");
 
-        when(repository.findById(any(UUID.class))).thenReturn(Optional.of(course));
+        when(repository.findById(any())).thenReturn(Optional.of(course));
 
         Exception thrown = assertThrows(NoUpdateRequiredException.class, () -> {
-            service.alterDescription(any(UUID.class), "Faça aplicações utilizando java e Spring boot");
+            service.alterDescription(any(id), "Faça aplicações utilizando java e Spring boot");
         });
 
         assertEquals("A nova descrição não pode ser igual à descrição atual", thrown.getMessage());
@@ -191,7 +198,7 @@ class CourseServiceTest {
         when(repository.findByTitle(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(InexistentOptionException.class, () -> {
-            service.showAllCourses();
+            service.findCourseByTitle("java");
         });
 
         assertEquals("Nenhum curso encontrado", thrown.getMessage());
@@ -284,40 +291,46 @@ class CourseServiceTest {
     @Test
     @DisplayName("Deve lançar exceçao id invalido (course)")
     void removeTeacherCase3() {
+        UUID id = UUID.randomUUID();
+        UUID id2 = UUID.randomUUID();
+
         when(repository.existsById(any())).thenReturn(false);
         when(teacherRepository.existsById(any())).thenReturn(true);
 
         Exception thrown = assertThrows(InexistentOptionException.class, () -> {
-            service.removeTeacher(UUID.randomUUID(), UUID.randomUUID());
+            service.removeTeacher(id, id2);
         });
 
         assertEquals("Id não encontrado", thrown.getMessage());
 
-        verify(teacherCourseRepository, never()).removeTeacherFromCourse(any(UUID.class), any(UUID.class));
-
-        verify(teacherCourseRepository, never()).removeTeacherFromCourse(any(UUID.class), any(UUID.class));
+        verify(teacherCourseRepository, never()).removeTeacherFromCourse(any(), any());
     }
 
     @Test
     @DisplayName("Deve lançar exceçao id invalido")
     void removeTeacherCase4() {
+        UUID id = UUID.randomUUID();
+        UUID id2 = UUID.randomUUID();
+
         when(repository.existsById(any())).thenReturn(false);
         when(teacherRepository.existsById(any())).thenReturn(false);
 
         Exception thrown = assertThrows(InexistentOptionException.class, () -> {
-            service.removeTeacher(UUID.randomUUID(), UUID.randomUUID());
+            service.removeTeacher(id, id2);
         });
 
         assertEquals("Id não encontrado", thrown.getMessage());
 
-        verify(teacherCourseRepository, never()).removeTeacherFromCourse(any(UUID.class), any(UUID.class));
+        verify(teacherCourseRepository, never()).removeTeacherFromCourse(any(), any());
 
-        verify(teacherCourseRepository, never()).removeTeacherFromCourse(any(UUID.class), any(UUID.class));
+        verify(teacherCourseRepository, never()).removeTeacherFromCourse(any(), any());
     }
 
     @Test
     @DisplayName("Deve retornar lista de professores")
     void showTeachersOfCourseCase1() {
+        UUID id = UUID.randomUUID();
+
         Course course = new Course("Java", "Faça aplicções utilizando java e Spring boot");
         when(repository.findById(any(UUID.class))).thenReturn(Optional.of(course));
 
@@ -346,7 +359,7 @@ class CourseServiceTest {
                 .toList();
 
         when(teacherCourseRepository.findTeachersByCourseId(any(UUID.class))).thenReturn(teachers);
-        List<TeacherDTO> result = service.showTeachersOfCourse(course.getId());
+        List<TeacherDTO> result = service.showTeachersOfCourse(id);
 
         assertEquals(teachersConverted, result);
     }
@@ -354,10 +367,11 @@ class CourseServiceTest {
     @Test
     @DisplayName("Deve lançar exceção lista vazia")
     void showTeachersOfCourseCase2() {
-        when(repository.findById(any(UUID.class))).thenReturn(Optional.empty());
+        UUID id = UUID.randomUUID();
+        when(repository.findById(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(InexistentOptionException.class, () -> {
-            service.showTeachersOfCourse(any(UUID.class));
+            service.showTeachersOfCourse(any(id));
         });
 
         assertEquals("Id não encontrado", thrown.getMessage());
@@ -366,13 +380,15 @@ class CourseServiceTest {
     @Test
     @DisplayName("Deve lançar exceção lista vazia")
     void showTeachersOfCourseCase3() {
-        Course course = new Course("Java", "Faça aplicções utilizando java e Spring boot");
-        when(repository.findById(any(UUID.class))).thenReturn(Optional.of(course));
+        UUID id = UUID.randomUUID();
 
-        when(teacherCourseRepository.findTeachersByCourseId(any(UUID.class))).thenReturn(new ArrayList<>());
+        Course course = new Course("Java", "Faça aplicções utilizando java e Spring boot");
+        when(repository.findById(any())).thenReturn(Optional.of(course));
+
+        when(teacherCourseRepository.findTeachersByCourseId(any())).thenReturn(new ArrayList<>());
 
         Exception thrown = assertThrows(EmptyListException.class, () -> {
-            service.showTeachersOfCourse(any(UUID.class));
+            service.showTeachersOfCourse(any(id));
         });
 
         assertEquals("Nada encontrado", thrown.getMessage());

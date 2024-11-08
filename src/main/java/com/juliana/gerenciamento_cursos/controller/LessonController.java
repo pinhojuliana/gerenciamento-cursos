@@ -1,9 +1,8 @@
 package com.juliana.gerenciamento_cursos.controller;
 
-import com.juliana.gerenciamento_cursos.domain.lesson.Lesson;
+import com.juliana.gerenciamento_cursos.DTOs.LessonDTO;
 import com.juliana.gerenciamento_cursos.DTOs.request_payload.LessonRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.response.LessonResponse;
-import com.juliana.gerenciamento_cursos.domain.unit.Unit;
 import com.juliana.gerenciamento_cursos.service.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,19 +18,19 @@ public class LessonController {
     LessonService service;
 
     @GetMapping("/units/{id}")
-    public ResponseEntity<List<Lesson>> showLessonsOfModule(@PathVariable UUID unitId){
-        List<Lesson> classes = service.showLessonsOfModule(unitId);
+    public ResponseEntity<List<LessonDTO>> showLessonsOfModule(@PathVariable UUID unitId){
+        List<LessonDTO> classes = service.showLessonsOfModule(unitId);
         return ResponseEntity.ok(classes);
     }
 
     @PostMapping("/register")
-    public LessonResponse createNewLesson(@RequestBody LessonRequestPayload requestPayload, Unit module){
-        return service.createNewLesson(requestPayload, module);
+    public LessonResponse createNewLesson(@RequestBody LessonRequestPayload requestPayload){
+        return service.createNewLesson(requestPayload);
     }
 
     @PostMapping("/units/{id}")
-    public ResponseEntity<List<Lesson>> findLessonsByTitle(@PathVariable UUID unitId, @RequestBody String lessonTitle){
-        List<Lesson> lessons = service.findLessonsByTitle(unitId, lessonTitle);
+    public ResponseEntity<List<LessonDTO>> findLessonsByTitle(@PathVariable UUID unitId, @RequestBody String lessonTitle){
+        List<LessonDTO> lessons = service.findLessonsByTitle(unitId, lessonTitle);
         return ResponseEntity.ok(lessons);
     }
 
