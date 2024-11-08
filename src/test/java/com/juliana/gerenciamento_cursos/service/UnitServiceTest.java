@@ -10,9 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 class UnitServiceTest {
 
-    @BeforeEach
-    void setUp() {
-    }
+
 
     @Test
     void createNewModule() {
