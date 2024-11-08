@@ -120,22 +120,23 @@ class StudentServiceTest {
                 LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
         );
        when(repository.findById(any())).thenReturn(Optional.of(student));
-       service.updateStudentDescription(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "Desenvolvedora java, estudante de phyton");
+       service.updateStudentDescription(any(), "Desenvolvedora java, estudante de phyton");
        verify(repository, times(1)).save(student);
     }
 
     @Test
     @DisplayName("Deve lançar exceção id inválido")
     void updateStudentDescriptionCase2() {
-        when(repository.findById(any())).thenThrow(new InexistentOptionException("Esse usuário não existe"));
+        when(repository.findById(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
-            service.updateStudentDescription(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "Desenvolvedora java, estudante de phyton");
+       UUID id = UUID.randomUUID();
+            service.updateStudentDescription(id, "Desenvolvedora java, estudante de phyton");
         });
 
-        verify(repository, times(1)).findById(any(UUID.class));
+        verify(repository, times(1)).findById(any());
         assertEquals("Esse usuário não existe", thrown.getMessage());
-        verify(repository, never()).save(any());
+        verify(repository, never()).save(any(Student.class));
     }
 
     @Test
@@ -148,11 +149,11 @@ class StudentServiceTest {
         when(repository.findById(any())).thenReturn(Optional.of(student));
 
         Exception thrown = assertThrows(NoUpdateRequiredException.class, ()-> {
-            service.updateStudentDescription(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "estudante de java");
+            service.updateStudentDescription(any(), "estudante de java");
         });
 
         assertEquals("Os campos 'novo' e 'atual' não devem ser iguais", thrown.getMessage());
-        verify(repository, never()).save(any());
+        verify(repository, never()).save(any(Student.class));
     }
 
     @Test
@@ -163,22 +164,23 @@ class StudentServiceTest {
                 LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
-        service.updateStudentEducationalLevel(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), EducationalLevel.FUNDAMENTAL);
+        service.updateStudentEducationalLevel(any(), EducationalLevel.FUNDAMENTAL);
         verify(repository, times(1)).save(student);
     }
 
     @Test
     @DisplayName("Deve lançar exceção id inválido")
     void updateStudentEducationalLevelCase2() {
-        when(repository.findById(any())).thenThrow(new InexistentOptionException("Esse usuário não existe"));
+        UUID id = UUID.randomUUID();
+        when(repository.findById(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
-            service.updateStudentEducationalLevel(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), EducationalLevel.FUNDAMENTAL);
+            service.updateStudentEducationalLevel(id, EducationalLevel.FUNDAMENTAL);
         });
 
-        verify(repository, times(1)).findById(any(UUID.class));
+        verify(repository, times(1)).findById(any());
         assertEquals("Esse usuário não existe", thrown.getMessage());
-        verify(repository, never()).save(any());
+        verify(repository, never()).save(any(Student.class));
     }
 
     @Test
@@ -188,14 +190,16 @@ class StudentServiceTest {
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
                 LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
         );
+
+        UUID id = UUID.randomUUID();
         when(repository.findById(any())).thenReturn(Optional.of(student));
 
         Exception thrown = assertThrows(NoUpdateRequiredException.class, ()-> {
-            service.updateStudentEducationalLevel(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), EducationalLevel.HIGHER);
+            service.updateStudentEducationalLevel(id, EducationalLevel.HIGHER);
         });
 
         assertEquals("Os campos 'novo' e 'atual' não devem ser iguais", thrown.getMessage());
-        verify(repository, never()).save(any());
+        verify(repository, never()).save(any(Student.class));
     }
 
     @Test
@@ -208,22 +212,23 @@ class StudentServiceTest {
         when(repository.findById(any())).thenReturn(Optional.of(student));
         when(repository.existsByUsername(any())).thenReturn(false);
 
-        service.updateStudentUsername(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "maria.sv");
+        service.updateStudentUsername(any(), "maria.sv");
         verify(repository, times(1)).save(student);
     }
 
     @Test
     @DisplayName("Deve lançar exceção id inválido")
     void updateStudentUsernameCase2() {
-        when(repository.findById(any())).thenThrow(new InexistentOptionException("Esse usuário não existe"));
+        UUID id = UUID.randomUUID();
+        when(repository.findById(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
-            service.updateStudentUsername(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "maria.sv");
+            service.updateStudentUsername(id, "maria.sv");
         });
 
-        verify(repository, times(1)).findById(any(UUID.class));
+        verify(repository, times(1)).findById(any());
         assertEquals("Esse usuário não existe", thrown.getMessage());
-        verify(repository, never()).save(any());
+        verify(repository, never()).save(any(Student.class));
     }
 
     @Test
@@ -236,11 +241,11 @@ class StudentServiceTest {
         when(repository.findById(any())).thenReturn(Optional.of(student));
 
         Exception thrown = assertThrows(NoUpdateRequiredException.class, ()-> {
-            service.updateStudentUsername(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "mmaria12");
+            service.updateStudentUsername(any(), "mmaria12");
         });
 
         assertEquals("Os campos 'novo' e 'atual' não devem ser iguais", thrown.getMessage());
-        verify(repository, never()).save(any());
+        verify(repository, never()).save(any(Student.class));
     }
 
     @Test
@@ -255,11 +260,11 @@ class StudentServiceTest {
         when(repository.existsByUsername(any())).thenReturn(true);
 
         Exception thrown = assertThrows(UsernameAlreadyInUseException.class, ()-> {
-            service.updateStudentUsername(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "maria.sv2");
+            service.updateStudentUsername(any(), "maria.sv2");
         });
 
         assertEquals("Esse username já está sendo utilizado por outro usuário", thrown.getMessage());
-        verify(repository, never()).save(any());
+        verify(repository, never()).save(any(Student.class));
     }
 
     @Test
@@ -271,22 +276,23 @@ class StudentServiceTest {
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
         when(repository.existsByEmail(any())).thenReturn(false);
-        service.updateStudentEmail(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "svmaria@gmail.com");
+        service.updateStudentEmail(any(), "svmaria@gmail.com");
         verify(repository, times(1)).save(student);
     }
 
     @Test
     @DisplayName("Deve lançar exceção id inválido")
     void updateStudentEmailCase2() {
-        when(repository.findById(any())).thenThrow(new InexistentOptionException("Esse usuário não existe"));
+        UUID id = UUID.randomUUID();
+        when(repository.findById(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
-            service.updateStudentEmail(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "maria@outlook.com");
+            service.updateStudentEmail(id, "maria@outlook.com");
         });
 
-        verify(repository, times(1)).findById(any(UUID.class));
+        verify(repository, times(1)).findById(any());
         assertEquals("Esse usuário não existe", thrown.getMessage());
-        verify(repository, never()).save(any());
+        verify(repository, never()).save(any(Student.class));
     }
 
     @Test
@@ -299,11 +305,11 @@ class StudentServiceTest {
         when(repository.findById(any())).thenReturn(Optional.of(student));
 
         Exception thrown = assertThrows(NoUpdateRequiredException.class, ()-> {
-            service.updateStudentEmail(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "msilva@gmail.com");
+            service.updateStudentEmail(any(), "msilva@gmail.com");
         });
 
         assertEquals("Os campos 'novo' e 'atual' não devem ser iguais", thrown.getMessage());
-        verify(repository, never()).save(any());
+        verify(repository, never()).save(any(Student.class));
     }
 
     @Test
@@ -318,11 +324,11 @@ class StudentServiceTest {
         when(repository.existsByEmail(any())).thenReturn(true);
 
         Exception thrown = assertThrows(EmailAlreadyInUseException.class, ()-> {
-            service.updateStudentEmail(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "maria.sv@gmail.com");
+            service.updateStudentEmail(any(), "maria.sv@gmail.com");
         });
 
         assertEquals("Esse e-mail já está sendo utilizado por outro usuário", thrown.getMessage());
-        verify(repository, never()).save(any());
+        verify(repository, never()).save(any(Student.class));
     }
 
     @Test
@@ -333,22 +339,23 @@ class StudentServiceTest {
                 LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
-        service.updateStudentPassword(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "P@ssw0rd!", "MyP@ssw0rd1");
+        service.updateStudentPassword(any(), "P@ssw0rd!", "MyP@ssw0rd1");
         verify(repository, times(1)).save(student);
     }
 
     @Test
     @DisplayName("Deve lançar exceção id inválido")
     void updateStudentPasswordCase2() {
-        when(repository.findById(any())).thenThrow(new InexistentOptionException("Esse usuário não existe"));
+        UUID id = UUID.randomUUID();
+        when(repository.findById(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
-            service.updateStudentPassword(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "P@ssw0rd!", "MyP@ssw0rd1");
+            service.updateStudentPassword(id, "P@ssw0rd!", "MyP@ssw0rd1");
         });
 
-        verify(repository, times(1)).findById(any(UUID.class));
+        verify(repository, times(1)).findById(any());
         assertEquals("Esse usuário não existe", thrown.getMessage());
-        verify(repository, never()).save(any());
+        verify(repository, never()).save(any(Student.class));
     }
 
     @Test
@@ -361,11 +368,11 @@ class StudentServiceTest {
         when(repository.findById(any())).thenReturn(Optional.of(student));
 
         Exception thrown = assertThrows(NoUpdateRequiredException.class, ()-> {
-            service.updateStudentPassword(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "P@ssw0rd!", "P@ssw0rd!");
+            service.updateStudentPassword(any(), "P@ssw0rd!", "P@ssw0rd!");
         });
 
         assertEquals("Os campos 'novo' e 'atual' não devem ser iguais", thrown.getMessage());
-        verify(repository, never()).save(any());
+        verify(repository, never()).save(any(Student.class));
     }
 
     @Test
@@ -377,11 +384,11 @@ class StudentServiceTest {
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
         Exception thrown = assertThrows(InvalidPasswordException.class, ()-> {
-            service.updateStudentPassword(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "P@ssw0rd.", "P@ssw0rd!");
+            service.updateStudentPassword(any(), "P@ssw0rd.", "P@ssw0rd!");
         });
 
         assertEquals("A senha atual está incorreta", thrown.getMessage());
-        verify(repository, never()).save(any());
+        verify(repository, never()).save(any(Student.class));
     }
 
     @Test
@@ -392,20 +399,21 @@ class StudentServiceTest {
                 LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
-        service.deleteStudent(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"));
+        service.deleteStudent(any());
         verify(repository, times(1)).deleteById(any());
     }
 
     @Test
     @DisplayName("Deve lançar exceção id invalido")
     void deleteStudentCase2() {
-        when(repository.findById(any())).thenThrow(new InexistentOptionException("Esse usuário não existe"));
+        UUID id = UUID.randomUUID();
+        when(repository.findById(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
-            service.deleteStudent(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"));
+            service.deleteStudent(id);
         });
 
-        verify(repository, times(1)).findById(any(UUID.class));
+        verify(repository, times(1)).findById(any());
         assertEquals("Esse usuário não existe", thrown.getMessage());
         verify(repository, never()).delete(any());
     }
@@ -418,7 +426,7 @@ class StudentServiceTest {
                 LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
-        StudentDTO studentFound = service.searchStudentId(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"));
+        StudentDTO studentFound = service.searchStudentId(any());
 
         assertEquals(student.getUsername(), studentFound.username());
 
@@ -431,7 +439,7 @@ class StudentServiceTest {
         when(repository.findById(any())).thenThrow(new InexistentOptionException("Esse id não foi encontrado"));
 
         Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
-            service.searchStudentId(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"));
+            service.searchStudentId(any());
         });
 
         verify(repository, times(1)).findById(any());

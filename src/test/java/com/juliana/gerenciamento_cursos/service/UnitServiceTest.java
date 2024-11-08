@@ -2,13 +2,13 @@ package com.juliana.gerenciamento_cursos.service;
 
 import com.juliana.gerenciamento_cursos.DTOs.UnitDTO;
 import com.juliana.gerenciamento_cursos.DTOs.request_payload.UnitRequestPayload;
+import com.juliana.gerenciamento_cursos.DTOs.response.UnitResponse;
 import com.juliana.gerenciamento_cursos.domain.course.Course;
 import com.juliana.gerenciamento_cursos.domain.unit.Difficulty;
 import com.juliana.gerenciamento_cursos.domain.unit.Unit;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.repository.UnitRepository;
-import org.apache.coyote.Request;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,8 +49,9 @@ class UnitServiceTest {
 
         when(courseRepository.findById(any())).thenReturn(Optional.of(course));
         when(repository.save(any())).thenReturn(unit);
-        service.createNewUnit(requestPayload);
+        UnitResponse messageResult = service.createNewUnit(requestPayload);
         verify(repository, times(1)).save(any());
+        assertEquals(unit.getId(), messageResult.id());
     }
 
     @Test
