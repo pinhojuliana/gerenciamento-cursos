@@ -94,7 +94,7 @@ class TeacherServiceTest {
             service.createNewTeacher(requestPayload);
         });
 
-        assertEquals("Esse e-mail está sendo utilizado por outro usuário", thrown.getMessage());
+        assertEquals("Esse e-mail já está sendo utilizado por outro usuário", thrown.getMessage());
         verify(repository, never()).save(any(Teacher.class));
     }
 
@@ -112,7 +112,7 @@ class TeacherServiceTest {
             service.createNewTeacher(requestPayload);
         });
 
-        assertEquals("Esse username está sendo utilizado por outro usuário", thrown.getMessage());
+        assertEquals("Esse username já está sendo utilizado por outro usuário", thrown.getMessage());
         verify(repository, never()).save(any(Teacher.class));
     }
 
@@ -152,7 +152,7 @@ class TeacherServiceTest {
 
         when(repository.findById(any())).thenReturn(Optional.of(teacher));
         when(repository.existsSkill(any(), any())).thenReturn(false);
-        service.addSkill(any(), any());
+        service.addSkill(any(), "java");
         verify(repository, times(1)).save(any());
     }
 
@@ -162,7 +162,7 @@ class TeacherServiceTest {
         when(repository.findById(any())).thenThrow(new InexistentOptionException("Esse usuário não existe"));
 
         assertThrows(InexistentOptionException.class, () -> {
-            service.addSkill(any(), any());
+            service.addSkill(any(), "java");
         });
 
         verify(repository, never()).save(any());
@@ -198,7 +198,7 @@ class TeacherServiceTest {
 
         when(repository.findById(any())).thenReturn(Optional.of(teacher));
         when(repository.existsSkill(any(), any())).thenReturn(true);
-        service.removeSkill(any(), any());
+        service.removeSkill(any(), "java");
 
         verify(repository, times(1)).save(any());
     }
@@ -209,7 +209,7 @@ class TeacherServiceTest {
         when(repository.findById(any())).thenThrow(new InexistentOptionException("Esse usuário não existe"));
 
         assertThrows(InexistentOptionException.class, () -> {
-            service.removeSkill(any(), any());
+            service.removeSkill(any(), "java");
         });
 
         verify(repository, never()).save(any());
@@ -413,7 +413,7 @@ class TeacherServiceTest {
         );
         when(repository.findById(any())).thenReturn(Optional.of(teacher));
         Exception thrown = assertThrows(InvalidPasswordException.class, ()-> {
-            service.updateTeacherPassword(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "P@ssw0rd.", "P@ssw0rd!");
+            service.updateTeacherPassword(UUID.fromString("d0f7e9d7-27e5-4c8e-b3fc-96237e9a7f04"), "P@ssw0rd.", "P@ssw0rd#");
         });
 
         assertEquals("A senha atual está incorreta", thrown.getMessage());
