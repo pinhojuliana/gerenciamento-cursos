@@ -57,13 +57,11 @@ public class EnrollmentService {
             throw new InexistentOptionException("Esse curso não existe");
         }
 
-        List<EnrollmentDTO> enrollments = repository.findByCourseId(courseId)
+        return repository.findByCourseId(courseId)
+                .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse curso"))
                 .stream()
-                .map(e -> convertToDTO(e))
-                .toList()
-                .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse curso"));
-
-        return enrollments;
+                .map(this::convertToDTO)
+                .toList();
     }
 
     public List<EnrollmentDTO> showStudentEnrollments(UUID studentId){

@@ -86,7 +86,7 @@ public class CourseService {
         validateId(courseId);
 
         List<TeacherDTO> teachers = teacherCourseRepository.findTeachersByCourseId(courseId).stream()
-                .map(t -> new TeacherDTO(t.getName(), t.getUsername(), t.getUsername(), t.getDateOfBirth(), t.getSkills()))
+                .map(t -> new TeacherDTO(t.getName(), t.getUsername(), t.getEmail(), t.getDateOfBirth(), t.getSkills()))
                 .toList();
 
         if(teachers.isEmpty()){
