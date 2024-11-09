@@ -27,12 +27,12 @@ public class EnrollmentService {
 
     private final CourseRepository courseRepository;
 
-    public EnrollmentResponse enrollStudentInCourse(EnrollmentRequestPayload requestPayload){
+    public EnrollmentResponse enrollStudentInCourse(EnrollmentRequestPayload requestPayload) throws InexistentOptionException, NoUpdateRequiredException{
         Course course = courseRepository.findById(requestPayload.courseId()).orElseThrow(()-> new InexistentOptionException("Curso não encontrado"));
         Student student = studentRepository.findById(requestPayload.studentId()).orElseThrow(()-> new InexistentOptionException("Aluno não encontrado"));
 
         if (repository.existsByStudentIdAndCourseId(requestPayload.studentId(), requestPayload.courseId())) {
-            throw new InexistentOptionException("Aluno já inscrito neste curso");
+            throw new NoUpdateRequiredException("Aluno já inscrito neste curso");
         }
 
         Enrollment newEnrollment = new Enrollment(course, student);
@@ -49,46 +49,89 @@ public class EnrollmentService {
         if(enrollments.isEmpty()){
             throw new EmptyListException("Nenhuma inscrição encontrada");
         }
+
         return enrollments;
     }
 
+
+
+    //terminar
+
     public List<EnrollmentDTO> showCourseEnrollments(UUID courseId) {
-        if (!repository.existsByCourseId(courseId)) {
-            throw new InexistentOptionException("Esse curso não existe");
+        /* if(!repository.existsByCourseId(courseId)){
+            throw new InexistentOptionException("Curso não encontrado");
         }
 
-        return repository.findByCourseId(courseId)
-                .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse curso"))
+        List<EnrollmentDTO> enrollments = repository.findAll()
                 .stream()
-                .map(this::convertToDTO)
+                .filter(e -> e.getCourse().getId().equals(courseId))
+                .map(e -> new EnrollmentDTO(e.getCourse().getTitle(),
+                        e.getStudent().getUsername(),
+                        e.getEnrollmentDateTime(),
+                        e.getDeadlineForCompletion(),
+                        e.getDuration(),
+                        e.isActive()))
                 .toList();
+
+        if(enrollments.isEmpty()){
+            throw new EmptyListException("Nenhuma inscrição encontrada para esse curso");
+        }
+
+        return enrollments;*/
+
+        return null;
+    }
+
+    public List<EnrollmentDTO> showCourseEnrollmentsActive(UUID courseId) {
+        /*if(!repository.existsByCourseId(courseId)){
+            throw new InexistentOptionException("Curso não encontrado");
+        }
+
+        List<EnrollmentDTO> enrollments = repository.findAll()
+                .stream()
+                .filter(e -> e.getCourse().getId().equals(courseId) && e.isActive())
+                .map(e -> new EnrollmentDTO(e.getCourse().getTitle(),
+                        e.getStudent().getUsername(),
+                        e.getEnrollmentDateTime(),
+                        e.getDeadlineForCompletion(),
+                        e.getDuration(),
+                        true))
+                .toList();
+
+        if(enrollments.isEmpty()){
+            throw new EmptyListException("Nenhuma inscrição ativa encontrada para esse curso");
+        }
+
+        return enrollments; */
+        return null;
     }
 
     public List<EnrollmentDTO> showStudentEnrollments(UUID studentId){
-        if (repository.existsByStudentId(studentId)) {
-            List<Enrollment> enrollments = repository.findByStudentId(studentId)
-                    .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse aluno"));
-
-            return enrollments.stream()
-                    .map(this::convertToDTO)
-                    .toList();
+       /* if(!repository.existsByStudentId(studentId)){
+            throw new InexistentOptionException("Aluno não encontrado");
         }
-        throw new InexistentOptionException("Esse aluno não existe");
-    }
 
-    public List<EnrollmentDTO> showStudentsEnrollmentsActive(UUID courseId) {
-        List<Enrollment> enrollments = repository.
-                findByCourseId(courseId)
-                .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse curso"));
-
-        return enrollments.stream()
-                .filter(Enrollment::isActive)
+        List<EnrollmentDTO> enrollments =  repository.findAll()
+                .stream()
+                .filter(e -> e.getStudent().getId().equals(studentId))
                 .map(this::convertToDTO)
                 .toList();
+
+        if(enrollments.isEmpty()){
+            throw new EmptyListException("Nenhuma inscrição encontrada para esse aluno");
+        }
+
+        return enrollments; */
+
+        return null;
     }
 
     public void unsubscribeStudentOfCourse(EnrollmentRequestPayload requestPayload) throws NoUpdateRequiredException {
-      Enrollment enrollment = repository.findByStudentIdAndCourseId(requestPayload.studentId(), requestPayload.courseId()).orElseThrow(() -> new InexistentOptionException("Inscrição não encontrada"));
+        Enrollment enrollment = repository.findAll().stream()
+                .filter(e -> e.getStudent().getId().equals(requestPayload.studentId()) &&
+                        e.getCourse().getId().equals(requestPayload.courseId()))
+                .findFirst()
+                .orElseThrow(() -> new InexistentOptionException("Inscrição não encontrada"));
 
         if (!enrollment.isActive()) {
             throw new NoUpdateRequiredException("A inscrição já está inativa");
@@ -96,7 +139,6 @@ public class EnrollmentService {
 
       enrollment.setActive(false);
       repository.save(enrollment);
-
     }
 
     private EnrollmentDTO convertToDTO(Enrollment enrollment){
