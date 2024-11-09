@@ -37,8 +37,8 @@ public class EnrollmentController {
     }
 
     @GetMapping("/course/active?{id}")
-    public ResponseEntity<List<EnrollmentDTO>> showStudentsEnrollmentsActive(@PathVariable UUID courseId){
-        List<EnrollmentDTO> enrollments =  service.showStudentsEnrollmentsActive(courseId);
+    public ResponseEntity<List<EnrollmentDTO>> showCourseEnrollmentsActive(@PathVariable UUID courseId){
+        List<EnrollmentDTO> enrollments =  service.showCourseEnrollmentsActive(courseId);
         return ResponseEntity.ok(enrollments);
     }
 

@@ -53,6 +53,8 @@ public abstract class Client implements Comparable<Client>{
         this.dateOfBirth = dateOfBirth;
     }
 
+    public Client(){}
+
     @Override
     public int compareTo(Client client) {
         return this.getName().compareTo(client.getName());

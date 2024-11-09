@@ -2,6 +2,7 @@ package com.juliana.gerenciamento_cursos.domain.course;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @Table(name = "course")
 @Getter
 @Setter
+@NoArgsConstructor
 @ToString
 public class Course {
     @Id

@@ -2,6 +2,7 @@ package com.juliana.gerenciamento_cursos.domain.client;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @Table(name = "student")
 @Getter
 @Setter
+@NoArgsConstructor
 @ToString
 public class Student extends Client {
 

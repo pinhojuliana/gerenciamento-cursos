@@ -36,20 +36,32 @@ public class UnitService {
     }
 
     public List<UnitDTO> findUnitsByCourse(UUID courseId) throws InexistentOptionException, EmptyListException{
-        return repository.findByCourseId(courseId)
+        List<UnitDTO> units = repository.findByCourseId(courseId)
                 .orElseThrow(() -> new InexistentOptionException("Nenhum modulo encontrado"))
                 .stream()
                 .map(this::convertToDTO)
                 .toList();
+
+        if(units.isEmpty()){
+            throw new EmptyListException("Não há unidades registradas nesse curso");
+        }
+
+        return units;
     }
 
     public List<UnitDTO> findUnitInCourse(UUID courseId, String title) throws InexistentOptionException, EmptyListException {
-        return repository.findByCourseId(courseId)
+        List<UnitDTO> units = repository.findByCourseId(courseId)
                 .orElseThrow(() -> new InexistentOptionException("Nenhum modulo encontrado"))
                 .stream()
                 .filter(m -> m.getTitle().equalsIgnoreCase(title))
                 .map(this::convertToDTO)
                 .toList();
+
+        if(units.isEmpty()){
+            throw new EmptyListException(String.format("Não há unidade '%S' nesse curso", title));
+        }
+
+        return units;
     }
 
     private void validateId(UUID id){
