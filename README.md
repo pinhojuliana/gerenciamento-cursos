@@ -22,7 +22,7 @@ Bem-vindo ao Sistema de Gestão de Cursos! Este projeto é uma aplicação Java 
 - **JUnit** e **Mockito**: Para testes unitários.
 - **H2**: Banco de dados SQL para testes.
 - **Postgres**: Banco de dados SQL para produção.
-- - **Swagger**: Para documentação da API e clientes HTTP.
+- **Swagger**: Para documentação da API e clientes HTTP.
 
 ## 📑 Documentação da API
 
