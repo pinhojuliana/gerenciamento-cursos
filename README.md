@@ -1,8 +1,10 @@
 # 📚 Sistema de Gestão de Cursos
 
 Bem-vindo ao Sistema de Gestão de Cursos! Este projeto é uma aplicação Java que permite gerenciar cursos, aulas, alunos e professores de forma eficiente e organizada.
-**O projeto ainda está em construção** e necessita de alguns ajustes e melhorias, como: implementar testes unitàrios e adicionar segurança. Se tiver alguma sugestão ou encontrar algum erro, sua ajuda é muito bem vinda!
 
+**O projeto ainda está em construção**: faltam alguns ajustes para fazer o deploy.
+
+*Meu objetivo é otimizar ao máximo minha aplicação, então se tiver alguma sugestão ou encontrar algum erro, sua ajuda é muito bem-vinda!* 😊
 
 ## 🚀 Funcionalidades
 
@@ -18,8 +20,34 @@ Bem-vindo ao Sistema de Gestão de Cursos! Este projeto é uma aplicação Java 
 - **Spring Boot**: Framework para desenvolvimento de aplicações Java.
 - **Hibernate**: Para manipulação do banco de dados.
 - **JUnit** e **Mockito**: Para testes unitários.
-- **Postgres**: Banco de dados SQL.
+- **H2**: Banco de dados SQL para testes.
+- **Postgres**: Banco de dados SQL para produção.
+- - **Swagger**: Para documentação da API e clientes HTTP.
 
+## 📑 Documentação da API
+
+A documentação da API é gerada automaticamente usando o **Swagger**. Você pode acessá-la no seguinte endpoint:
+
+[![Swagger](https://img.shields.io/badge/Swagger-25B7B7?style=for-the-badge&logo=swagger&logoColor=white)](http://localhost:8080/swagger-ui.html)
+
+Este endpoint fornece uma interface interativa para testar os endpoints da API, facilitando o uso e a integração.
+
+## 🌐 Deploy
+
+O projeto está sendo implantado utilizando o **Railway**, que oferece uma maneira simples e prática para fazer o deploy de aplicações em ambientes de produção.
+
+[![Railway](https://img.shields.io/badge/Railway-000000?style=for-the-badge&logo=railway&logoColor=white)](sua-url-aqui)
+
+
+## 📄 Licença
+
+Este projeto é licenciado sob a [**MIT License**](https://github.com/pinhojuliana/gerenciamento-cursos?tab=MIT-1-ov-file#readme)
+
+## 🧑‍💻 Contribuições
+
+Se você deseja contribuir para o projeto, fique à vontade para dar um **fork** ou **enviar pull requests**. Caso tenha sugestões ou correções, abra uma issue.
+
+## 📊 Diagrama UML
 ```mermaid
 classDiagram
  class Client {
