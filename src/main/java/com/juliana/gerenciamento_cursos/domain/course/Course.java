@@ -1,5 +1,6 @@
 package com.juliana.gerenciamento_cursos.domain.course;
 
+import com.juliana.gerenciamento_cursos.domain.client.Teacher;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -36,8 +39,18 @@ public class Course {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @ManyToMany
+    @JoinTable(
+            name = "teacher_course",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "teacher_id")
+    )
+    private Set<Teacher> teachers;
+
+
     public Course(String title, String description){
         this.title = title;
         this.description = description;
+        this.teachers = new HashSet<>();
     }
 }
