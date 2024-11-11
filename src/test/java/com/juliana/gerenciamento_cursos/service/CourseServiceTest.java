@@ -11,7 +11,6 @@ import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.exceptions.NoUpdateRequiredException;
 import com.juliana.gerenciamento_cursos.exceptions.TitleAlreadyInUseException;
 import com.juliana.gerenciamento_cursos.repository.CourseRepository;
-import com.juliana.gerenciamento_cursos.repository.TeacherCourseRepository;
 import com.juliana.gerenciamento_cursos.repository.TeacherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,10 +20,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -36,9 +33,6 @@ class CourseServiceTest {
 
     @Mock
     TeacherRepository teacherRepository;
-
-    @Mock
-    TeacherCourseRepository teacherCourseRepository;
 
     @InjectMocks
     CourseService service;
@@ -207,109 +201,117 @@ class CourseServiceTest {
     @Test
     @DisplayName("Deve adicionar professor com sucesso")
     void addTeacherCase1() {
-        when(repository.existsById(any())).thenReturn(true);
-        when(teacherRepository.existsById(any())).thenReturn(true);
+        Course course = new Course("Java", "Faça aplicções utilizando java e Spring boot");
+        Teacher teacher = new Teacher(
+                "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
+                LocalDate.of(1997, 3, 7)
+        );
+
+        when(repository.findById(any())).thenReturn(Optional.of(course));
+        when(teacherRepository.findById(any())).thenReturn(Optional.of(teacher));
 
         service.addTeacher(UUID.randomUUID(), UUID.randomUUID());
 
-        verify(teacherCourseRepository, times(1)).addTeacherToCourse(any(UUID.class), any(UUID.class));
+        verify(repository, times(1)).save(any());
     }
 
     @Test
     @DisplayName("Deve lançar exceção id invalido (teacher)")
     void addTeacherCase2() {
-        when(repository.existsById(any())).thenReturn(true);
-        when(teacherRepository.existsById(any())).thenReturn(false);
+        when(repository.findById(any())).thenReturn(Optional.of(new Course()));
+        when(teacherRepository.findById(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(InexistentOptionException.class, () -> {
             service.addTeacher(UUID.randomUUID(), UUID.randomUUID());
         });
 
-        assertEquals("Id não encontrado", thrown.getMessage());
+        assertEquals("Professor não encontrado", thrown.getMessage());
 
-        verify(teacherCourseRepository, never()).addTeacherToCourse(any(UUID.class), any(UUID.class));
+        verify(repository, never()).save(any());
     }
 
     @Test
     @DisplayName("Deve lançar exceçao id invalido (course)")
     void addTeacherCase3() {
-        when(repository.existsById(any())).thenReturn(false);
+        when(repository.findById(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(InexistentOptionException.class, () -> {
             service.addTeacher(UUID.randomUUID(), UUID.randomUUID());
         });
 
-        assertEquals("Id não encontrado", thrown.getMessage());
+        assertEquals("Esse curso não existe", thrown.getMessage());
 
-        verify(teacherCourseRepository, never()).addTeacherToCourse(any(UUID.class), any(UUID.class));
+        verify(repository, never()).save(any());
     }
 
     @Test
     @DisplayName("Deve remover professor com sucesso")
     void removeTeacherCase1() {
-        when(repository.existsById(any())).thenReturn(true);
-        when(teacherRepository.existsById(any())).thenReturn(true);
+        Course course = new Course("Java", "Aprende a fazer aplicações java");
+        Teacher teacher = new Teacher("Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
+                LocalDate.of(1995, 3, 7));
+        course.getTeachers().add(teacher);
+
+        when(repository.findById(any())).thenReturn(Optional.of(course));
+        when(teacherRepository.findById(any())).thenReturn(Optional.of(teacher));
 
         service.removeTeacher(UUID.randomUUID(), UUID.randomUUID());
 
-        verify(teacherCourseRepository, times(1)).removeTeacherFromCourse(any(UUID.class), any(UUID.class));
+        verify(repository, times(1)).save(any());
     }
 
     @Test
     @DisplayName("Deve lançar exceção id invalido (teacher)")
     void removeTeacherCase2() {
-        when(repository.existsById(any())).thenReturn(true);
-        when(teacherRepository.existsById(any())).thenReturn(false);
+        when(repository.findById(any())).thenReturn(Optional.of(new Course()));
+        when(teacherRepository.findById(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(InexistentOptionException.class, () -> {
             service.removeTeacher(UUID.randomUUID(), UUID.randomUUID());
         });
 
-        assertEquals("Id não encontrado", thrown.getMessage());
+        assertEquals("Professor não encontrado", thrown.getMessage());
 
-        verify(teacherCourseRepository, never()).removeTeacherFromCourse(any(UUID.class), any(UUID.class));
+        verify(repository, never()).save(any());
     }
 
     @Test
     @DisplayName("Deve lançar exceçao id invalido (course)")
     void removeTeacherCase3() {
-        UUID id = UUID.randomUUID();
-        UUID id2 = UUID.randomUUID();
-
-        when(repository.existsById(any())).thenReturn(false);
+        when(repository.findById(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(InexistentOptionException.class, () -> {
-            service.removeTeacher(id, id2);
+            service.removeTeacher(UUID.randomUUID(), UUID.randomUUID());
         });
 
-        assertEquals("Id não encontrado", thrown.getMessage());
+        assertEquals("Esse curso não existe", thrown.getMessage());
 
-        verify(teacherCourseRepository, never()).removeTeacherFromCourse(any(), any());
+        verify(repository, never()).save(any());
     }
 
     @Test
     @DisplayName("Deve retornar lista de professores")
     void showTeachersOfCourseCase1() {
-        UUID id = UUID.randomUUID();
-
         Course course = new Course("Java", "Faça aplicções utilizando java e Spring boot");
-        when(repository.findById(any(UUID.class))).thenReturn(Optional.of(course));
 
         Teacher teacher = new Teacher(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
                 LocalDate.of(1997, 3, 7)
         );
 
-        Teacher teacher2 = new Teacher(
+        Teacher teacher1 = new Teacher(
                 "Ana Maria", "silva.mr", "anasilva@gmail.com", "P@ssw0rd!",
                 LocalDate.of(2000, 5, 6)
         );
 
         List<Teacher> teachers = new ArrayList<>();
         teachers.add(teacher);
-        teachers.add(teacher2);
+        teachers.add(teacher1);
 
-        List<TeacherDTO> teachersConverted = teachers.stream()
+        course.getTeachers().add(teacher);
+        course.getTeachers().add(teacher1);
+
+        Set<TeacherDTO> teachersConverted = teachers.stream()
                 .map(t ->  new TeacherDTO(
                         t.getName(),
                         t.getUsername(),
@@ -317,10 +319,10 @@ class CourseServiceTest {
                         t.getDateOfBirth(),
                         t.getSkills()
                 ))
-                .toList();
+                .collect(Collectors.toSet());
 
-        when(teacherCourseRepository.findTeachersByCourseId(any(UUID.class))).thenReturn(teachers);
-        List<TeacherDTO> result = service.showTeachersOfCourse(id);
+        when(repository.findById(any())).thenReturn(Optional.of(course));
+        Set<TeacherDTO> result = service.showTeachersOfCourse(UUID.randomUUID());
 
         assertEquals(teachersConverted, result);
     }
@@ -328,11 +330,10 @@ class CourseServiceTest {
     @Test
     @DisplayName("Deve lançar exceção id inválido")
     void showTeachersOfCourseCase2() {
-        UUID id = UUID.randomUUID();
         when(repository.findById(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(InexistentOptionException.class, () -> {
-            service.showTeachersOfCourse(id);
+            service.showTeachersOfCourse(UUID.randomUUID());
         });
 
         assertEquals("Esse curso não existe", thrown.getMessage());
@@ -341,15 +342,11 @@ class CourseServiceTest {
     @Test
     @DisplayName("Deve lançar exceção lista vazia")
     void showTeachersOfCourseCase3() {
-        UUID id = UUID.randomUUID();
-
         Course course = new Course("Java", "Faça aplicções utilizando java e Spring boot");
         when(repository.findById(any())).thenReturn(Optional.of(course));
 
-        when(teacherCourseRepository.findTeachersByCourseId(any())).thenReturn(new ArrayList<>());
-
         Exception thrown = assertThrows(EmptyListException.class, () -> {
-            service.showTeachersOfCourse(id);
+            service.showTeachersOfCourse(UUID.randomUUID());
         });
 
         assertEquals("Nada encontrado", thrown.getMessage());

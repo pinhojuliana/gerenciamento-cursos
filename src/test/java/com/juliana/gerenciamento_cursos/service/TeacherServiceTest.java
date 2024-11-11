@@ -7,7 +7,6 @@ import com.juliana.gerenciamento_cursos.DTOs.response.ClientResponse;
 import com.juliana.gerenciamento_cursos.domain.client.Teacher;
 import com.juliana.gerenciamento_cursos.domain.course.Course;
 import com.juliana.gerenciamento_cursos.exceptions.*;
-import com.juliana.gerenciamento_cursos.repository.TeacherCourseRepository;
 import com.juliana.gerenciamento_cursos.repository.TeacherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,10 +16,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -30,9 +27,6 @@ import static org.mockito.Mockito.*;
 class TeacherServiceTest {
     @Mock
     TeacherRepository repository;
-
-    @Mock
-    TeacherCourseRepository teacherCourseRepository;
 
     @InjectMocks
     TeacherService service;
@@ -152,7 +146,6 @@ class TeacherServiceTest {
         );
 
         when(repository.findById(any())).thenReturn(Optional.of(teacher));
-        when(repository.existsSkill(any(), any())).thenReturn(false);
         service.addSkill(any(), "java");
         verify(repository, times(1)).save(any());
     }
@@ -180,8 +173,9 @@ class TeacherServiceTest {
                 LocalDate.of(1997, 3, 7)
         );
 
+        teacher.getSkills().add("java");
+
         when(repository.findById(any())).thenReturn(Optional.of(teacher));
-        when(repository.existsSkill(any(), any())).thenReturn(true);
 
         Exception thrown = assertThrows(SkillAlreadyExistsException.class, () -> {
             service.addSkill(any(), "java");
@@ -199,9 +193,9 @@ class TeacherServiceTest {
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
                 LocalDate.of(1997, 3, 7)
         );
+        teacher.getSkills().add("java");
 
         when(repository.findById(any())).thenReturn(Optional.of(teacher));
-        when(repository.existsSkill(any(), any())).thenReturn(true);
         service.removeSkill(any(), "java");
 
         verify(repository, times(1)).save(any());
@@ -230,7 +224,6 @@ class TeacherServiceTest {
         );
 
         when(repository.findById(any())).thenReturn(Optional.of(teacher));
-        when(repository.existsSkill(any(), any())).thenReturn(false);
 
         Exception thrown = assertThrows(InexistentOptionException.class, () -> {
             service.removeSkill(any(), "java");
@@ -524,31 +517,31 @@ class TeacherServiceTest {
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
                 LocalDate.of(1997, 3, 7)
         );
-
-        when(repository.findById(any())).thenReturn(Optional.of(teacher));
-
         Course course = new Course("Java", "Faça aplicções utilizando java e Spring boot");
         Course course1 = new Course("Python", "Aprenda uma das linguagens mais famosas e versáteis com os melhores do mercado");
-        List<Course> courses = new ArrayList<>();
+
+        teacher.getCoursesTaught().add(course);
+        teacher.getCoursesTaught().add(course1);
+
+        Set<Course> courses = new HashSet<>();
         courses.add(course);
         courses.add(course1);
-        List<CourseDTO> coursesConverted = courses.stream()
+        Set<CourseDTO> coursesConverted = courses.stream()
                 .map(c -> new CourseDTO(c.getTitle(), c.getDescription(), c.getCreatedAt()))
-                .toList();
+                .collect(Collectors.toSet());
 
-        when(teacherCourseRepository.findCoursesByTeacherId(any())).thenReturn(courses);
-        List<CourseDTO> result = service.showAllCoursesTaught(any());
+        when(repository.findById(any())).thenReturn(Optional.of(teacher));
+        Set<CourseDTO> result = service.showAllCoursesTaught(UUID.randomUUID());
         assertEquals(coursesConverted, result);
     }
 
     @Test
     @DisplayName("Deve lançar exceção id inválido")
     void showAllCoursesTaughtCase2() {
-        UUID id = UUID.randomUUID();
         when(repository.findById(any())).thenReturn(Optional.empty());
 
         assertThrows(InexistentOptionException.class, () -> {
-            service.showAllCoursesTaught(id);
+            service.showAllCoursesTaught(UUID.randomUUID());
         });
     }
 
@@ -561,13 +554,12 @@ class TeacherServiceTest {
         );
 
         when(repository.findById(any())).thenReturn(Optional.of(teacher));
-        when(teacherCourseRepository.findCoursesByTeacherId(any())).thenReturn(new ArrayList<>());
 
         Exception thrown = assertThrows(EmptyListException.class, () ->{
             service.showAllCoursesTaught(any());
         });
 
-        assertEquals("Nada encontrado", thrown.getMessage());
+        assertEquals("Não há cursos ministrados.", thrown.getMessage());
     }
 
 }
