@@ -3,6 +3,7 @@ package com.juliana.gerenciamento_cursos.domain.client;
 import com.juliana.gerenciamento_cursos.domain.course.Course;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -13,6 +14,7 @@ import java.util.*;
 @Table(name = "teacher")
 @Getter
 @Setter
+@NoArgsConstructor
 @ToString
 public class Teacher extends Client {
     @ElementCollection
