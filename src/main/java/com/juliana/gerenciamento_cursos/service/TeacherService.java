@@ -6,7 +6,6 @@ import com.juliana.gerenciamento_cursos.DTOs.response.ClientResponse;
 import com.juliana.gerenciamento_cursos.domain.client.Teacher;
 import com.juliana.gerenciamento_cursos.DTOs.TeacherDTO;
 import com.juliana.gerenciamento_cursos.domain.course.Course;
-import com.juliana.gerenciamento_cursos.repository.TeacherCourseRepository;
 import com.juliana.gerenciamento_cursos.exceptions.*;
 import com.juliana.gerenciamento_cursos.repository.TeacherRepository;
 import com.juliana.gerenciamento_cursos.util.AgeValidation;
@@ -20,8 +19,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TeacherService {
     private final TeacherRepository repository;
-
-    private final TeacherCourseRepository teacherCourseRepository;
 
     public ClientResponse createNewTeacher(TeacherRequestPayload requestPayload) throws UnderageException {
         validateUniqueUsername(requestPayload.username());
@@ -44,10 +41,10 @@ public class TeacherService {
         repository.deleteById(id);
     }
 
-    public void addSkill(UUID id, String skill) throws SkillAlreadyExistsException {
+    public void addSkill(UUID id, String skill) throws SkillAlreadyExistsException, IllegalArgumentException{
         Teacher teacher = validateId(id);
 
-        if(validateSkill(id, skill)){
+        if(!teacher.getSkills().add(skill)){
             throw new SkillAlreadyExistsException(String.format("A skill '%s' já existe neste perfil", skill));
         }
 
@@ -58,7 +55,7 @@ public class TeacherService {
     public void removeSkill(UUID id, String skill) throws InexistentOptionException {
         Teacher teacher = validateId(id);
 
-        if(!validateSkill(id, skill)){
+        if(!teacher.getSkills().remove(skill)){
             throw new InexistentOptionException(String.format("A skill '%s' não foi encontrada", skill));
         }
 
@@ -158,9 +155,5 @@ public class TeacherService {
                 teacher.getDateOfBirth(),
                 teacher.getSkills()
         );
-    }
-
-    private boolean validateSkill(UUID id, String skill){
-        return repository.existsSkill(id, skill);
     }
 }
