@@ -154,10 +154,6 @@ class EnrollmentServiceTest {
         assertEquals("Nenhuma inscrição encontrada", thrown.getMessage());
     }
 
-
-
-
-    //Terminar
     @Test
     @DisplayName("Deve retornar lista de inscrições em um curso")
     void showEnrollmentsCourseCase1() {
@@ -167,27 +163,18 @@ class EnrollmentServiceTest {
         );
 
         Student student1 = new Student(
-                "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
-        );
-
-        Student student2 = new Student(
                 "Ana Maria", "ana.maria5", "anaa2@gmail.com", "P@ssw0rd!",
                 LocalDate.of(1995, 12, 7), "estudante de java", EducationalLevel.HIGHER
         );
 
         Course course = new Course("Java", "Curso de java");
-        Course course1 = new Course("Pyhton", "curso de phyton");
-
 
         Enrollment enrollment = new Enrollment(course, student);
-        Enrollment enrollment1 = new Enrollment(course1, student1);
-        Enrollment enrollment2 = new Enrollment(course, student2);
+        Enrollment enrollment1 = new Enrollment(course, student1);
 
         List<Enrollment> enrollments = new ArrayList<>();
         enrollments.add(enrollment);
         enrollments.add(enrollment1);
-        enrollments.add(enrollment2);
 
         List<EnrollmentDTO> enrollmentsConverted = enrollments.stream()
                 .filter(e -> e.getCourse().equals(course))
@@ -199,103 +186,22 @@ class EnrollmentServiceTest {
                         e.isActive()))
                 .toList();
 
+        when(repository.findByCourseId(any())).thenReturn(Optional.of(enrollments));
+        List<EnrollmentDTO> result = service.showCourseEnrollments(any());
 
-       // List<EnrollmentDTO> result = service.showCourseEnrollments();
-
-        //assertEquals(enrollmentsConverted, result);
-    }
-
-    @Test
-    @DisplayName("Deve lançar exceção curso nao existente")
-    void showEnrollmentsCourseCase2() {
-        //
-
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
-            service.showCourseEnrollments(UUID.randomUUID());
-        });
-
-        assertEquals("Curso não encontrado", thrown.getMessage());
+        assertEquals(enrollmentsConverted, result);
     }
 
     @Test
     @DisplayName("Deve lançar exceção lista vazia")
-    void showEnrollmentsCourseCase3() {
-        //
+    void showEnrollmentsCourseCase2() {
+        when(repository.findByCourseId(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(EmptyListException.class, () -> {
             service.showCourseEnrollments(UUID.randomUUID());
         });
 
         assertEquals("Nenhuma inscrição encontrada para esse curso", thrown.getMessage());
-    }
-
-    @Test
-    @DisplayName("Deve retornar lista de inscrições de um estudante em cursos")
-    void showEnrollmentsStudentCase1() {
-        Student student = new Student(
-                "Maria Eduarda", "dudam_", "duda@gmail.com", "P@ssw0rd!",
-                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGHER
-        );
-
-        Student student1 = new Student(
-                "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
-        );
-
-        Course course = new Course("Java", "Curso de java");
-        Course course1 = new Course("Phyton", "curso de Phyton");
-        Course course2 = new Course("Java Script", "Curso de Java Script");
-
-        Enrollment enrollment = new Enrollment(course, student);
-        Enrollment enrollment1 = new Enrollment(course1, student);
-        Enrollment enrollment2 = new Enrollment(course2, student1);
-        Enrollment enrollment3 = new Enrollment(course1, student1);
-
-        List<Enrollment> enrollments = new ArrayList<>();
-        enrollments.add(enrollment);
-        enrollments.add(enrollment1);
-        enrollments.add(enrollment2);
-        enrollments.add(enrollment3);
-
-        List<EnrollmentDTO> enrollmentsConverted = enrollments.stream()
-                .filter(e -> e.getStudent().equals(student))
-                .map(e -> new EnrollmentDTO(e.getCourse().getTitle(),
-                        e.getStudent().getUsername(),
-                        e.getEnrollmentDateTime(),
-                        e.getDeadlineForCompletion(),
-                        e.getDuration(),
-                        e.isActive()))
-                .toList();
-
-
-       //List<EnrollmentDTO> result = service.showStudentEnrollments(student.getId());
-
-       //assertEquals(enrollmentsConverted, result);
-    }
-
-    @Test
-    @DisplayName("Deve lançar exceção aluno nao existente")
-    void showEnrollmentsStudentCase2() {
-        //
-
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
-            service.showStudentEnrollments(UUID.randomUUID());
-        });
-
-        assertEquals("Aluno não encontrado", thrown.getMessage());
-    }
-
-    @Test
-    @DisplayName("Deve lançar exceção lista vazia")
-    void showEnrollmentsStudentCase3() {
-        //
-
-        Exception thrown = assertThrows(EmptyListException.class, () -> {
-            service.showStudentEnrollments(UUID.randomUUID());
-        });
-
-        assertEquals("Nenhuma inscrição encontrada para esse aluno", thrown.getMessage());
-
     }
 
     @Test
@@ -311,29 +217,19 @@ class EnrollmentServiceTest {
                 LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
         );
 
-        Student student2 = new Student(
-                "Ana Maria", "ana.maria5", "anaa2@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1995, 12, 7), "estudante de java", EducationalLevel.HIGHER
-        );
-
         Course course = new Course("Java", "Curso de java");
-        course.setId(UUID.randomUUID());
-        Course course1 = new Course("Pyhton", "curso de phyton");
-        course1.setId(UUID.randomUUID());
 
         Enrollment enrollment = new Enrollment(course, student);
-        Enrollment enrollment1 = new Enrollment(course1, student1);
-        Enrollment enrollment2 = new Enrollment(course, student2);
+        Enrollment enrollment1 = new Enrollment(course, student1);
 
-        enrollment2.setActive(false);
+        enrollment1.setActive(false);
 
         List<Enrollment> enrollments = new ArrayList<>();
         enrollments.add(enrollment);
         enrollments.add(enrollment1);
-        enrollments.add(enrollment2);
 
         List<EnrollmentDTO> enrollmentsConverted = enrollments.stream()
-                .filter(e -> e.getCourse().equals(course) && e.isActive())
+                .filter(Enrollment::isActive)
                 .map(e -> new EnrollmentDTO(e.getCourse().getTitle(),
                         e.getStudent().getUsername(),
                         e.getEnrollmentDateTime(),
@@ -342,47 +238,129 @@ class EnrollmentServiceTest {
                         true))
                 .toList();
 
-       // List<EnrollmentDTO> result = service.showCourseEnrollmentsActive(course.getId());
+        when(repository.findByCourseId(any())).thenReturn(Optional.of(enrollments));
+        List<EnrollmentDTO> result = service.showCourseEnrollmentsActive(any());
 
-        //assertEquals(enrollmentsConverted, result);
+        assertEquals(enrollmentsConverted, result);
     }
 
     @Test
     @DisplayName("Deve lançar exceção lista vazia")
     void showStudentsEnrollmentsActiveCase2() {
-        //
+        when(repository.findByCourseId(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(EmptyListException.class, () -> {
             service.showCourseEnrollmentsActive(UUID.randomUUID());
         });
 
-        assertEquals("Nenhuma inscrição ativa encontrada para esse curso", thrown.getMessage());
+        assertEquals("Nenhuma inscrição encontrada para esse curso", thrown.getMessage());
     }
 
     @Test
-    @DisplayName("Deve lançar exceção de curso invalido")
-    void showStudentsEnrollmentsActiveCase3(){
-        //
+    @DisplayName("Deve lançar exceção lista de ativas vazia")
+    void showStudentsEnrollmentsActiveCase3() {
+        Student student = new Student(
+                "Maria Eduarda", "dudam_", "duda@gmail.com", "P@ssw0rd!",
+                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGHER
+        );
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
-            service.showCourseEnrollmentsActive(UUID.randomUUID());
+        Student student1 = new Student(
+                "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+        );
+
+        Course course = new Course("Java", "Curso de java");
+
+        Enrollment enrollment = new Enrollment(course, student);
+        Enrollment enrollment1 = new Enrollment(course, student1);
+
+        enrollment.setActive(false);
+        enrollment1.setActive(false);
+
+        List<Enrollment> enrollments = new ArrayList<>();
+        enrollments.add(enrollment);
+        enrollments.add(enrollment1);
+
+        when(repository.findByCourseId(any())).thenReturn(Optional.of(enrollments));
+
+        Exception thrown = assertThrows(EmptyListException.class, () -> {
+            service.showCourseEnrollmentsActive(any());
         });
 
-        assertEquals("Curso não encontrado", thrown.getMessage());
+        assertEquals("Não há inscrições ativas para esse curso", thrown.getMessage());
+
+    }
+
+    @Test
+    @DisplayName("Deve retornar lista de inscrições de um estudante em cursos")
+    void showEnrollmentsStudentCase1() {
+        Student student = new Student(
+                "Maria Eduarda", "dudam_", "duda@gmail.com", "P@ssw0rd!",
+                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGHER
+        );
+
+        Course course = new Course("Java", "Curso de java");
+        Course course1 = new Course("Phyton", "curso de Phyton");
+        Course course2 = new Course("Java Script", "Curso de Java Script");
+
+        Enrollment enrollment = new Enrollment(course, student);
+        Enrollment enrollment1 = new Enrollment(course1, student);
+        Enrollment enrollment2 = new Enrollment(course2, student);
+
+        List<Enrollment> enrollments = new ArrayList<>();
+        enrollments.add(enrollment);
+        enrollments.add(enrollment1);
+        enrollments.add(enrollment2);
+
+        List<EnrollmentDTO> enrollmentsConverted = enrollments.stream()
+                .filter(e -> e.getStudent().equals(student))
+                .map(e -> new EnrollmentDTO(e.getCourse().getTitle(),
+                        e.getStudent().getUsername(),
+                        e.getEnrollmentDateTime(),
+                        e.getDeadlineForCompletion(),
+                        e.getDuration(),
+                        e.isActive()))
+                .toList();
+
+        when(repository.findByStudentId(any())).thenReturn(Optional.of(enrollments));
+        List<EnrollmentDTO> result = service.showStudentEnrollments(student.getId());
+
+        assertEquals(enrollmentsConverted, result);
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção lista vazia")
+    void showEnrollmentsStudentCase3() {
+        when(repository.findByStudentId(any())).thenReturn(Optional.empty());
+
+        Exception thrown = assertThrows(EmptyListException.class, () -> {
+            service.showStudentEnrollments(UUID.randomUUID());
+        });
+
+        assertEquals("Nenhuma inscrição encontrada para esse aluno", thrown.getMessage());
+
     }
 
     @Test
     @DisplayName("Deve realizar operação com sucesso")
     void unsubscribeStudentOfCourseCase1() {
+        Student student = new Student(
+                "Maria Eduarda", "dudam_", "duda@gmail.com", "P@ssw0rd!",
+                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGHER
+        );
+        Course course = new Course("Java", "Curso de java");
+        Enrollment enrollment = new Enrollment(course, student);
 
-        //service.unsubscribeStudentOfCourse(requestPayload);
+        when(repository.findByCourseIdAndStudentId(any(), any())).thenReturn(Optional.of(enrollment));
+        service.unsubscribeStudentOfCourse(new EnrollmentRequestPayload(UUID.randomUUID(), UUID.randomUUID()));
         verify(repository, times(1)).save(any());
     }
 
     @Test
     @DisplayName("Deve lançar exceção inscrição inexistente")
     void unsubscribeStudentOfCourseCase2() {
-        //
+        when(repository.findByCourseIdAndStudentId(any(), any())).thenReturn(Optional.empty());
+
         Exception thrown = assertThrows(InexistentOptionException.class, () -> {
             service.unsubscribeStudentOfCourse(new EnrollmentRequestPayload(UUID.randomUUID(), UUID.randomUUID()));
         });
@@ -397,9 +375,9 @@ class EnrollmentServiceTest {
         Enrollment enrollment = new Enrollment(new Course(), new Student());
         enrollment.setActive(false);
 
-        //
+        when(repository.findByCourseIdAndStudentId(any(), any())).thenReturn(Optional.of(enrollment));
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoUpdateRequiredException.class, () -> {
             service.unsubscribeStudentOfCourse(new EnrollmentRequestPayload(UUID.randomUUID(), UUID.randomUUID()));
         });
 
