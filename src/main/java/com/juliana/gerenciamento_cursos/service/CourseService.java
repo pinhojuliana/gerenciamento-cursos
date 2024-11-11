@@ -8,7 +8,6 @@ import com.juliana.gerenciamento_cursos.DTOs.request_payload.CourseRequestPayloa
 import com.juliana.gerenciamento_cursos.DTOs.response.CourseResponse;
 import com.juliana.gerenciamento_cursos.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.repository.TeacherRepository;
-import com.juliana.gerenciamento_cursos.repository.TeacherCourseRepository;
 import com.juliana.gerenciamento_cursos.exceptions.EmptyListException;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.exceptions.NoUpdateRequiredException;
@@ -17,14 +16,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CourseService {
     private final CourseRepository repository;
-
-    private final TeacherCourseRepository teacherCourseRepository;
 
     private final TeacherRepository teacherRepository;
 
@@ -56,7 +55,7 @@ public class CourseService {
     public List<CourseDTO> showAllCourses() {
         List<CourseDTO> courses = repository.findAll().stream()
                 .map(this::convertToDTO)
-                .toList();;
+                .toList();
 
         if(courses.isEmpty()){
             throw new EmptyListException("Nenhum curso encontrado");
@@ -73,21 +72,35 @@ public class CourseService {
     }
 
     public void addTeacher(UUID teacherId, UUID courseId){
-        validateExistence(teacherId, courseId);
-        teacherCourseRepository.addTeacherToCourse(teacherId, courseId);
+        Course course = validateId(courseId);
+        Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(() -> new InexistentOptionException("Professor não encontrado"));
+
+        if(!course.getTeachers().add(teacher)){
+            throw new NoUpdateRequiredException(String.format("O usuário do '%s' já é professor do curso '%s'", teacherId, courseId));
+        }
+
+        course.getTeachers().add(teacher);
+        repository.save(course);
     }
 
     public void removeTeacher(UUID teacherId, UUID courseId){
-        validateExistence(teacherId, courseId);
-        teacherCourseRepository.removeTeacherFromCourse(teacherId, courseId);
+        Course course = validateId(courseId);
+        Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(() -> new InexistentOptionException("Professor não encontrado"));
+
+        if(!course.getTeachers().remove(teacher)){
+            throw new InexistentOptionException(String.format("O usuário '%S' não leciona no curso '%s'", teacherId, courseId));
+        }
+
+        course.getTeachers().remove(teacher);
+        repository.save(course);
     }
 
-    public List<TeacherDTO> showTeachersOfCourse(UUID courseId) throws EmptyListException {
-        validateId(courseId);
+    public Set<TeacherDTO> showTeachersOfCourse(UUID courseId) throws EmptyListException {
+        Course course = validateId(courseId);
 
-        List<TeacherDTO> teachers = teacherCourseRepository.findTeachersByCourseId(courseId).stream()
+        Set<TeacherDTO> teachers = course.getTeachers().stream()
                 .map(t -> new TeacherDTO(t.getName(), t.getUsername(), t.getEmail(), t.getDateOfBirth(), t.getSkills()))
-                .toList();
+                .collect(Collectors.toSet());
 
         if(teachers.isEmpty()){
             throw new EmptyListException("Nada encontrado");
@@ -105,12 +118,6 @@ public class CourseService {
     private Course validateId(UUID id){
         return repository.findById(id)
                 .orElseThrow(() -> new InexistentOptionException("Esse curso não existe"));
-    }
-
-    private void validateExistence(UUID teacherId, UUID courseId){
-        if(!repository.existsById(courseId) || !teacherRepository.existsById(teacherId)){
-            throw new InexistentOptionException("Id não encontrado");
-        }
     }
 
     private CourseDTO convertToDTO(Course course){

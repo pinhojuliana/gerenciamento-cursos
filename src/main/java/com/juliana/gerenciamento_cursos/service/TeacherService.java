@@ -5,7 +5,6 @@ import com.juliana.gerenciamento_cursos.DTOs.request_payload.TeacherRequestPaylo
 import com.juliana.gerenciamento_cursos.DTOs.response.ClientResponse;
 import com.juliana.gerenciamento_cursos.domain.client.Teacher;
 import com.juliana.gerenciamento_cursos.DTOs.TeacherDTO;
-import com.juliana.gerenciamento_cursos.domain.course.Course;
 import com.juliana.gerenciamento_cursos.exceptions.*;
 import com.juliana.gerenciamento_cursos.repository.TeacherRepository;
 import com.juliana.gerenciamento_cursos.util.AgeValidation;
@@ -13,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -110,18 +111,19 @@ public class TeacherService {
         return teachers;
     }
 
-    public List<CourseDTO> showAllCoursesTaught(UUID teacherId) throws EmptyListException {
-        validateId(teacherId);
+    public Set<CourseDTO> showAllCoursesTaught(UUID teacherId) throws EmptyListException {
+        Teacher teacher = validateId(teacherId);
+        Set<CourseDTO> coursesTaught = teacher.getCoursesTaught().stream()
+                .map(c -> new CourseDTO(c.getTitle(),
+                        c.getDescription(),
+                        c.getCreatedAt()))
+                .collect(Collectors.toSet());
 
-        List<Course> courses = teacherCourseRepository.findCoursesByTeacherId(teacherId);
-
-        if(courses.isEmpty()){
-            throw new EmptyListException("Nada encontrado");
+        if (coursesTaught.isEmpty()){
+            throw new EmptyListException("Não há cursos ministrados.");
         }
 
-        return courses.stream()
-                .map(c -> new CourseDTO(c.getTitle(), c.getDescription(), c.getCreatedAt()))
-                .toList();
+        return coursesTaught;
     }
 
     private void validateUniqueUsername(String username) {

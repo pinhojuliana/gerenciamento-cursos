@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -35,8 +36,8 @@ public class TeacherController {
     }
 
     @GetMapping("courses-taught/{id}")
-    public ResponseEntity<List<CourseDTO>> showAllCoursesTaught(@PathVariable UUID id){
-        List<CourseDTO> courses = service.showAllCoursesTaught(id);
+    public ResponseEntity<Set<CourseDTO>> showAllCoursesTaught(@PathVariable UUID id){
+        Set<CourseDTO> courses = service.showAllCoursesTaught(id);
         return ResponseEntity.ok(courses);
     }
 
