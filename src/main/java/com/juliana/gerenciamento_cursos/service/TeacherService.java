@@ -8,6 +8,8 @@ import com.juliana.gerenciamento_cursos.DTOs.TeacherDTO;
 import com.juliana.gerenciamento_cursos.exceptions.*;
 import com.juliana.gerenciamento_cursos.repository.TeacherRepository;
 import com.juliana.gerenciamento_cursos.util.AgeValidation;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,7 @@ import java.util.stream.Collectors;
 public class TeacherService {
     private final TeacherRepository repository;
 
-    public ClientResponse createNewTeacher(TeacherRequestPayload requestPayload) throws UnderageException {
+    public ClientResponse createNewTeacher(@Valid TeacherRequestPayload requestPayload) throws UnderageException {
         validateUniqueUsername(requestPayload.username());
         validateUniqueEmail(requestPayload.email());
 
@@ -42,25 +44,27 @@ public class TeacherService {
         repository.deleteById(id);
     }
 
-    public void addSkill(UUID id, String skill) throws SkillAlreadyExistsException, IllegalArgumentException{
+    public void addSkill(UUID id, @NotBlank String skill) throws SkillAlreadyExistsException, IllegalArgumentException{
         Teacher teacher = validateId(id);
+        String skillParsed = skill.trim();
 
-        if(!teacher.getSkills().add(skill)){
+        if(teacher.getSkills().contains(skillParsed)){
             throw new SkillAlreadyExistsException(String.format("A skill '%s' já existe neste perfil", skill));
         }
 
-        teacher.getSkills().add(skill);
+        teacher.getSkills().add(skillParsed);
         repository.save(teacher);
     }
 
-    public void removeSkill(UUID id, String skill) throws InexistentOptionException {
+    public void removeSkill(UUID id, @NotBlank String skill) throws InexistentOptionException {
         Teacher teacher = validateId(id);
+        String skillParsed = skill.trim();
 
-        if(!teacher.getSkills().remove(skill)){
+        if(!teacher.getSkills().contains(skillParsed)){
             throw new InexistentOptionException(String.format("A skill '%s' não foi encontrada", skill));
         }
 
-        teacher.getSkills().remove(skill);
+        teacher.getSkills().remove(skillParsed);
         repository.save(teacher);
     }
 
@@ -80,7 +84,7 @@ public class TeacherService {
         repository.save(teacher);
     }
 
-    public void updateTeacherPassword(UUID id, String oldPassword, String newPassword) throws InvalidPasswordException {
+    public void updateTeacherPassword(UUID id, @NotBlank String oldPassword, String newPassword) throws InvalidPasswordException {
         Teacher teacher = validateId(id);
         checkForNoUpdate(teacher.getPassword(), newPassword);
         if(!teacher.getPassword().equals(oldPassword)){
@@ -94,9 +98,11 @@ public class TeacherService {
         List<TeacherDTO> teachers = repository.findByName(name).stream()
                 .map(this::convertToDTO)
                 .toList();
+
         if(teachers.isEmpty()){
             throw new EmptyListException("Nenhum professor com esse nome foi encontrado");
         }
+
         return teachers;
     }
 
