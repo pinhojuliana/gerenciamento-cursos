@@ -1,5 +1,6 @@
 package com.juliana.gerenciamento_cursos.exceptions;
 
+import jakarta.transaction.TransactionalException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -27,9 +28,16 @@ public class ExceptionHandlerController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
+    @ExceptionHandler(TransactionalException.class)
+    public ResponseEntity<String> handleTransactionalException(TransactionalException e){
+        String errorMessage = e.getMessage() != null ? e.getMessage() : "Erro durante a transação";
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+    }
+
     @ExceptionHandler(EmptyListException.class)
     public ResponseEntity<String> handleEmptyListException(EmptyListException e){
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(InexistentOptionException.class)
