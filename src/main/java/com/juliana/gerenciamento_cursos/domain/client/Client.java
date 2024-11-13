@@ -20,21 +20,24 @@ public abstract class Client implements Comparable<Client>{
     protected UUID id;
 
     @Column(nullable = false)
+    @NotBlank(message = "O campo 'name' não pode estar vazio")
     protected String name;
 
     @Column(unique = true, nullable = false)
+    @NotBlank(message = "O campo 'username' não pode estar vazio")
     @Pattern(regexp = "^[a-z0-9_.&$]{5,10}$",
             message = "O nome do usuario deve ter entre 5 e 10 caracteres, deve ser unico e não pode conter espaços. Pode conter numeros, letras minusculas e caracteres especiais (_), (.), (&) e ($)")
     protected String username;
 
     @Column
-    @NotBlank(message = "A senha não pode estar vazia")
+    @NotBlank(message = "O campo 'senha' não pode estar vazio")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).{8,}$",
             message = "A senha deve ter pelo menos 8 caracteres, 1 número e 1 caractere especial (!,@,#,$,%,&,*)")
     protected String password;
 
     @Column(unique = true, nullable = false)
     @Email
+    @NotBlank(message = "O campo 'email' não pode estar vazio")
     protected String email;
 
     @Column(name = "date_of_birth", nullable = false)

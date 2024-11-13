@@ -2,6 +2,7 @@ package com.juliana.gerenciamento_cursos.domain.course;
 
 import com.juliana.gerenciamento_cursos.domain.client.Teacher;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,9 +27,11 @@ public class Course {
     private UUID id;
 
     @Column(unique = true, nullable = false)
+    @NotBlank(message = "O campo 'title' não pode estar vazio")
     private String title;
 
     @Column(nullable = false)
+    @NotBlank(message = "O campo 'description' não pode estar vazio")
     private String description;
 
     @Column(name = "created_at", nullable = false, updatable = false)
