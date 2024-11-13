@@ -7,12 +7,14 @@ import com.juliana.gerenciamento_cursos.domain.client.Student;
 import com.juliana.gerenciamento_cursos.DTOs.StudentDTO;
 import com.juliana.gerenciamento_cursos.exceptions.*;
 import com.juliana.gerenciamento_cursos.repository.StudentRepository;
-import com.juliana.gerenciamento_cursos.util.AgeValidation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+
+import static com.juliana.gerenciamento_cursos.util.AgeValidation.validateAge;
 
 @Service
 @RequiredArgsConstructor
@@ -20,17 +22,20 @@ public class StudentService {
 
     private final StudentRepository repository;
 
-    public ClientResponse createNewStudent(StudentRequestPayload requestPayload) throws UnderageException {
+    public ClientResponse createNewStudent(@Valid StudentRequestPayload requestPayload) throws UnderageException {
         validateUniqueUsername(requestPayload.username());
         validateUniqueEmail(requestPayload.email());
+        validateAge(requestPayload.dateOfBirth());
 
-        Student newStudent = new Student(requestPayload.name(),
+        Student newStudent = new Student(
+                requestPayload.name(),
                 requestPayload.username(),
                 requestPayload.email(),
                 requestPayload.password(),
-                AgeValidation.validateAge(requestPayload.dateOfBirth()),
+                requestPayload.dateOfBirth(),
                 requestPayload.description(),
-                requestPayload.educationalLevel());
+                requestPayload.educationalLevel()
+        );
 
         repository.save(newStudent);
 
@@ -93,7 +98,7 @@ public class StudentService {
         return students;
     }
 
-    public List<StudentDTO> searchStudentName(String name) throws EmptyListException {
+    public List<StudentDTO> searchStudentName(String name) throws EmptyListException{
         List<StudentDTO> students = repository.findByName(name).stream().map(this::convertToDTO)
                 .toList();
 
