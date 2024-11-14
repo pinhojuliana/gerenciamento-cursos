@@ -6,5 +6,5 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-public record UnitRequestPayload(@NotNull @NotBlank String title, @NotNull @NotBlank String description, @NotNull @NotBlank Difficulty difficulty, UUID courseId) {
+public record UnitRequestPayload(@NotNull @NotBlank String title, @NotNull @NotBlank String description, @NotNull Difficulty difficulty, UUID courseId) {
 }
