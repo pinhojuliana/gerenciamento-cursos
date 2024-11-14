@@ -112,12 +112,12 @@ class EnrollmentServiceTest {
     void showAllEnrollmentsCase1() {
         Student student = new Student(
                 "Maria Eduarda", "dudam_", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         Student student1 = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         Enrollment enrollment = new Enrollment(new Course("Java", "Curso de java"), student);
@@ -159,12 +159,12 @@ class EnrollmentServiceTest {
     void showEnrollmentsCourseCase1() {
         Student student = new Student(
                 "Maria Eduarda", "dudam_", "duda@gmail.com", "P@ssw0rd!",
-                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         Student student1 = new Student(
                 "Ana Maria", "ana.maria5", "anaa2@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1995, 12, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1995, 12, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         Course course = new Course("Java", "Curso de java");
@@ -209,12 +209,12 @@ class EnrollmentServiceTest {
     void showStudentsEnrollmentsActiveCase1() {
         Student student = new Student(
                 "Maria Eduarda", "dudam_", "duda@gmail.com", "P@ssw0rd!",
-                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         Student student1 = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         Course course = new Course("Java", "Curso de java");
@@ -261,12 +261,12 @@ class EnrollmentServiceTest {
     void showStudentsEnrollmentsActiveCase3() {
         Student student = new Student(
                 "Maria Eduarda", "dudam_", "duda@gmail.com", "P@ssw0rd!",
-                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         Student student1 = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         Course course = new Course("Java", "Curso de java");
@@ -296,7 +296,7 @@ class EnrollmentServiceTest {
     void showEnrollmentsStudentCase1() {
         Student student = new Student(
                 "Maria Eduarda", "dudam_", "duda@gmail.com", "P@ssw0rd!",
-                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         Course course = new Course("Java", "Curso de java");
@@ -346,7 +346,7 @@ class EnrollmentServiceTest {
     void unsubscribeStudentOfCourseCase1() {
         Student student = new Student(
                 "Maria Eduarda", "dudam_", "duda@gmail.com", "P@ssw0rd!",
-                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
         Course course = new Course("Java", "Curso de java");
         Enrollment enrollment = new Enrollment(course, student);

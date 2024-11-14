@@ -21,7 +21,7 @@ public class UnitController {
 
     @GetMapping("/course/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<UnitDTO>> findUnitsByCourse(@PathVariable UUID courseId){
+    public ResponseEntity<List<UnitDTO>> showUnitsOfCourse(@PathVariable UUID courseId){
         List<UnitDTO> modules = service.findUnitsByCourse(courseId);
         return ResponseEntity.ok(modules);
     }
@@ -34,7 +34,7 @@ public class UnitController {
 
     @PostMapping("/course/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<UnitDTO>> findUnitsCourse(@PathVariable UUID courseId, @RequestBody String moduleTitle){
+    public ResponseEntity<List<UnitDTO>> findUnitsByCourse(@PathVariable UUID courseId, @RequestBody String moduleTitle){
         List<UnitDTO> modules = service.findUnitInCourse(courseId, moduleTitle);
         return ResponseEntity.ok(modules);
     }

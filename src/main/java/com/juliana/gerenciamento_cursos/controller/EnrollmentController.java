@@ -2,7 +2,6 @@ package com.juliana.gerenciamento_cursos.controller;
 
 import com.juliana.gerenciamento_cursos.DTOs.EnrollmentDTO;
 import com.juliana.gerenciamento_cursos.DTOs.request_payload.EnrollmentRequestPayload;
-import com.juliana.gerenciamento_cursos.domain.enrollment.Enrollment;
 import com.juliana.gerenciamento_cursos.DTOs.response.EnrollmentResponse;
 import com.juliana.gerenciamento_cursos.service.EnrollmentService;
 import jakarta.validation.Valid;
@@ -29,14 +28,14 @@ public class EnrollmentController {
 
     @GetMapping("/course/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<EnrollmentDTO>> showEnrollmentsCourse(@PathVariable UUID courseId){
+    public ResponseEntity<List<EnrollmentDTO>> showCourseEnrollments(@PathVariable UUID courseId){
         List<EnrollmentDTO> enrollments =  service.showCourseEnrollments(courseId);
         return ResponseEntity.ok(enrollments);
     }
 
     @GetMapping("/student/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<EnrollmentDTO>> showEnrollmentsStudent(@PathVariable UUID studentId){
+    public ResponseEntity<List<EnrollmentDTO>> showStudentEnrollments(@PathVariable UUID studentId){
         List<EnrollmentDTO> enrollments =  service.showStudentEnrollments(studentId);
         return ResponseEntity.ok(enrollments);
     }
@@ -56,7 +55,7 @@ public class EnrollmentController {
 
     @PutMapping("/unsubscribe")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> unsubscribeStudentInCourse(@Valid @RequestBody EnrollmentRequestPayload requestPayload){
+    public ResponseEntity<String> unsubscribeStudentOfCourse(@Valid @RequestBody EnrollmentRequestPayload requestPayload){
        service.unsubscribeStudentOfCourse(requestPayload);
        return ResponseEntity.ok("Esta inscrição foi inativada");
     }

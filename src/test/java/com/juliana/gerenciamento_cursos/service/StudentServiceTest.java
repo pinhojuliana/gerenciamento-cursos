@@ -36,7 +36,7 @@ class StudentServiceTest {
     void createNewStudentCase1() {
         StudentRequestPayload requestPayload = new StudentRequestPayload(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1995, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1995, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         Student student = new Student(
@@ -63,7 +63,7 @@ class StudentServiceTest {
     void createNewStudentCase2() {
         StudentRequestPayload requestPayload = new StudentRequestPayload(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(2008, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(2008, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         Exception thrown = assertThrows(UnderageException.class, ()-> {
@@ -81,7 +81,7 @@ class StudentServiceTest {
 
         StudentRequestPayload requestPayload = new StudentRequestPayload(
                 "Maria Eduarda", "dudam_", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         when(repository.existsByEmail(requestPayload.email())).thenReturn(true);
@@ -99,7 +99,7 @@ class StudentServiceTest {
     void createNewStudentCase4() {
         StudentRequestPayload requestPayload = new StudentRequestPayload(
                 "Maria Eduarda", "mmaria12", "mariaedu@outlook.com", "P@ssw0rd!",
-                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         when(repository.existsByUsername(requestPayload.username())).thenReturn(true);
@@ -117,7 +117,7 @@ class StudentServiceTest {
     void updateStudentDescriptionCase1() {
        Student student = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
        when(repository.findById(any())).thenReturn(Optional.of(student));
        service.updateStudentDescription(any(), "Desenvolvedora java, estudante de phyton");
@@ -144,7 +144,7 @@ class StudentServiceTest {
     void updateStudentDescriptionCase3() {
         Student student = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
 
@@ -161,10 +161,10 @@ class StudentServiceTest {
     void updateStudentEducationalLevelCase1() {
         Student student = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
-        service.updateStudentEducationalLevel(any(), EducationalLevel.FUNDAMENTAL);
+        service.updateStudentEducationalLevel(any(), EducationalLevel.ELEMENTARY);
         verify(repository, times(1)).save(student);
     }
 
@@ -175,7 +175,7 @@ class StudentServiceTest {
         when(repository.findById(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
-            service.updateStudentEducationalLevel(id, EducationalLevel.FUNDAMENTAL);
+            service.updateStudentEducationalLevel(id, EducationalLevel.ELEMENTARY);
         });
 
         verify(repository, times(1)).findById(any());
@@ -188,14 +188,14 @@ class StudentServiceTest {
     void updateStudentEducationalLevelCase3() {
         Student student = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         UUID id = UUID.randomUUID();
         when(repository.findById(any())).thenReturn(Optional.of(student));
 
         Exception thrown = assertThrows(NoUpdateRequiredException.class, ()-> {
-            service.updateStudentEducationalLevel(id, EducationalLevel.HIGHER);
+            service.updateStudentEducationalLevel(id, EducationalLevel.HIGH_SCHOOL);
         });
 
         assertEquals("Os campos 'novo' e 'atual' não devem ser iguais", thrown.getMessage());
@@ -207,7 +207,7 @@ class StudentServiceTest {
     void updateStudentUsernameCase1() {
         Student student = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
         when(repository.existsByUsername(any())).thenReturn(false);
@@ -236,7 +236,7 @@ class StudentServiceTest {
     void updateStudentUsernameCase3() {
         Student student = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
 
@@ -253,7 +253,7 @@ class StudentServiceTest {
     void updateStudentUsernameCase4() {
         Student student = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         when(repository.findById(any())).thenReturn(Optional.of(student));
@@ -272,7 +272,7 @@ class StudentServiceTest {
     void updateStudentEmailCase1() {
         Student student = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
         when(repository.existsByEmail(any())).thenReturn(false);
@@ -300,7 +300,7 @@ class StudentServiceTest {
     void updateStudentEmailCase3() {
         Student student = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
 
@@ -317,7 +317,7 @@ class StudentServiceTest {
     void updateStudentEmailCase4() {
         Student student = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         when(repository.findById(any())).thenReturn(Optional.of(student));
@@ -336,7 +336,7 @@ class StudentServiceTest {
     void updateStudentPasswordCase1() {
         Student student = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
         service.updateStudentPassword(any(), "P@ssw0rd!", "MyP@ssw0rd1");
@@ -363,7 +363,7 @@ class StudentServiceTest {
     void updateStudentPasswordCase3() {
         Student student = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
 
@@ -380,7 +380,7 @@ class StudentServiceTest {
     void updateStudentPasswordCase4() {
         Student student = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
         Exception thrown = assertThrows(InvalidPasswordException.class, ()-> {
@@ -396,7 +396,7 @@ class StudentServiceTest {
     void deleteStudentCase1() {
         Student student = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
         service.deleteStudent(any());
@@ -423,7 +423,7 @@ class StudentServiceTest {
     void searchStudentCase1() {
         Student student = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
         StudentDTO studentFound = service.searchStudentId(any());
@@ -451,12 +451,12 @@ class StudentServiceTest {
     void getAllStudentsCase1() {
         Student student = new Student(
                 "Maria Eduarda", "dudam_", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         Student student2 = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         List<Student> students = new ArrayList<>();
@@ -496,12 +496,12 @@ class StudentServiceTest {
     void searchStudentNameCase1() {
         Student student = new Student(
                 "Maria", "silva.mr", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(2000, 5, 6), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         Student student2 = new Student(
                 "Maria", "mmaria12", "msilva@gmail.com", "P@ssw0rd!",
-                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGHER
+                LocalDate.of(1997, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
         List<Student> students = new ArrayList<>();

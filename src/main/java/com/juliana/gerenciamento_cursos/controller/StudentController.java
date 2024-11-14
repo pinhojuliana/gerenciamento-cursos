@@ -3,7 +3,6 @@ package com.juliana.gerenciamento_cursos.controller;
 import com.juliana.gerenciamento_cursos.DTOs.update_request.*;
 import com.juliana.gerenciamento_cursos.DTOs.request_payload.StudentRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.response.ClientResponse;
-import com.juliana.gerenciamento_cursos.domain.client.EducationalLevel;
 import com.juliana.gerenciamento_cursos.DTOs.StudentDTO;
 import com.juliana.gerenciamento_cursos.service.StudentService;
 import jakarta.validation.Valid;
@@ -30,7 +29,7 @@ public class StudentController {
 
     @GetMapping("/search/{name}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<StudentDTO>> searchStudentName(@PathVariable String name){
+    public ResponseEntity<List<StudentDTO>> searchStudentByName(@PathVariable String name){
         List<StudentDTO> students = service.searchStudentName(name);
         return ResponseEntity.ok(students);
     }
@@ -44,7 +43,7 @@ public class StudentController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public ClientResponse createStudent(@Valid @RequestBody StudentRequestPayload requestPayload) {
+    public ClientResponse createNewStudent(@Valid @RequestBody StudentRequestPayload requestPayload) {
        return service.createNewStudent(requestPayload);
     }
 

@@ -1,10 +1,10 @@
 package com.juliana.gerenciamento_cursos.domain.client;
 
 public enum EducationalLevel {
-    FUNDAMENTAL("Fundamental"),
-    AVERAGE("Average"),
-    HIGHER("Higher"),
-    MASTERS_DEGREE("Master's Degree"),
+    ELEMENTARY("Elementary School"),
+    HIGH_SCHOOL("High School"),
+    UNDERGRADUATE("Undergraduate"),
+    MASTERS("Master's Degree"),
     DOCTORATE("Doctorate");
 
     private final String degree;
