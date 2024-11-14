@@ -6,6 +6,7 @@ import com.juliana.gerenciamento_cursos.DTOs.request_payload.CourseRequestPayloa
 import com.juliana.gerenciamento_cursos.DTOs.response.CourseResponse;
 import com.juliana.gerenciamento_cursos.DTOs.update_request.DescriptionUpdateRequest;
 import com.juliana.gerenciamento_cursos.service.CourseService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,13 +45,13 @@ public class CourseController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public CourseResponse createNewCourse(@RequestBody CourseRequestPayload requestPayload){
+    public CourseResponse createNewCourse(@Valid @RequestBody CourseRequestPayload requestPayload){
         return service.createNewCourse(requestPayload);
     }
 
     @PutMapping("/description/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> alterDescription(@PathVariable UUID id, @RequestBody DescriptionUpdateRequest descriptionUpdateRequest){
+    public ResponseEntity<String> alterDescription(@PathVariable UUID id, @Valid @RequestBody DescriptionUpdateRequest descriptionUpdateRequest){
         service.alterDescription(id, descriptionUpdateRequest.description());
         return ResponseEntity.ok("Descrição atualizada com sucesso");
     }

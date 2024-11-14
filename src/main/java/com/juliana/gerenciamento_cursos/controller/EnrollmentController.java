@@ -5,6 +5,7 @@ import com.juliana.gerenciamento_cursos.DTOs.request_payload.EnrollmentRequestPa
 import com.juliana.gerenciamento_cursos.domain.enrollment.Enrollment;
 import com.juliana.gerenciamento_cursos.DTOs.response.EnrollmentResponse;
 import com.juliana.gerenciamento_cursos.service.EnrollmentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,13 +50,13 @@ public class EnrollmentController {
 
     @PostMapping("/subscrible")
     @ResponseStatus(HttpStatus.CREATED)
-    public EnrollmentResponse enrollStudentInCourse(@RequestBody EnrollmentRequestPayload requestPayload){
+    public EnrollmentResponse enrollStudentInCourse(@Valid @RequestBody EnrollmentRequestPayload requestPayload){
         return service.enrollStudentInCourse(requestPayload);
     }
 
     @PutMapping("/unsubscribe")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> unsubscribeStudentInCourse(@RequestBody EnrollmentRequestPayload requestPayload){
+    public ResponseEntity<String> unsubscribeStudentInCourse(@Valid @RequestBody EnrollmentRequestPayload requestPayload){
        service.unsubscribeStudentOfCourse(requestPayload);
        return ResponseEntity.ok("Esta inscrição foi inativada");
     }

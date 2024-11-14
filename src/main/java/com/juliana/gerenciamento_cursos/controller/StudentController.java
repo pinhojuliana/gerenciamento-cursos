@@ -1,8 +1,6 @@
 package com.juliana.gerenciamento_cursos.controller;
 
-import com.juliana.gerenciamento_cursos.DTOs.update_request.PasswordUpdateRequest;
-import com.juliana.gerenciamento_cursos.DTOs.update_request.EmailUpdateRequest;
-import com.juliana.gerenciamento_cursos.DTOs.update_request.UsernameUpdateRequest;
+import com.juliana.gerenciamento_cursos.DTOs.update_request.*;
 import com.juliana.gerenciamento_cursos.DTOs.request_payload.StudentRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.response.ClientResponse;
 import com.juliana.gerenciamento_cursos.domain.client.EducationalLevel;
@@ -52,15 +50,15 @@ public class StudentController {
 
     @PutMapping("/{id}/description")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> updateStudentDescription(@PathVariable UUID id, @RequestBody String description){
-        service.updateStudentDescription(id, description);
+    public ResponseEntity<String> updateStudentDescription(@PathVariable UUID id, @Valid @RequestBody DescriptionUpdateRequest descriptionUpdateRequest){
+        service.updateStudentDescription(id, descriptionUpdateRequest.description());
         return ResponseEntity.ok("Descrição atualizada com sucesso");
     }
 
     @PutMapping("/{id}/education-level")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> updateStudentEducationalLevel(@PathVariable  UUID id, @RequestBody EducationalLevel educationalLevel){
-        service.updateStudentEducationalLevel(id, educationalLevel);
+    public ResponseEntity<String> updateStudentEducationalLevel(@PathVariable  UUID id, @Valid @RequestBody EducationalLevelUpdateRequest educationalLevelUpdateRequest){
+        service.updateStudentEducationalLevel(id, educationalLevelUpdateRequest.educationalLevel());
         return ResponseEntity.ok("Nivel de escolaridade atualizado com sucesso");
     }
 

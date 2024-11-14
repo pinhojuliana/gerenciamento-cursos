@@ -4,6 +4,8 @@ import com.juliana.gerenciamento_cursos.DTOs.LessonDTO;
 import com.juliana.gerenciamento_cursos.DTOs.request_payload.LessonRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.response.LessonResponse;
 import com.juliana.gerenciamento_cursos.service.LessonService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +29,13 @@ public class LessonController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public LessonResponse createNewLesson(@RequestBody LessonRequestPayload requestPayload){
+    public LessonResponse createNewLesson(@Valid @RequestBody LessonRequestPayload requestPayload){
         return service.createNewLesson(requestPayload);
     }
 
     @PostMapping("/units/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<LessonDTO>> findLessonsByTitle(@PathVariable UUID unitId, @RequestBody String lessonTitle){
+    public ResponseEntity<List<LessonDTO>> findLessonsByTitle(@PathVariable UUID unitId, @NotBlank @RequestBody String lessonTitle){
         List<LessonDTO> lessons = service.findLessonsByTitle(unitId, lessonTitle);
         return ResponseEntity.ok(lessons);
     }

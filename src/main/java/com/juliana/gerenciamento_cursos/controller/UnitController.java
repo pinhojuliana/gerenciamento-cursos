@@ -4,6 +4,7 @@ import com.juliana.gerenciamento_cursos.DTOs.UnitDTO;
 import com.juliana.gerenciamento_cursos.DTOs.request_payload.UnitRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.response.UnitResponse;
 import com.juliana.gerenciamento_cursos.service.UnitService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class UnitController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public UnitResponse createNewUnit(@RequestBody UnitRequestPayload requestPayload){
+    public UnitResponse createNewUnit(@Valid @RequestBody UnitRequestPayload requestPayload){
         return service.createNewUnit(requestPayload);
     }
 

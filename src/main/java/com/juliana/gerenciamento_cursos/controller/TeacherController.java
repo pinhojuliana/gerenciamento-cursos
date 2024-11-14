@@ -54,14 +54,14 @@ public class TeacherController {
 
     @PutMapping("/{id}/add-skill")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> addSkill(@PathVariable UUID id, @RequestBody SkillUpdateRequest skillUpdateRequest){
+    public ResponseEntity<String> addSkill(@PathVariable UUID id, @Valid @RequestBody SkillUpdateRequest skillUpdateRequest){
         service.addSkill(id, skillUpdateRequest.skill());
         return ResponseEntity.ok("Skill adicionada com sucesso");
     }
 
     @PutMapping("/{id}/remove-skill")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> removeSkill(@PathVariable UUID id, @RequestBody SkillUpdateRequest skillUpdateRequest){
+    public ResponseEntity<String> removeSkill(@PathVariable UUID id, @Valid @RequestBody SkillUpdateRequest skillUpdateRequest){
         service.removeSkill(id, skillUpdateRequest.skill());
         return ResponseEntity.ok("Skill removida com sucesso");
     }
