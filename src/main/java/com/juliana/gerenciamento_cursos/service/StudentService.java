@@ -74,10 +74,10 @@ public class StudentService {
 
     public void updateStudentPassword(UUID id, String oldPassword, String newPassword) {
         Student student = validateId(id);
-        checkForNoUpdate(oldPassword, newPassword);
         if(!student.getPassword().equals(oldPassword)){
             throw new InvalidPasswordException("A senha atual está incorreta");
         }
+        checkForNoUpdate(oldPassword, newPassword);
         student.setPassword(newPassword);
         repository.save(student);
     }

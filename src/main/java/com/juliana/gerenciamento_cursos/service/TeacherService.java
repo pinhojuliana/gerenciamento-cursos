@@ -85,10 +85,10 @@ public class TeacherService {
 
     public void updateTeacherPassword(UUID id, String oldPassword, String newPassword) throws InvalidPasswordException {
         Teacher teacher = validateId(id);
-        checkForNoUpdate(teacher.getPassword(), newPassword);
         if(!teacher.getPassword().equals(oldPassword)){
             throw new InvalidPasswordException("A senha atual está incorreta");
         }
+        checkForNoUpdate(teacher.getPassword(), newPassword);
         teacher.setPassword(newPassword);
         repository.save(teacher);
     }

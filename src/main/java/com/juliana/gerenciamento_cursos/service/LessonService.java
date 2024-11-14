@@ -38,20 +38,31 @@ public class LessonService {
         repository.deleteById(id);
     }
 
-    public List<LessonDTO> showLessonsOfModule(UUID unitId) throws InexistentOptionException {
-        return repository.findByUnit_id(unitId).orElseThrow(()-> new InexistentOptionException("Nada encontrado"))
+    public List<LessonDTO> showLessonsOfModule(UUID unitId) throws InexistentOptionException, EmptyListException {
+        List<LessonDTO> lessons = repository.findByUnit_id(unitId).orElseThrow(()-> new InexistentOptionException("Módulo não encontrado"))
                 .stream()
                 .map(this::convertToDTO)
                 .toList();
 
+        if(lessons.isEmpty()){
+            throw new InexistentOptionException("Nenhuma aula encontrada para esse módulo");
+        }
+
+        return lessons;
     }
 
     public List<LessonDTO> findLessonsByTitle(UUID unitId , String title) throws InexistentOptionException {
-        return repository.findByUnit_id(unitId).orElseThrow(()-> new InexistentOptionException("Nada encontrado"))
+        List<LessonDTO> lessons = repository.findByUnit_id(unitId).orElseThrow(()-> new InexistentOptionException("Módulo não encontrado"))
                 .stream()
                 .filter(l -> l.getTitle().equalsIgnoreCase(title))
                 .map(this::convertToDTO)
                 .toList();
+
+        if(lessons.isEmpty()){
+            throw new InexistentOptionException("Nenhuma aula encontrada");
+        }
+
+        return lessons;
     }
 
     private void validateId(UUID id){

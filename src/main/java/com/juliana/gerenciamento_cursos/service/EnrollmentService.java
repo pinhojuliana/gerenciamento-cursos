@@ -12,7 +12,6 @@ import com.juliana.gerenciamento_cursos.exceptions.NoUpdateRequiredException;
 import com.juliana.gerenciamento_cursos.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.repository.EnrollmentRepository;
 import com.juliana.gerenciamento_cursos.repository.StudentRepository;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -55,14 +54,20 @@ public class EnrollmentService {
     }
 
     public List<EnrollmentDTO> showCourseEnrollments(UUID courseId) {
-        return repository.findByCourseId(courseId)
-                .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse curso"))
+        List<EnrollmentDTO> enrollments = repository.findByCourseId(courseId)
+                .orElseThrow(() -> new InexistentOptionException("Curso não encontrado"))
                 .stream()
                 .map(this::convertToDTO)
                 .toList();
+
+        if(enrollments.isEmpty()){
+            throw new EmptyListException("Nenhuma inscrição encontrada para esse curso");
+        }
+
+        return enrollments;
     }
 
-    public List<EnrollmentDTO> showCourseEnrollmentsActive(UUID courseId) {
+    public List<EnrollmentDTO> showCourseActiveEnrollments(UUID courseId) {
         List<EnrollmentDTO> activeEnrollments = repository.findByCourseId(courseId)
                 .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse curso"))
                 .stream()
@@ -78,11 +83,17 @@ public class EnrollmentService {
     }
 
     public List<EnrollmentDTO> showStudentEnrollments(UUID studentId){
-        return repository.findByStudentId(studentId)
-                .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse aluno"))
+        List<EnrollmentDTO> enrollments = repository.findByStudentId(studentId)
+                .orElseThrow(() -> new InexistentOptionException("Estudante não encontrado"))
                 .stream()
                 .map(this::convertToDTO)
                 .toList();
+
+        if(enrollments.isEmpty()){
+            throw new EmptyListException("Nenhuma inscrição encontrada para esse aluno");
+        }
+
+        return enrollments;
     }
 
     public void unsubscribeStudentOfCourse(EnrollmentRequestPayload requestPayload) throws NoUpdateRequiredException {
