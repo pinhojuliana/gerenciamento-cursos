@@ -4,6 +4,7 @@ import com.juliana.gerenciamento_cursos.domain.course.Course;
 import com.juliana.gerenciamento_cursos.domain.client.Student;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -14,6 +15,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "enrollment")
 @Data
+@NoArgsConstructor
 @ToString
 public class Enrollment {
     @Id
