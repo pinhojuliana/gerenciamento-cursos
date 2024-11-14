@@ -239,7 +239,7 @@ class EnrollmentServiceTest {
                 .toList();
 
         when(repository.findByCourseId(any())).thenReturn(Optional.of(enrollments));
-        List<EnrollmentDTO> result = service.showCourseEnrollmentsActive(any());
+        List<EnrollmentDTO> result = service.showCourseActiveEnrollments(any());
 
         assertEquals(enrollmentsConverted, result);
     }
@@ -250,7 +250,7 @@ class EnrollmentServiceTest {
         when(repository.findByCourseId(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(EmptyListException.class, () -> {
-            service.showCourseEnrollmentsActive(UUID.randomUUID());
+            service.showCourseActiveEnrollments(UUID.randomUUID());
         });
 
         assertEquals("Nenhuma inscrição encontrada para esse curso", thrown.getMessage());
@@ -284,7 +284,7 @@ class EnrollmentServiceTest {
         when(repository.findByCourseId(any())).thenReturn(Optional.of(enrollments));
 
         Exception thrown = assertThrows(EmptyListException.class, () -> {
-            service.showCourseEnrollmentsActive(any());
+            service.showCourseActiveEnrollments(any());
         });
 
         assertEquals("Não há inscrições ativas para esse curso", thrown.getMessage());
