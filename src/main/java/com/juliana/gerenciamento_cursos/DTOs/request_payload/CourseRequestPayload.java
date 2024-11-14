@@ -1,4 +1,7 @@
 package com.juliana.gerenciamento_cursos.DTOs.request_payload;
 
-public record CourseRequestPayload(String title, String description) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record CourseRequestPayload(@NotNull @NotBlank String title, @NotNull @NotBlank String description) {
 }

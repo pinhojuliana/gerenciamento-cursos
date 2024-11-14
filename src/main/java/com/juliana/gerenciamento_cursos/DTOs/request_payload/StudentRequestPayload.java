@@ -19,7 +19,7 @@ public record StudentRequestPayload(
         @Email(message = "O e-mail deve ser válido")
         String email,
 
-        @NotBlank(message = "A senha não pode estar vazia")
+        @NotBlank(message = "A senha é obrigatória")
         @Pattern(regexp = "^(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).{8,}$",
                 message = "A senha deve ter pelo menos 8 caracteres, 1 número e 1 caractere especial (!,@,#,$,%,&,*)")
         String password,
