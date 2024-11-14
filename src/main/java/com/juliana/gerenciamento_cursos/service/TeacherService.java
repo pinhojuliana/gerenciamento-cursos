@@ -9,7 +9,6 @@ import com.juliana.gerenciamento_cursos.exceptions.*;
 import com.juliana.gerenciamento_cursos.repository.TeacherRepository;
 import com.juliana.gerenciamento_cursos.util.AgeValidation;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +43,7 @@ public class TeacherService {
         repository.deleteById(id);
     }
 
-    public void addSkill(UUID id, @NotBlank String skill) throws SkillAlreadyExistsException, IllegalArgumentException{
+    public void addSkill(UUID id, String skill) throws SkillAlreadyExistsException, IllegalArgumentException{
         Teacher teacher = validateId(id);
         String skillParsed = skill.trim();
 
@@ -56,7 +55,7 @@ public class TeacherService {
         repository.save(teacher);
     }
 
-    public void removeSkill(UUID id, @NotBlank String skill) throws InexistentOptionException {
+    public void removeSkill(UUID id, String skill) throws InexistentOptionException {
         Teacher teacher = validateId(id);
         String skillParsed = skill.trim();
 
@@ -84,7 +83,7 @@ public class TeacherService {
         repository.save(teacher);
     }
 
-    public void updateTeacherPassword(UUID id, @NotBlank String oldPassword, String newPassword) throws InvalidPasswordException {
+    public void updateTeacherPassword(UUID id, String oldPassword, String newPassword) throws InvalidPasswordException {
         Teacher teacher = validateId(id);
         checkForNoUpdate(teacher.getPassword(), newPassword);
         if(!teacher.getPassword().equals(oldPassword)){

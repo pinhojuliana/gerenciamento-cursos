@@ -13,7 +13,6 @@ import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.exceptions.NoUpdateRequiredException;
 import com.juliana.gerenciamento_cursos.exceptions.TitleAlreadyInUseException;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +42,7 @@ public class CourseService {
         repository.deleteById(id);
     }
 
-    public void alterDescription(UUID id, @NotBlank String description) {
+    public void alterDescription(UUID id, String description) {
         Course course = validateId(id);
 
         if(course.getDescription().equals(description)){
