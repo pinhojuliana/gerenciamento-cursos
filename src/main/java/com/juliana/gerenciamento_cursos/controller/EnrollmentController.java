@@ -26,28 +26,28 @@ public class EnrollmentController {
         return ResponseEntity.ok(enrollments);
     }
 
-    @GetMapping("/course/{id}")
+    @GetMapping("/course/{courseId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<EnrollmentDTO>> showCourseEnrollments(@PathVariable UUID courseId){
         List<EnrollmentDTO> enrollments =  service.showCourseEnrollments(courseId);
         return ResponseEntity.ok(enrollments);
     }
 
-    @GetMapping("/student/{id}")
+    @GetMapping("/student/{studentId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<EnrollmentDTO>> showStudentEnrollments(@PathVariable UUID studentId){
         List<EnrollmentDTO> enrollments =  service.showStudentEnrollments(studentId);
         return ResponseEntity.ok(enrollments);
     }
 
-    @GetMapping("/course/active?{id}")
+    @GetMapping("/course/active/{courseId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<EnrollmentDTO>> showCourseEnrollmentsActive(@PathVariable UUID courseId){
-        List<EnrollmentDTO> enrollments =  service.showCourseEnrollmentsActive(courseId);
+    public ResponseEntity<List<EnrollmentDTO>> showCourseActiveEnrollments(@PathVariable UUID courseId){
+        List<EnrollmentDTO> enrollments =  service.showCourseActiveEnrollments(courseId);
         return ResponseEntity.ok(enrollments);
     }
 
-    @PostMapping("/subscrible")
+    @PostMapping("/subscribe")
     @ResponseStatus(HttpStatus.CREATED)
     public EnrollmentResponse enrollStudentInCourse(@Valid @RequestBody EnrollmentRequestPayload requestPayload){
         return service.enrollStudentInCourse(requestPayload);

@@ -5,7 +5,7 @@ import com.juliana.gerenciamento_cursos.DTOs.request_payload.LessonRequestPayloa
 import com.juliana.gerenciamento_cursos.DTOs.response.LessonResponse;
 import com.juliana.gerenciamento_cursos.service.LessonService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +20,18 @@ public class LessonController {
     @Autowired
     LessonService service;
 
-    @GetMapping("/units/{id}")
+    @GetMapping("/units/{unitId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<LessonDTO>> showLessonsOfModule(@PathVariable UUID unitId){
         List<LessonDTO> classes = service.showLessonsOfModule(unitId);
         return ResponseEntity.ok(classes);
+    }
+
+    @GetMapping("/search/units/{unitId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<LessonDTO>> findLessonsByTitle(@PathVariable UUID unitId, @RequestParam @NotEmpty String lessonTitle){
+        List<LessonDTO> lessons = service.findLessonsByTitle(unitId, lessonTitle);
+        return ResponseEntity.ok(lessons);
     }
 
     @PostMapping("/register")
@@ -33,17 +40,10 @@ public class LessonController {
         return service.createNewLesson(requestPayload);
     }
 
-    @PostMapping("/units/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<LessonDTO>> findLessonsByTitle(@PathVariable UUID unitId, @NotBlank @RequestBody String lessonTitle){
-        List<LessonDTO> lessons = service.findLessonsByTitle(unitId, lessonTitle);
-        return ResponseEntity.ok(lessons);
-    }
-
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> deleteLesson(@PathVariable UUID id){
         service.deleteLesson(id);
-        return ResponseEntity.ok("Modulo deletado com sucesso");
+        return ResponseEntity.ok("Aula deletada com sucesso");
     }
 }

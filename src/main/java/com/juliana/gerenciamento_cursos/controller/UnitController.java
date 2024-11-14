@@ -5,6 +5,7 @@ import com.juliana.gerenciamento_cursos.DTOs.request_payload.UnitRequestPayload;
 import com.juliana.gerenciamento_cursos.DTOs.response.UnitResponse;
 import com.juliana.gerenciamento_cursos.service.UnitService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +20,17 @@ public class UnitController {
     @Autowired
     UnitService service;
 
-    @GetMapping("/course/{id}")
+    @GetMapping("/course/{courseId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<UnitDTO>> showUnitsOfCourse(@PathVariable UUID courseId){
         List<UnitDTO> modules = service.findUnitsByCourse(courseId);
+        return ResponseEntity.ok(modules);
+    }
+
+    @GetMapping("/search/course/{courseId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<UnitDTO>> findUnitsByCourse(@PathVariable UUID courseId, @RequestParam @NotEmpty String moduleTitle){
+        List<UnitDTO> modules = service.findUnitInCourse(courseId, moduleTitle);
         return ResponseEntity.ok(modules);
     }
 
@@ -30,13 +38,6 @@ public class UnitController {
     @ResponseStatus(HttpStatus.CREATED)
     public UnitResponse createNewUnit(@Valid @RequestBody UnitRequestPayload requestPayload){
         return service.createNewUnit(requestPayload);
-    }
-
-    @PostMapping("/course/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<UnitDTO>> findUnitsByCourse(@PathVariable UUID courseId, @RequestBody String moduleTitle){
-        List<UnitDTO> modules = service.findUnitInCourse(courseId, moduleTitle);
-        return ResponseEntity.ok(modules);
     }
 
     @DeleteMapping("/{id}")
