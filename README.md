@@ -131,13 +131,7 @@ classDiagram
     -validateUniqueTitle(title : String) : void
     -validateId(id : UUID) : void
  }
- direction BT
- class TeacherCourse{
-    -id : UUID
-    -teacher : Teacher
-    -course: Course
 
- }
  class Unit{
     -id : UUID
     -title : String
@@ -165,11 +159,11 @@ classDiagram
 
  class EducationalLevel{
     <<enumeration>>
- FUNDAMENTAL
- AVERAGE
- HIGHER
- MASTERS_DEGREE
- DOCTORATE
+ELEMENTARY
+HIGH_SCHOOL
+UNDERGRADUATE
+MASTERS
+DOCTORATE
  }
  class Difficulty{
     <<enumeration>>
@@ -182,8 +176,6 @@ ADVANCED
  Client <|-- Teacher
  Course "1" --> "0..*" Enrollment 
  Student "1" --> "0..*" Enrollment 
- Course "0..*" --> "0..*" TeacherCourse
- Teacher "0..*" --> "0..*" TeacherCourse
  Course "1" --> "0..*" Unit
  Unit "1" --> "0..*" Lesson
  Student -- EducationalLevel
