@@ -23,20 +23,11 @@ Bem-vindo ao Sistema de Gestão de Cursos! Este projeto é uma aplicação Java 
 - **H2**: Banco de dados SQL para testes.
 - **Postgres**: Banco de dados SQL para produção.
 - **Swagger**: Para documentação da API e clientes HTTP.
-
-## 📑 Documentação da API
-
-A documentação da API é gerada automaticamente usando o **Swagger**. Você pode acessá-la no seguinte endpoint:
-
-[![Swagger](https://img.shields.io/badge/Swagger-25B7B7?style=for-the-badge&logo=swagger&logoColor=white)](http://localhost:8080/swagger-ui.html)
-
-Este endpoint fornece uma interface interativa para testar os endpoints da API, facilitando o uso e a integração.
-
 ## 🌐 Deploy
 
 O projeto está sendo implantado utilizando o **Railway**, que oferece uma maneira simples e prática para fazer o deploy de aplicações em ambientes de produção.
 
-[![Railway](https://img.shields.io/badge/Railway-000000?style=for-the-badge&logo=railway&logoColor=white)](sua-url-aqui)
+[![Railway](https://img.shields.io/badge/Railway-000000?style=for-the-badge&logo=railway&logoColor=white)](https://gerenciamento-cursos-production.up.railway.app/swagger-ui/index.html)
 
 
 ## 📄 Licença
