@@ -119,7 +119,7 @@ class LessonServiceTest {
             service.showLessonsOfModule(any());
         });
 
-        assertEquals("Nada encontrado", thrown.getMessage());
+        assertEquals("Módulo não encontrado", thrown.getMessage());
     }
 
     @Test
@@ -155,6 +155,6 @@ class LessonServiceTest {
             service.findLessonsByTitle(any(), "Introdução à POO");
         });
 
-        assertEquals("Nada encontrado", thrown.getMessage());
+        assertEquals("Módulo não encontrado", thrown.getMessage());
     }
 }

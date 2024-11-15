@@ -197,11 +197,11 @@ class EnrollmentServiceTest {
     void showEnrollmentsCourseCase2() {
         when(repository.findByCourseId(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(EmptyListException.class, () -> {
+        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
             service.showCourseEnrollments(UUID.randomUUID());
         });
 
-        assertEquals("Nenhuma inscrição encontrada para esse curso", thrown.getMessage());
+        assertEquals("Curso não encontrado", thrown.getMessage());
     }
 
     @Test
@@ -333,11 +333,11 @@ class EnrollmentServiceTest {
     void showEnrollmentsStudentCase3() {
         when(repository.findByStudentId(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(EmptyListException.class, () -> {
+        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
             service.showStudentEnrollments(UUID.randomUUID());
         });
 
-        assertEquals("Nenhuma inscrição encontrada para esse aluno", thrown.getMessage());
+        assertEquals("Estudante não encontrado", thrown.getMessage());
 
     }
 
