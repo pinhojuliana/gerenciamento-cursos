@@ -2,7 +2,7 @@
 
 Bem-vindo ao Sistema de Gestão de Cursos! Este projeto é uma aplicação Java que permite gerenciar cursos, aulas, alunos e professores de forma eficiente e organizada.
 
-**O projeto ainda está em construção**: faltam alguns ajustes para fazer o deploy.
+**O projeto ainda está em construção**: nos pŕoximos meses quero aprimorar o código e adicionar segurança, além de fazer um frontend.
 
 *Meu objetivo é otimizar ao máximo minha aplicação, então se tiver alguma sugestão ou encontrar algum erro, sua ajuda é muito bem-vinda!* 😊
 
@@ -27,8 +27,64 @@ Bem-vindo ao Sistema de Gestão de Cursos! Este projeto é uma aplicação Java 
 
 O projeto está sendo implantado utilizando o **Railway**, que oferece uma maneira simples e prática para fazer o deploy de aplicações em ambientes de produção.
 
+Obs: Ficará no Railway por tempo limitado.
+
 [![Railway](https://img.shields.io/badge/Railway-000000?style=for-the-badge&logo=railway&logoColor=white)](https://gerenciamento-cursos-production.up.railway.app/swagger-ui/index.html)
 
+## 💻 Como rodar o programa no meu computador?
+Dê um fork no repositório e faça um pull para um repositório local. Você só precisa de uma IDE e do ambiente Java instalados (esse projeto foi escrito em java 17).
+Você pode utilizar um cliente http da sua preferência ou o próprio swagger (endopoint : swagger-ui/index.html#/).
+
+Indico utilizar o perfil de dev (utiliza banco de dados h2).
+
+## 📌 Endpoints
+### Course Controller
+- /courses : retorna todos os cursos existentes
+- /courses/{title} : pesquisa os cursos por título
+- /courses/teachers/{id} : retorna os professores de um curso a partir do id do curso
+- /courses/register : cria um novo curso (deve conter título e descrição)
+- /courses/description/{id} : altera a descrição de um curso a partir do seu id
+- /courses/teachers/add/{id} : adiciona um professor ao curso a partir do id do curso 
+- /courses/teachers/remove/{id} : remove um professor de um curso a partir do id do curso
+- /courses/{id} : deleta um curso
+### Teacher Controller
+- /teachers : retorna todos os professores existentes
+- /teachers/{name} : pesquisa os professores por nome
+- /teachers/courses-taught/{id} : retorna cursos que um professor deu aula a partir do id do professor
+- /teachers/register : cadastra novo professor
+- /teachers/{id}/add-skill : adiciona uma skil ao perfil do professor
+- /teachers/{id}/remove-skill : remove uma skill do perfil do professor
+- /teachers/{id}/username : atualiza o username
+- /teachers/{id}/email : atualiza o email
+- /teachres/{id}/password : atualiza a senha
+- /teachres/{id} : deleta um professor 
+### Student Controller
+- /students : retorna todos os professores existentes
+- /students/search/{name} : pesquisa estudantes por nome
+- /students/{id} : pesquisa estudantes por id
+- /students/register : cria novo estudante
+- /students/{id}/description : atualiza a descrição
+- /students/{id}/username : atualiza o username
+- /students/{id}/email : atualiza o email
+- /students/{id}/password : atualiza a senha
+- /students/{id} : deleta um estudante
+### Enrollment Controller
+- /enrollments : retorna todas as inscrições existentes
+- /enrollments/course/{courseId} : retorna todas as inscrições de um curso
+- /enrollments/course/active/{courseId} : retorna todas as inscrições ativas de um curso
+- /enrollments/student/{studentId} : retorna todas as inscrições de um aluno
+- /enrollments/subscribe : inscreve um estudante em um curso
+- /enrollments/unsubscribe : desativa a inscrição
+### Unit Controler
+- /units/course/{courseId} : retorna todos os módulos de um curso
+- /units/search/course/{courseId} : encontra unidade atravez do titulo (Request Param)
+- /units/register : cria novo módulo
+- /units/{id} : deleta um módulo
+### Lesson Controller
+- /lessons/units/{unitId} : retorna as aulas de um módulo
+- /lessons/search/units/{unitId} : encontra aula de um modulo pelo titul (Request Param)
+- /lessons/register : cria nova aula
+- /lessons/{id} : deleta aula
 
 ## 📄 Licença
 
