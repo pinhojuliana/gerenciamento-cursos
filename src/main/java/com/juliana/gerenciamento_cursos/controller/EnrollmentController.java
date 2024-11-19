@@ -33,17 +33,17 @@ public class EnrollmentController {
         return ResponseEntity.ok(enrollments);
     }
 
+    @GetMapping("/course/{courseId}/active")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<EnrollmentDTO>> showCourseActiveEnrollments(@PathVariable UUID courseId){
+        List<EnrollmentDTO> enrollments =  service.showCourseActiveEnrollments(courseId);
+        return ResponseEntity.ok(enrollments);
+    }
+
     @GetMapping("/student/{studentId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<EnrollmentDTO>> showStudentEnrollments(@PathVariable UUID studentId){
         List<EnrollmentDTO> enrollments =  service.showStudentEnrollments(studentId);
-        return ResponseEntity.ok(enrollments);
-    }
-
-    @GetMapping("/course/active/{courseId}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<EnrollmentDTO>> showCourseActiveEnrollments(@PathVariable UUID courseId){
-        List<EnrollmentDTO> enrollments =  service.showCourseActiveEnrollments(courseId);
         return ResponseEntity.ok(enrollments);
     }
 

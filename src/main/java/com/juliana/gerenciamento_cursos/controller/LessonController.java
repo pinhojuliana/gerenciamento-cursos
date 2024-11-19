@@ -27,14 +27,14 @@ public class LessonController {
         return ResponseEntity.ok(classes);
     }
 
-    @GetMapping("/search/units/{unitId}")
+    @GetMapping("/units/{unitId}/search")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<LessonDTO>> findLessonsByTitle(@PathVariable UUID unitId, @RequestParam @NotEmpty String lessonTitle){
         List<LessonDTO> lessons = service.findLessonsByTitle(unitId, lessonTitle);
         return ResponseEntity.ok(lessons);
     }
 
-    @PostMapping("/register")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public LessonResponse createNewLesson(@Valid @RequestBody LessonRequestPayload requestPayload){
         return service.createNewLesson(requestPayload);

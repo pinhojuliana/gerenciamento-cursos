@@ -32,21 +32,21 @@ public class TeacherController {
         return ResponseEntity.ok(teachers);
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/search")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<TeacherDTO>> findTeacherByName(@PathVariable String name){
+    public ResponseEntity<List<TeacherDTO>> findTeacherByName(@RequestParam String name){
         List<TeacherDTO> teachers = service.findTeacherByName(name);
         return ResponseEntity.ok(teachers);
     }
 
-    @GetMapping("courses-taught/{id}")
+    @GetMapping("/{id}/courses-taught")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Set<CourseDTO>> showAllCoursesTaught(@PathVariable UUID id){
         Set<CourseDTO> courses = service.showAllCoursesTaught(id);
         return ResponseEntity.ok(courses);
     }
 
-    @PostMapping("/register")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ClientResponse createTeacher(@RequestBody TeacherRequestPayload teacherRequestPayload) {
         return service.createNewTeacher(teacherRequestPayload);

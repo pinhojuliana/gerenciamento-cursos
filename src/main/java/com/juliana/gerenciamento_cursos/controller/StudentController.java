@@ -20,16 +20,16 @@ public class StudentController {
     @Autowired
     StudentService service;
 
-    @GetMapping
+    @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<StudentDTO>> getAllStudents(){
         List<StudentDTO> students = service.getAllStudents();
         return ResponseEntity.ok(students);
     }
 
-    @GetMapping("/search/{name}")
+    @GetMapping("/search")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<StudentDTO>> searchStudentByName(@PathVariable String name){
+    public ResponseEntity<List<StudentDTO>> searchStudentByName(@RequestParam String name){
         List<StudentDTO> students = service.searchStudentName(name);
         return ResponseEntity.ok(students);
     }
@@ -41,7 +41,7 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
-    @PostMapping("/register")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ClientResponse createNewStudent(@Valid @RequestBody StudentRequestPayload requestPayload) {
        return service.createNewStudent(requestPayload);

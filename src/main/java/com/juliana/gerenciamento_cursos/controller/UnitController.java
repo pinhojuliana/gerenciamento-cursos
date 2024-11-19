@@ -27,14 +27,14 @@ public class UnitController {
         return ResponseEntity.ok(modules);
     }
 
-    @GetMapping("/search/course/{courseId}")
+    @GetMapping("/course/{courseId}/search")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<UnitDTO>> findUnitsByCourse(@PathVariable UUID courseId, @RequestParam @NotEmpty String moduleTitle){
         List<UnitDTO> modules = service.findUnitInCourse(courseId, moduleTitle);
         return ResponseEntity.ok(modules);
     }
 
-    @PostMapping("/register")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UnitResponse createNewUnit(@Valid @RequestBody UnitRequestPayload requestPayload){
         return service.createNewUnit(requestPayload);

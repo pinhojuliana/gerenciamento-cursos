@@ -22,28 +22,28 @@ public class CourseController {
     @Autowired
     CourseService service;
 
-    @GetMapping
+    @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<CourseDTO>> showCourses(){
         List<CourseDTO> courses = service.showAllCourses();
         return ResponseEntity.ok(courses);
     }
 
-    @GetMapping("/{title}")
+    @GetMapping("/search")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<CourseDTO> findCourseByTitle(@PathVariable String title){
+    public ResponseEntity<CourseDTO> findCourseByTitle(@RequestParam String title){
        CourseDTO course = service.findCourseByTitle(title);
         return ResponseEntity.ok(course);
     }
 
-    @GetMapping("/teachers/{id}")
+    @GetMapping("/{id}/teachers")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Set<TeacherDTO>> showTeachersOfCourse(@PathVariable UUID id){
         Set<TeacherDTO> teachers = service.showTeachersOfCourse(id);
         return ResponseEntity.ok(teachers);
     }
 
-    @PostMapping("/register")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CourseResponse createNewCourse(@Valid @RequestBody CourseRequestPayload requestPayload){
         return service.createNewCourse(requestPayload);
@@ -56,14 +56,14 @@ public class CourseController {
         return ResponseEntity.ok("Descrição atualizada com sucesso");
     }
 
-    @PutMapping("/teachers/add/{courseId}")
+    @PutMapping("/{courseId}/teachers")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> addTeacher(@RequestBody UUID teacherId, @PathVariable UUID courseId){
         service.addTeacher(teacherId, courseId);
         return ResponseEntity.ok("Professor adicionado");
     }
 
-    @PutMapping("/teachers/remove/{courseId}")
+    @DeleteMapping("/{courseId}/teachers")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> removeTeacher(@RequestBody UUID teacherId, @PathVariable UUID courseId){
         service.removeTeacher(teacherId, courseId);
