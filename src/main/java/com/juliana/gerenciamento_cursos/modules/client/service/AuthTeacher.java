@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.juliana.gerenciamento_cursos.modules.client.dto.AuthTeacherDTO;
 import com.juliana.gerenciamento_cursos.modules.client.dto.AuthTeacherResponseDTO;
-import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.modules.client.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +14,7 @@ import javax.naming.AuthenticationException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +29,7 @@ public class AuthTeacher {
 
     public AuthTeacherResponseDTO execute(AuthTeacherDTO authTeacherDTO) throws AuthenticationException {
         var teacher = repository.findByUsername(authTeacherDTO.username())
-                .orElseThrow(() -> new InexistentOptionException("Email ou senha incorretos"));
+                .orElseThrow(() -> new NoSuchElementException("Email ou senha incorretos"));
 
         boolean passwordMatches = passwordEncoder.matches(authTeacherDTO.password(), teacher.getPassword());
 

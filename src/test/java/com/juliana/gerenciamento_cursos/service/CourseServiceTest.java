@@ -7,8 +7,7 @@ import com.juliana.gerenciamento_cursos.modules.course.dto.CourseResponse;
 import com.juliana.gerenciamento_cursos.modules.client.entity.Teacher;
 import com.juliana.gerenciamento_cursos.modules.course.entity.Course;
 import com.juliana.gerenciamento_cursos.exceptions.EmptyListException;
-import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
-import com.juliana.gerenciamento_cursos.exceptions.NoUpdateRequiredException;
+import com.juliana.gerenciamento_cursos.exceptions.NoUpdateNeededException;
 import com.juliana.gerenciamento_cursos.exceptions.TitleAlreadyInUseException;
 import com.juliana.gerenciamento_cursos.modules.course.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.modules.client.repository.TeacherRepository;
@@ -90,7 +89,7 @@ class CourseServiceTest {
 
         when(repository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.deleteCourse(id);
         });
 
@@ -117,7 +116,7 @@ class CourseServiceTest {
         UUID id = UUID.randomUUID();
         when(repository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.alterDescription(id, "Construa aplicações modernas com Java e o framework Spring");
         });
 
@@ -134,7 +133,7 @@ class CourseServiceTest {
 
         when(repository.findById(any())).thenReturn(Optional.of(course));
 
-        Exception thrown = assertThrows(NoUpdateRequiredException.class, () -> {
+        Exception thrown = assertThrows(NoUpdateNeededException.class, () -> {
             service.alterDescription(id, "Faça aplicações utilizando java e Spring boot");
         });
 
@@ -192,7 +191,7 @@ class CourseServiceTest {
     void findCourseByTitleCase2() {
         when(repository.findByTitle(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.findCourseByTitle("java");
         });
 
@@ -222,7 +221,7 @@ class CourseServiceTest {
         when(repository.findById(any())).thenReturn(Optional.of(new Course()));
         when(teacherRepository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.addTeacher(UUID.randomUUID(), UUID.randomUUID());
         });
 
@@ -236,7 +235,7 @@ class CourseServiceTest {
     void addTeacherCase3() {
         when(repository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.addTeacher(UUID.randomUUID(), UUID.randomUUID());
         });
 
@@ -267,7 +266,7 @@ class CourseServiceTest {
         when(repository.findById(any())).thenReturn(Optional.of(new Course()));
         when(teacherRepository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.removeTeacher(UUID.randomUUID(), UUID.randomUUID());
         });
 
@@ -281,7 +280,7 @@ class CourseServiceTest {
     void removeTeacherCase3() {
         when(repository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.removeTeacher(UUID.randomUUID(), UUID.randomUUID());
         });
 
@@ -333,7 +332,7 @@ class CourseServiceTest {
     void showTeachersOfCourseCase2() {
         when(repository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.showTeachersOfCourse(UUID.randomUUID());
         });
 

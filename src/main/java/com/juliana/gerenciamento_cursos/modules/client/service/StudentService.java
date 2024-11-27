@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static com.juliana.gerenciamento_cursos.util.AgeValidation.validateAge;
@@ -25,7 +26,7 @@ public class StudentService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public ClientResponse createNewStudent(@Valid StudentRequestPayload requestPayload) throws UnderageException {
+    public ClientResponse createNewStudent(@Valid StudentRequestPayload requestPayload) throws InvalidAgeException {
         validateUniqueUsername(requestPayload.username());
         validateUniqueEmail(requestPayload.email());
         validateAge(requestPayload.dateOfBirth());
@@ -112,10 +113,10 @@ public class StudentService {
         return students;
     }
 
-    public StudentDTO searchStudentId(UUID id) throws InexistentOptionException {
+    public StudentDTO searchStudentId(UUID id) throws NoSuchElementException {
         return repository.findById(id)
                 .map(s -> new StudentDTO(s.getName(), s.getUsername(), s.getEmail(), s.getDateOfBirth(), s.getDescription(), s.getEducationalLevel()))
-                .orElseThrow(() -> new InexistentOptionException("Esse id não foi encontrado"));
+                .orElseThrow(() -> new NoSuchElementException("Esse id não foi encontrado"));
     }
 
     private void validateUniqueUsername(String username) {
@@ -132,12 +133,12 @@ public class StudentService {
 
     private Student validateId(UUID id){
         return repository.findById(id)
-                .orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
+                .orElseThrow(()-> new NoSuchElementException("Esse usuário não existe"));
     }
 
     private <T> void checkForNoUpdate(T oldValue, T newValue) {
         if (oldValue.equals(newValue)) {
-            throw new NoUpdateRequiredException("Os campos 'novo' e 'atual' não devem ser iguais");
+            throw new NoUpdateNeededException("Os campos 'novo' e 'atual' não devem ser iguais");
         }
     }
 

@@ -6,7 +6,6 @@ import com.juliana.gerenciamento_cursos.modules.lesson.dto.LessonResponse;
 import com.juliana.gerenciamento_cursos.modules.lesson.entity.Lesson;
 import com.juliana.gerenciamento_cursos.modules.lesson.service.LessonService;
 import com.juliana.gerenciamento_cursos.modules.unit.entity.Unit;
-import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.modules.lesson.repository.LessonRepository;
 import com.juliana.gerenciamento_cursos.modules.unit.repository.UnitRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -20,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -59,7 +59,7 @@ class LessonServiceTest {
         LessonRequestPayload requestPayload = new LessonRequestPayload("Instalando java", "passo a passo de como instalar jdk", new Unit().getId());
 
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.createNewLesson(requestPayload);
         });
 
@@ -80,7 +80,7 @@ class LessonServiceTest {
     void deleteClassCase2() {
         when(repository.existsById(any())).thenReturn(false);
 
-        Exception thrown = assertThrows(InexistentOptionException.class, ()->{
+        Exception thrown = assertThrows(NoSuchElementException.class, ()->{
             service.deleteLesson(any());
         });
 
@@ -112,11 +112,11 @@ class LessonServiceTest {
     }
 
     @Test
-    @DisplayName("Deve lançar InexistentOptionException")
+    @DisplayName("Deve lançar NoSuchElementException")
     void showClassesOfModuleCase2() {
         when(repository.findByUnit_id(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.showLessonsOfModule(any());
         });
 
@@ -148,11 +148,11 @@ class LessonServiceTest {
     }
 
     @Test
-    @DisplayName("Deve lançar InexistentOptionException")
+    @DisplayName("Deve lançar NoSuchElementException")
     void findClassesByTitleCase2() {
         when(repository.findByUnit_id(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.findLessonsByTitle(any(), "Introdução à POO");
         });
 

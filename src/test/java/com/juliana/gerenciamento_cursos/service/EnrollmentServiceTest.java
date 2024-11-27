@@ -1,5 +1,6 @@
 package com.juliana.gerenciamento_cursos.service;
 
+import com.juliana.gerenciamento_cursos.exceptions.NoUpdateNeededException;
 import com.juliana.gerenciamento_cursos.modules.enrollment.dto.EnrollmentDTO;
 import com.juliana.gerenciamento_cursos.modules.enrollment.dto.EnrollmentRequestPayload;
 import com.juliana.gerenciamento_cursos.modules.enrollment.dto.EnrollmentResponse;
@@ -8,8 +9,6 @@ import com.juliana.gerenciamento_cursos.modules.client.entity.Student;
 import com.juliana.gerenciamento_cursos.modules.course.entity.Course;
 import com.juliana.gerenciamento_cursos.modules.enrollment.entity.Enrollment;
 import com.juliana.gerenciamento_cursos.exceptions.EmptyListException;
-import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
-import com.juliana.gerenciamento_cursos.exceptions.NoUpdateRequiredException;
 import com.juliana.gerenciamento_cursos.modules.course.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.modules.enrollment.repository.EnrollmentRepository;
 import com.juliana.gerenciamento_cursos.modules.client.repository.StudentRepository;
@@ -22,10 +21,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -70,7 +66,7 @@ class EnrollmentServiceTest {
     void enrollStudentInCourseCase2() {
         when(courseRepository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.enrollStudentInCourse(new EnrollmentRequestPayload(UUID.randomUUID(), UUID.randomUUID()));
         });
 
@@ -84,7 +80,7 @@ class EnrollmentServiceTest {
         when(courseRepository.findById(any())).thenReturn(Optional.of(new Course()));
         when(studentRepository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.enrollStudentInCourse(new EnrollmentRequestPayload(UUID.randomUUID(), UUID.randomUUID()));
         });
 
@@ -100,7 +96,7 @@ class EnrollmentServiceTest {
 
         when(repository.existsByStudentIdAndCourseId(any(), any())).thenReturn(true);
 
-        Exception thrown = assertThrows(NoUpdateRequiredException.class, () -> {
+        Exception thrown = assertThrows(NoUpdateNeededException.class, () -> {
             service.enrollStudentInCourse(new EnrollmentRequestPayload(UUID.randomUUID(), UUID.randomUUID()));
         });
 
@@ -198,7 +194,7 @@ class EnrollmentServiceTest {
     void showEnrollmentsCourseCase2() {
         when(repository.findByCourseId(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.showCourseEnrollments(UUID.randomUUID());
         });
 
@@ -334,7 +330,7 @@ class EnrollmentServiceTest {
     void showEnrollmentsStudentCase3() {
         when(repository.findByStudentId(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.showStudentEnrollments(UUID.randomUUID());
         });
 
@@ -362,7 +358,7 @@ class EnrollmentServiceTest {
     void unsubscribeStudentOfCourseCase2() {
         when(repository.findByCourseIdAndStudentId(any(), any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.unsubscribeStudentOfCourse(new EnrollmentRequestPayload(UUID.randomUUID(), UUID.randomUUID()));
         });
 
@@ -371,14 +367,14 @@ class EnrollmentServiceTest {
     }
 
     @Test
-    @DisplayName("Deve lançar exceção NoUpdateRequiredException")
+    @DisplayName("Deve lançar exceção NoUpdateNeededException")
     void unsubscribeStudentOfCourseCase3() {
         Enrollment enrollment = new Enrollment(new Course(), new Student());
         enrollment.setActive(false);
 
         when(repository.findByCourseIdAndStudentId(any(), any())).thenReturn(Optional.of(enrollment));
 
-        Exception thrown = assertThrows(NoUpdateRequiredException.class, () -> {
+        Exception thrown = assertThrows(NoUpdateNeededException.class, () -> {
             service.unsubscribeStudentOfCourse(new EnrollmentRequestPayload(UUID.randomUUID(), UUID.randomUUID()));
         });
 

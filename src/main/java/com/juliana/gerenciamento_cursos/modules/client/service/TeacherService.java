@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -25,7 +26,7 @@ public class TeacherService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public ClientResponse createNewTeacher(@Valid TeacherRequestPayload requestPayload) throws UnderageException {
+    public ClientResponse createNewTeacher(@Valid TeacherRequestPayload requestPayload) throws InvalidAgeException {
         validateUniqueUsername(requestPayload.username());
         validateUniqueEmail(requestPayload.email());
 
@@ -58,19 +59,19 @@ public class TeacherService {
         repository.save(teacher);
     }
 
-    public void removeSkill(UUID id, String skill) throws InexistentOptionException {
+    public void removeSkill(UUID id, String skill) throws NoSuchElementException {
         Teacher teacher = validateId(id);
         String skillParsed = skill.trim();
 
         if(!teacher.getSkills().contains(skillParsed)){
-            throw new InexistentOptionException(String.format("A skill '%s' não foi encontrada", skill));
+            throw new NoSuchElementException(String.format("A skill '%s' não foi encontrada", skill));
         }
 
         teacher.getSkills().remove(skillParsed);
         repository.save(teacher);
     }
 
-    public void updateTeacherUsername(UUID id, String username) throws InexistentOptionException {
+    public void updateTeacherUsername(UUID id, String username) throws NoSuchElementException {
         Teacher teacher = validateId(id);
         checkForNoUpdate(teacher.getUsername(), username);
         validateUniqueUsername(username);
@@ -78,7 +79,7 @@ public class TeacherService {
         repository.save(teacher);
     }
 
-    public void updateTeacherEmail(UUID id, String email) throws InexistentOptionException {
+    public void updateTeacherEmail(UUID id, String email) throws NoSuchElementException {
         Teacher teacher = validateId(id);
         checkForNoUpdate(teacher.getEmail(), email);
         validateUniqueEmail(email);
@@ -148,12 +149,12 @@ public class TeacherService {
 
     private Teacher validateId(UUID id){
         return repository.findById(id)
-                .orElseThrow(()-> new InexistentOptionException("Esse usuário não existe"));
+                .orElseThrow(()-> new NoSuchElementException("Esse usuário não existe"));
     }
 
     private <T> void checkForNoUpdate(T oldValue, T newValue) {
         if (oldValue.equals(newValue)) {
-            throw new NoUpdateRequiredException("Os campos 'novo' e 'atual' não devem ser iguais");
+            throw new NoUpdateNeededException("Os campos 'novo' e 'atual' não devem ser iguais");
         }
     }
 

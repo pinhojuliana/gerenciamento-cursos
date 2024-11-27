@@ -6,7 +6,6 @@ import com.juliana.gerenciamento_cursos.modules.unit.dto.UnitResponse;
 import com.juliana.gerenciamento_cursos.modules.course.entity.Course;
 import com.juliana.gerenciamento_cursos.modules.unit.entity.Difficulty;
 import com.juliana.gerenciamento_cursos.modules.unit.entity.Unit;
-import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.modules.course.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.modules.unit.repository.UnitRepository;
 import com.juliana.gerenciamento_cursos.modules.unit.service.UnitService;
@@ -20,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -62,7 +62,7 @@ class UnitServiceTest {
         UnitRequestPayload requestPayload = new UnitRequestPayload("Fundamentos java", "aprenda sobre os tipos e classes", Difficulty.BEGINNER, course.getId());
 
         when(courseRepository.findById(any())).thenReturn(Optional.empty());
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.createNewUnit(requestPayload);
         });
 
@@ -86,7 +86,7 @@ class UnitServiceTest {
     void deleteUnitCase2() {
         when(repository.existsById(any())).thenReturn(false);
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.deleteUnit(any());
         });
 
@@ -115,11 +115,11 @@ class UnitServiceTest {
     }
 
     @Test
-    @DisplayName("Deve lançar InexistentOptionException")
+    @DisplayName("Deve lançar NoSuchElementException")
     void findUnitsByCourseCase2() {
-       when(repository.findByCourseId(any())).thenThrow(new InexistentOptionException("Nenhum modulo encontrado"));
+       when(repository.findByCourseId(any())).thenThrow(new NoSuchElementException("Nenhum modulo encontrado"));
 
-       assertThrows(InexistentOptionException.class, () -> {
+       assertThrows(NoSuchElementException.class, () -> {
             service.findUnitsByCourse(any());
        });
     }
@@ -148,11 +148,11 @@ class UnitServiceTest {
     }
 
     @Test
-    @DisplayName("Deve lançar InexistentOptionException")
+    @DisplayName("Deve lançar NoSuchElementException")
     void findUnitInCourseCase2() {
-        when(repository.findByCourseId(any())).thenThrow(new InexistentOptionException("Nenhum modulo encontrado"));
+        when(repository.findByCourseId(any())).thenThrow(new NoSuchElementException("Nenhum modulo encontrado"));
 
-        assertThrows(InexistentOptionException.class, () -> {
+        assertThrows(NoSuchElementException.class, () -> {
             service.findUnitInCourse(any(), "Java");
         });
     }

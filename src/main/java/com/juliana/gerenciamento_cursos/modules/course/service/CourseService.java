@@ -1,5 +1,6 @@
 package com.juliana.gerenciamento_cursos.modules.course.service;
 
+import com.juliana.gerenciamento_cursos.exceptions.NoUpdateNeededException;
 import com.juliana.gerenciamento_cursos.modules.course.dto.CourseDTO;
 import com.juliana.gerenciamento_cursos.modules.client.dto.TeacherDTO;
 import com.juliana.gerenciamento_cursos.modules.client.entity.Teacher;
@@ -9,14 +10,13 @@ import com.juliana.gerenciamento_cursos.modules.course.dto.CourseResponse;
 import com.juliana.gerenciamento_cursos.modules.course.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.modules.client.repository.TeacherRepository;
 import com.juliana.gerenciamento_cursos.exceptions.EmptyListException;
-import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
-import com.juliana.gerenciamento_cursos.exceptions.NoUpdateRequiredException;
 import com.juliana.gerenciamento_cursos.exceptions.TitleAlreadyInUseException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -46,7 +46,7 @@ public class CourseService {
         Course course = validateId(id);
 
         if(course.getDescription().equals(description)){
-            throw new NoUpdateRequiredException("A nova descrição não pode ser igual à descrição atual");
+            throw new NoUpdateNeededException("A nova descrição não pode ser igual à descrição atual");
         }
 
         course.setDescription(description);
@@ -67,17 +67,17 @@ public class CourseService {
 
     public CourseDTO findCourseByTitle(String title){
         Course course = repository.findByTitle(title)
-                .orElseThrow(()-> new InexistentOptionException("Nenhum curso encontrado"));
+                .orElseThrow(()-> new NoSuchElementException("Nenhum curso encontrado"));
 
         return convertToDTO(course);
     }
 
     public void addTeacher(UUID teacherId, UUID courseId){
         Course course = validateId(courseId);
-        Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(() -> new InexistentOptionException("Professor não encontrado"));
+        Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(() -> new NoSuchElementException("Professor não encontrado"));
 
         if(!course.getTeachers().add(teacher)){
-            throw new NoUpdateRequiredException(String.format("O usuário do '%s' já é professor do curso '%s'", teacherId, courseId));
+            throw new NoUpdateNeededException(String.format("O usuário do '%s' já é professor do curso '%s'", teacherId, courseId));
         }
 
         course.getTeachers().add(teacher);
@@ -86,10 +86,10 @@ public class CourseService {
 
     public void removeTeacher(UUID teacherId, UUID courseId){
         Course course = validateId(courseId);
-        Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(() -> new InexistentOptionException("Professor não encontrado"));
+        Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(() -> new NoSuchElementException("Professor não encontrado"));
 
         if(!course.getTeachers().remove(teacher)){
-            throw new InexistentOptionException(String.format("O usuário '%S' não leciona no curso '%s'", teacherId, courseId));
+            throw new NoSuchElementException(String.format("O usuário '%S' não leciona no curso '%s'", teacherId, courseId));
         }
 
         course.getTeachers().remove(teacher);
@@ -118,7 +118,7 @@ public class CourseService {
 
     private Course validateId(UUID id){
         return repository.findById(id)
-                .orElseThrow(() -> new InexistentOptionException("Esse curso não existe"));
+                .orElseThrow(() -> new NoSuchElementException("Esse curso não existe"));
     }
 
     private CourseDTO convertToDTO(Course course){

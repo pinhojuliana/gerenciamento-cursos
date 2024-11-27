@@ -16,10 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -67,7 +64,7 @@ class StudentServiceTest {
                 LocalDate.of(2008, 3, 7), "estudante de java", EducationalLevel.HIGH_SCHOOL
         );
 
-        Exception thrown = assertThrows(UnderageException.class, ()-> {
+        Exception thrown = assertThrows(InvalidAgeException.class, ()-> {
             service.createNewStudent(requestPayload);
         });
 
@@ -130,7 +127,7 @@ class StudentServiceTest {
     void updateStudentDescriptionCase2() {
         when(repository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
+        Exception thrown = assertThrows(NoSuchElementException.class, ()-> {
        UUID id = UUID.randomUUID();
             service.updateStudentDescription(id, "Desenvolvedora java, estudante de phyton");
         });
@@ -149,7 +146,7 @@ class StudentServiceTest {
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
 
-        Exception thrown = assertThrows(NoUpdateRequiredException.class, ()-> {
+        Exception thrown = assertThrows(NoUpdateNeededException.class, ()-> {
             service.updateStudentDescription(any(), "estudante de java");
         });
 
@@ -175,7 +172,7 @@ class StudentServiceTest {
         UUID id = UUID.randomUUID();
         when(repository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
+        Exception thrown = assertThrows(NoSuchElementException.class, ()-> {
             service.updateStudentEducationalLevel(id, EducationalLevel.ELEMENTARY);
         });
 
@@ -195,7 +192,7 @@ class StudentServiceTest {
         UUID id = UUID.randomUUID();
         when(repository.findById(any())).thenReturn(Optional.of(student));
 
-        Exception thrown = assertThrows(NoUpdateRequiredException.class, ()-> {
+        Exception thrown = assertThrows(NoUpdateNeededException.class, ()-> {
             service.updateStudentEducationalLevel(id, EducationalLevel.HIGH_SCHOOL);
         });
 
@@ -223,7 +220,7 @@ class StudentServiceTest {
         UUID id = UUID.randomUUID();
         when(repository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
+        Exception thrown = assertThrows(NoSuchElementException.class, ()-> {
             service.updateStudentUsername(id, "maria.sv");
         });
 
@@ -241,7 +238,7 @@ class StudentServiceTest {
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
 
-        Exception thrown = assertThrows(NoUpdateRequiredException.class, ()-> {
+        Exception thrown = assertThrows(NoUpdateNeededException.class, ()-> {
             service.updateStudentUsername(any(), "mmaria12");
         });
 
@@ -287,7 +284,7 @@ class StudentServiceTest {
         UUID id = UUID.randomUUID();
         when(repository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
+        Exception thrown = assertThrows(NoSuchElementException.class, ()-> {
             service.updateStudentEmail(id, "maria@outlook.com");
         });
 
@@ -305,7 +302,7 @@ class StudentServiceTest {
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
 
-        Exception thrown = assertThrows(NoUpdateRequiredException.class, ()-> {
+        Exception thrown = assertThrows(NoUpdateNeededException.class, ()-> {
             service.updateStudentEmail(any(), "msilva@gmail.com");
         });
 
@@ -350,7 +347,7 @@ class StudentServiceTest {
         UUID id = UUID.randomUUID();
         when(repository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
+        Exception thrown = assertThrows(NoSuchElementException.class, ()-> {
             service.updateStudentPassword(id, "P@ssw0rd!", "MyP@ssw0rd1");
         });
 
@@ -368,7 +365,7 @@ class StudentServiceTest {
         );
         when(repository.findById(any())).thenReturn(Optional.of(student));
 
-        Exception thrown = assertThrows(NoUpdateRequiredException.class, ()-> {
+        Exception thrown = assertThrows(NoUpdateNeededException.class, ()-> {
             service.updateStudentPassword(any(), "P@ssw0rd!", "P@ssw0rd!");
         });
 
@@ -410,7 +407,7 @@ class StudentServiceTest {
         UUID id = UUID.randomUUID();
         when(repository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
+        Exception thrown = assertThrows(NoSuchElementException.class, ()-> {
             service.deleteStudent(id);
         });
 
@@ -437,9 +434,9 @@ class StudentServiceTest {
     @Test
     @DisplayName("Deve retornar exceção de nenhum estudante encontrado")
     void searchStudentCase2() {
-        when(repository.findById(any())).thenThrow(new InexistentOptionException("Esse id não foi encontrado"));
+        when(repository.findById(any())).thenThrow(new NoSuchElementException("Esse id não foi encontrado"));
 
-        Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
+        Exception thrown = assertThrows(NoSuchElementException.class, ()-> {
             service.searchStudentId(any());
         });
 

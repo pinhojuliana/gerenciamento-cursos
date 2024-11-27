@@ -7,8 +7,7 @@ import com.juliana.gerenciamento_cursos.modules.enrollment.entity.Enrollment;
 import com.juliana.gerenciamento_cursos.modules.enrollment.dto.EnrollmentResponse;
 import com.juliana.gerenciamento_cursos.modules.client.entity.Student;
 import com.juliana.gerenciamento_cursos.exceptions.EmptyListException;
-import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
-import com.juliana.gerenciamento_cursos.exceptions.NoUpdateRequiredException;
+import com.juliana.gerenciamento_cursos.exceptions.NoUpdateNeededException;
 import com.juliana.gerenciamento_cursos.modules.course.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.modules.enrollment.repository.EnrollmentRepository;
 import com.juliana.gerenciamento_cursos.modules.client.repository.StudentRepository;
@@ -16,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -27,12 +27,12 @@ public class EnrollmentService {
 
     private final CourseRepository courseRepository;
 
-    public EnrollmentResponse enrollStudentInCourse(EnrollmentRequestPayload requestPayload) throws InexistentOptionException, NoUpdateRequiredException{
-        Course course = courseRepository.findById(requestPayload.courseId()).orElseThrow(()-> new InexistentOptionException("Curso não encontrado"));
-        Student student = studentRepository.findById(requestPayload.studentId()).orElseThrow(()-> new InexistentOptionException("Aluno não encontrado"));
+    public EnrollmentResponse enrollStudentInCourse(EnrollmentRequestPayload requestPayload) throws NoSuchElementException, NoUpdateNeededException {
+        Course course = courseRepository.findById(requestPayload.courseId()).orElseThrow(()-> new NoSuchElementException("Curso não encontrado"));
+        Student student = studentRepository.findById(requestPayload.studentId()).orElseThrow(()-> new NoSuchElementException("Aluno não encontrado"));
 
         if (repository.existsByStudentIdAndCourseId(requestPayload.studentId(), requestPayload.courseId())) {
-            throw new NoUpdateRequiredException("Aluno já inscrito neste curso");
+            throw new NoUpdateNeededException("Aluno já inscrito neste curso");
         }
 
         Enrollment newEnrollment = new Enrollment(course, student);
@@ -55,7 +55,7 @@ public class EnrollmentService {
 
     public List<EnrollmentDTO> showCourseEnrollments(UUID courseId) {
         List<EnrollmentDTO> enrollments = repository.findByCourseId(courseId)
-                .orElseThrow(() -> new InexistentOptionException("Curso não encontrado"))
+                .orElseThrow(() -> new NoSuchElementException("Curso não encontrado"))
                 .stream()
                 .map(this::convertToDTO)
                 .toList();
@@ -84,7 +84,7 @@ public class EnrollmentService {
 
     public List<EnrollmentDTO> showStudentEnrollments(UUID studentId){
         List<EnrollmentDTO> enrollments = repository.findByStudentId(studentId)
-                .orElseThrow(() -> new InexistentOptionException("Estudante não encontrado"))
+                .orElseThrow(() -> new NoSuchElementException("Estudante não encontrado"))
                 .stream()
                 .map(this::convertToDTO)
                 .toList();
@@ -96,12 +96,12 @@ public class EnrollmentService {
         return enrollments;
     }
 
-    public void unsubscribeStudentOfCourse(EnrollmentRequestPayload requestPayload) throws NoUpdateRequiredException {
+    public void unsubscribeStudentOfCourse(EnrollmentRequestPayload requestPayload) throws NoUpdateNeededException {
          Enrollment enrollment = repository.findByCourseIdAndStudentId(requestPayload.courseId(), requestPayload.studentId())
-                .orElseThrow(() -> new InexistentOptionException("Inscrição não encontrada"));
+                .orElseThrow(() -> new NoSuchElementException("Inscrição não encontrada"));
 
         if (!enrollment.isActive()) {
-            throw new NoUpdateRequiredException("A inscrição já está inativa");
+            throw new NoUpdateNeededException("A inscrição já está inativa");
         }
 
       enrollment.setActive(false);

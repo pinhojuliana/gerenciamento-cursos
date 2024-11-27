@@ -6,13 +6,13 @@ import com.juliana.gerenciamento_cursos.modules.lesson.dto.LessonResponse;
 import com.juliana.gerenciamento_cursos.modules.lesson.entity.Lesson;
 import com.juliana.gerenciamento_cursos.modules.unit.entity.Unit;
 import com.juliana.gerenciamento_cursos.exceptions.EmptyListException;
-import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.modules.lesson.repository.LessonRepository;
 import com.juliana.gerenciamento_cursos.modules.unit.repository.UnitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -24,7 +24,7 @@ public class LessonService {
 
     public LessonResponse createNewLesson(LessonRequestPayload requestPayload){
         Unit unit = unitRepository.findById(requestPayload.unitId())
-                .orElseThrow(() -> new InexistentOptionException("Modulo não encontrado"));
+                .orElseThrow(() -> new NoSuchElementException("Modulo não encontrado"));
 
         Lesson newLesson = new Lesson(requestPayload.title(), requestPayload.description(), unit);
 
@@ -38,28 +38,28 @@ public class LessonService {
         repository.deleteById(id);
     }
 
-    public List<LessonDTO> showLessonsOfModule(UUID unitId) throws InexistentOptionException, EmptyListException {
-        List<LessonDTO> lessons = repository.findByUnit_id(unitId).orElseThrow(()-> new InexistentOptionException("Módulo não encontrado"))
+    public List<LessonDTO> showLessonsOfModule(UUID unitId) throws NoSuchElementException, EmptyListException {
+        List<LessonDTO> lessons = repository.findByUnit_id(unitId).orElseThrow(()-> new NoSuchElementException("Módulo não encontrado"))
                 .stream()
                 .map(this::convertToDTO)
                 .toList();
 
         if(lessons.isEmpty()){
-            throw new InexistentOptionException("Nenhuma aula encontrada para esse módulo");
+            throw new NoSuchElementException("Nenhuma aula encontrada para esse módulo");
         }
 
         return lessons;
     }
 
-    public List<LessonDTO> findLessonsByTitle(UUID unitId , String title) throws InexistentOptionException {
-        List<LessonDTO> lessons = repository.findByUnit_id(unitId).orElseThrow(()-> new InexistentOptionException("Módulo não encontrado"))
+    public List<LessonDTO> findLessonsByTitle(UUID unitId , String title) throws NoSuchElementException {
+        List<LessonDTO> lessons = repository.findByUnit_id(unitId).orElseThrow(()-> new NoSuchElementException("Módulo não encontrado"))
                 .stream()
                 .filter(l -> l.getTitle().equalsIgnoreCase(title))
                 .map(this::convertToDTO)
                 .toList();
 
         if(lessons.isEmpty()){
-            throw new InexistentOptionException("Nenhuma aula encontrada");
+            throw new NoSuchElementException("Nenhuma aula encontrada");
         }
 
         return lessons;
@@ -67,7 +67,7 @@ public class LessonService {
 
     private void validateId(UUID id){
         if (!repository.existsById(id)) {
-            throw new InexistentOptionException("Modulo não encontrado");
+            throw new NoSuchElementException("Modulo não encontrado");
         }
     }
 

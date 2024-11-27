@@ -65,7 +65,7 @@ class TeacherServiceTest {
                 LocalDate.of(2008, 3, 7)
         );
 
-        Exception thrown = assertThrows(UnderageException.class, ()-> {
+        Exception thrown = assertThrows(InvalidAgeException.class, ()-> {
             service.createNewTeacher(requestPayload);
         });
 
@@ -129,7 +129,7 @@ class TeacherServiceTest {
         UUID id = UUID.randomUUID();
         when(repository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
+        Exception thrown = assertThrows(NoSuchElementException.class, ()-> {
             service.deleteTeacher(id);
         });
 
@@ -157,7 +157,7 @@ class TeacherServiceTest {
         UUID id = UUID.randomUUID();
         when(repository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.addSkill(id, "java");
         });
 
@@ -208,7 +208,7 @@ class TeacherServiceTest {
         UUID id = UUID.randomUUID();
         when(repository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.removeSkill(id, "java");
         });
 
@@ -226,7 +226,7 @@ class TeacherServiceTest {
 
         when(repository.findById(any())).thenReturn(Optional.of(teacher));
 
-        Exception thrown = assertThrows(InexistentOptionException.class, () -> {
+        Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.removeSkill(any(), "java");
         });
 
@@ -254,7 +254,7 @@ class TeacherServiceTest {
         UUID id = UUID.randomUUID();
         when(repository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
+        Exception thrown = assertThrows(NoSuchElementException.class, ()-> {
             service.updateTeacherUsername(id, "maria.sv");
         });
 
@@ -272,7 +272,7 @@ class TeacherServiceTest {
         );
         when(repository.findById(any())).thenReturn(Optional.of(teacher));
 
-        Exception thrown = assertThrows(NoUpdateRequiredException.class, ()-> {
+        Exception thrown = assertThrows(NoUpdateNeededException.class, ()-> {
             service.updateTeacherUsername(any(), "mmaria12");
         });
 
@@ -316,9 +316,9 @@ class TeacherServiceTest {
     @DisplayName("Deve lançar exceção id inválido")
     void updateTeacherEmailCase2() {
         UUID id = UUID.randomUUID();
-        when(repository.findById(any())).thenThrow(new InexistentOptionException("Esse usuário não existe"));
+        when(repository.findById(any())).thenThrow(new NoSuchElementException("Esse usuário não existe"));
 
-        Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
+        Exception thrown = assertThrows(NoSuchElementException.class, ()-> {
             service.updateTeacherEmail(id, "maria@outlook.com");
         });
 
@@ -336,7 +336,7 @@ class TeacherServiceTest {
         );
         when(repository.findById(any())).thenReturn(Optional.of(teacher));
 
-        Exception thrown = assertThrows(NoUpdateRequiredException.class, ()-> {
+        Exception thrown = assertThrows(NoUpdateNeededException.class, ()-> {
             service.updateTeacherEmail(any(), "msilva@gmail.com");
         });
 
@@ -381,7 +381,7 @@ class TeacherServiceTest {
         UUID id = UUID.randomUUID();
         when(repository.findById(any())).thenReturn(Optional.empty());
 
-        Exception thrown = assertThrows(InexistentOptionException.class, ()-> {
+        Exception thrown = assertThrows(NoSuchElementException.class, ()-> {
             service.updateTeacherPassword(id, "P@ssw0rd!", "MyP@ssw0rd1");
         });
 
@@ -399,7 +399,7 @@ class TeacherServiceTest {
         );
         when(repository.findById(any())).thenReturn(Optional.of(teacher));
 
-        Exception thrown = assertThrows(NoUpdateRequiredException.class, ()-> {
+        Exception thrown = assertThrows(NoUpdateNeededException.class, ()-> {
             service.updateTeacherPassword(any(), "P@ssw0rd!", "P@ssw0rd!");
         });
 
@@ -541,7 +541,7 @@ class TeacherServiceTest {
     void showAllCoursesTaughtCase2() {
         when(repository.findById(any())).thenReturn(Optional.empty());
 
-        assertThrows(InexistentOptionException.class, () -> {
+        assertThrows(NoSuchElementException.class, () -> {
             service.showAllCoursesTaught(UUID.randomUUID());
         });
     }

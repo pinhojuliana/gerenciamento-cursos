@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import java.util.NoSuchElementException;
+
 
 @ControllerAdvice
 public class ExceptionHandlerController {
@@ -40,8 +42,8 @@ public class ExceptionHandlerController {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(InexistentOptionException.class)
-    public ResponseEntity<String> handleInexistentOptionException(InexistentOptionException e){
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<String> handleInexistentOptionException(NoSuchElementException e){
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
@@ -50,8 +52,8 @@ public class ExceptionHandlerController {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(UnderageException.class)
-    public ResponseEntity<String> handleUnderageException(UnderageException e){
+    @ExceptionHandler(InvalidAgeException.class)
+    public ResponseEntity<String> handleUnderageException(InvalidAgeException e){
         return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
     }
 

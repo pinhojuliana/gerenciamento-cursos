@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.juliana.gerenciamento_cursos.modules.client.dto.AuthStudentDTO;
 import com.juliana.gerenciamento_cursos.modules.client.dto.AuthStudentResponseDTO;
-import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.modules.client.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +14,7 @@ import javax.naming.AuthenticationException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +28,7 @@ public class AuthStudent {
 
     public AuthStudentResponseDTO execute(AuthStudentDTO authStudentDTO) throws AuthenticationException {
         var student = repository.findByUsername(authStudentDTO.username())
-                .orElseThrow(() -> new InexistentOptionException("Username ou senha incorretos"));
+                .orElseThrow(() -> new NoSuchElementException("Username ou senha incorretos"));
 
         boolean passowrMatches = passwordEncoder.matches(authStudentDTO.password(), student.getPassword());
 
