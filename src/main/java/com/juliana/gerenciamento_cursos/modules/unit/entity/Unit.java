@@ -2,16 +2,15 @@ package com.juliana.gerenciamento_cursos.modules.unit.entity;
 
 import com.juliana.gerenciamento_cursos.modules.course.entity.Course;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "unit")
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @ToString
 @Getter
 @Setter
@@ -30,10 +29,4 @@ public class Unit {
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    public Unit(String title, String description, Difficulty difficulty, Course course) {
-        this.title = title;
-        this.description = description;
-        this.difficulty = difficulty;
-        this.course = course;
-    }
 }

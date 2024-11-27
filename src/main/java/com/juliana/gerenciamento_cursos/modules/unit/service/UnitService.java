@@ -24,10 +24,16 @@ public class UnitService {
 
     public UnitResponse createNewUnit(UnitRequestPayload requestPayload){
         Course course = courseRepository.findById(requestPayload.courseId()).orElseThrow(() -> new NoSuchElementException("Curso não encontrado"));
-        Unit newUnit = new Unit(requestPayload.title(), requestPayload.description(), requestPayload.difficulty(), course);
-        repository.save(newUnit);
+        var unit = Unit.builder()
+                .title(requestPayload.title())
+                .description(requestPayload.description())
+                .difficulty(requestPayload.difficulty())
+                .course(course)
+                .build();
 
-        return new UnitResponse(newUnit.getId());
+        repository.save(unit);
+
+        return new UnitResponse(unit.getId());
     }
 
     public void deleteUnit(UUID id){
