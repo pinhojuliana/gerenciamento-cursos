@@ -26,11 +26,15 @@ public class LessonService {
         Unit unit = unitRepository.findById(requestPayload.unitId())
                 .orElseThrow(() -> new NoSuchElementException("Modulo não encontrado"));
 
-        Lesson newLesson = new Lesson(requestPayload.title(), requestPayload.description(), unit);
+        var lesson = Lesson.builder()
+                .title(requestPayload.title())
+                .description(requestPayload.description())
+                .unit(unit)
+                .build();
 
-        repository.save(newLesson);
+        repository.save(lesson);
 
-        return new LessonResponse(newLesson.getId());
+        return new LessonResponse(lesson.getId());
     }
 
     public void deleteLesson(UUID id){

@@ -2,9 +2,7 @@ package com.juliana.gerenciamento_cursos.modules.lesson.entity;
 
 import com.juliana.gerenciamento_cursos.modules.unit.entity.Unit;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -12,6 +10,8 @@ import java.util.UUID;
 @Table(name = "lesson")
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter
 public class Lesson {
     @Id
@@ -25,10 +25,5 @@ public class Lesson {
     @JoinColumn(name = "unit_id", nullable = false)
     private Unit unit;
 
-    public Lesson(String title, String description, Unit unit) {
-        this.title = title;
-        this.description = description;
-        this.unit = unit;
-    }
 }
 
