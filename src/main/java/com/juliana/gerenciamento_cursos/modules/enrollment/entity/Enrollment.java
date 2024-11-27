@@ -3,9 +3,7 @@ package com.juliana.gerenciamento_cursos.modules.enrollment.entity;
 import com.juliana.gerenciamento_cursos.modules.course.entity.Course;
 import com.juliana.gerenciamento_cursos.modules.client.entity.Student;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
@@ -16,6 +14,8 @@ import java.util.UUID;
 @Table(name = "enrollment")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @ToString
 public class Enrollment {
     @Id
@@ -42,13 +42,5 @@ public class Enrollment {
 
     @Column
     private boolean active;
-
-    public Enrollment(Course course, Student student) {
-        this.course = course;
-        this.student = student;
-        this.active = true;
-        this.duration = 365;
-        this.deadlineForCompletion = LocalDateTime.now().plusDays(duration).toLocalDate();
-    }
 
 }

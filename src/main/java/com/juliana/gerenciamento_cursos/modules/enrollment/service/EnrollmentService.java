@@ -14,6 +14,7 @@ import com.juliana.gerenciamento_cursos.modules.client.repository.StudentReposit
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -35,10 +36,18 @@ public class EnrollmentService {
             throw new NoUpdateNeededException("Aluno já inscrito neste curso");
         }
 
-        Enrollment newEnrollment = new Enrollment(course, student);
-        repository.save(newEnrollment);
+        int duration = 365;
+        var enrollment = Enrollment.builder()
+                .student(student)
+                .course(course)
+                .active(true)
+                .duration(duration)
+                .deadlineForCompletion(LocalDateTime.now().plusDays(duration).toLocalDate())
+                .build();
 
-        return new EnrollmentResponse(newEnrollment.getId());
+        repository.save(enrollment);
+
+        return new EnrollmentResponse(enrollment.getId());
     }
 
     public List<EnrollmentDTO> showAllEnrollments(){
