@@ -5,7 +5,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
@@ -14,6 +17,9 @@ import java.util.UUID;
 
 @MappedSuperclass
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
 public abstract class Client implements Comparable<Client>{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,15 +54,13 @@ public abstract class Client implements Comparable<Client>{
     @CreationTimestamp
     protected LocalDateTime createdAt;
 
-    public Client(String name, String username, String email, String password, LocalDate dateOfBirth){
+    public Client(String name, String username, String email, String password, LocalDate dateOfBirth) {
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
         this.dateOfBirth = dateOfBirth;
     }
-
-    public Client(){}
 
     @Override
     public int compareTo(Client client) {

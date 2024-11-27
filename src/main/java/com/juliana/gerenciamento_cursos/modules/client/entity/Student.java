@@ -2,10 +2,8 @@ package com.juliana.gerenciamento_cursos.modules.client.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
@@ -14,7 +12,9 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
+@SuperBuilder
 public class Student extends Client {
     @NotBlank(message = "O campo 'description' não pode estar vazio")
     private String description;

@@ -19,6 +19,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.juliana.gerenciamento_cursos.util.AgeValidation.validateAge;
+
 @Service
 @RequiredArgsConstructor
 public class TeacherService {
@@ -29,17 +31,19 @@ public class TeacherService {
     public ClientResponse createNewTeacher(@Valid TeacherRequestPayload requestPayload) throws InvalidAgeException {
         validateUniqueUsername(requestPayload.username());
         validateUniqueEmail(requestPayload.email());
+        validateAge(requestPayload.dateOfBirth());
 
-        Teacher newTeacher = new Teacher(requestPayload.name(),
-                requestPayload.username(),
-                requestPayload.email(),
-                passwordEncoder.encode(requestPayload.password()),
-                AgeValidation.validateAge(requestPayload.dateOfBirth())
-        );
+        var teacher = Teacher.builder()
+                .name(requestPayload.name())
+                .username(requestPayload.username())
+                .email(requestPayload.email())
+                .password(passwordEncoder.encode(requestPayload.password()))
+                .dateOfBirth(requestPayload.dateOfBirth())
+                .build();
 
-        repository.save(newTeacher);
+        repository.save(teacher);
 
-        return new ClientResponse(newTeacher.getId());
+        return new ClientResponse(teacher.getId());
     }
 
     public void deleteTeacher(UUID id) {

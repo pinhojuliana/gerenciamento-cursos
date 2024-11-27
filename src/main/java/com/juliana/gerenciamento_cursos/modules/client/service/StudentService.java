@@ -31,19 +31,19 @@ public class StudentService {
         validateUniqueEmail(requestPayload.email());
         validateAge(requestPayload.dateOfBirth());
 
-        Student newStudent = new Student(
-                requestPayload.name(),
-                requestPayload.username(),
-                requestPayload.email(),
-                passwordEncoder.encode(requestPayload.password()),
-                requestPayload.dateOfBirth(),
-                requestPayload.description(),
-                requestPayload.educationalLevel()
-        );
+        var student = Student.builder()
+                .name(requestPayload.name())
+                .username(requestPayload.username())
+                .email(requestPayload.email())
+                .password(passwordEncoder.encode(requestPayload.password()))
+                .dateOfBirth(requestPayload.dateOfBirth())
+                .description(requestPayload.description())
+                .educationalLevel(requestPayload.educationalLevel())
+                .build();
 
-        repository.save(newStudent);
+        repository.save(student);
 
-        return new ClientResponse(newStudent.getId());
+        return new ClientResponse(student.getId());
     }
 
     public void updateStudentDescription(UUID id, String description) {

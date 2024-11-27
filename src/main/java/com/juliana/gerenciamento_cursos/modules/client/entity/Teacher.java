@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -16,6 +17,7 @@ import java.util.*;
 @Setter
 @NoArgsConstructor
 @ToString
+@SuperBuilder
 public class Teacher extends Client {
     @ElementCollection
     @CollectionTable(name = "teacher_skill", joinColumns = @JoinColumn(name = "teacher_id"))
