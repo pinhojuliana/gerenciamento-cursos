@@ -10,6 +10,7 @@ import com.juliana.gerenciamento_cursos.repository.TeacherRepository;
 import com.juliana.gerenciamento_cursos.util.AgeValidation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +23,8 @@ import java.util.stream.Collectors;
 public class TeacherService {
     private final TeacherRepository repository;
 
+    private final PasswordEncoder passwordEncoder;
+
     public ClientResponse createNewTeacher(@Valid TeacherRequestPayload requestPayload) throws UnderageException {
         validateUniqueUsername(requestPayload.username());
         validateUniqueEmail(requestPayload.email());
@@ -29,7 +32,7 @@ public class TeacherService {
         Teacher newTeacher = new Teacher(requestPayload.name(),
                 requestPayload.username(),
                 requestPayload.email(),
-                requestPayload.password(),
+                passwordEncoder.encode(requestPayload.password()),
                 AgeValidation.validateAge(requestPayload.dateOfBirth())
         );
 

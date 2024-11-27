@@ -12,6 +12,7 @@ import java.util.UUID;
 @NonNullApi
 public interface TeacherRepository extends JpaRepository<Teacher, UUID> {
     List<Teacher> findByName(String name);
+    Optional<Teacher> findByUsername(String username);
 
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
