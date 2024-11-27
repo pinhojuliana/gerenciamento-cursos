@@ -7,7 +7,6 @@ import com.juliana.gerenciamento_cursos.modules.client.entity.Teacher;
 import com.juliana.gerenciamento_cursos.modules.client.dto.TeacherDTO;
 import com.juliana.gerenciamento_cursos.exceptions.*;
 import com.juliana.gerenciamento_cursos.modules.client.repository.TeacherRepository;
-import com.juliana.gerenciamento_cursos.util.AgeValidation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

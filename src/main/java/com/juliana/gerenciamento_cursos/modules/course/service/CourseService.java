@@ -15,10 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,10 +28,14 @@ public class CourseService {
     public CourseResponse createNewCourse(@Valid CourseRequestPayload courseRequestPayload){
         validateUniqueTitle(courseRequestPayload.title());
 
-        Course newCourse = new Course(courseRequestPayload.title(), courseRequestPayload.description());
-        repository.save(newCourse);
+        var course = Course.builder()
+                .title(courseRequestPayload.title())
+                .description(courseRequestPayload.description())
+                .teachers(new HashSet<>())
+                .build();
 
-        return new CourseResponse(newCourse.getId());
+        repository.save(course);
+        return new CourseResponse(course.getId());
     }
 
     public void deleteCourse(UUID id){

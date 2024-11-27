@@ -3,10 +3,7 @@ package com.juliana.gerenciamento_cursos.modules.course.entity;
 import com.juliana.gerenciamento_cursos.modules.client.entity.Teacher;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -20,6 +17,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @ToString
 public class Course {
     @Id
@@ -50,10 +49,4 @@ public class Course {
     )
     private Set<Teacher> teachers;
 
-
-    public Course(String title, String description){
-        this.title = title;
-        this.description = description;
-        this.teachers = new HashSet<>();
-    }
 }
