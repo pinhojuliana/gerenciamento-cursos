@@ -1,17 +1,18 @@
 package com.juliana.gerenciamento_cursos.service;
 
-import com.juliana.gerenciamento_cursos.DTOs.CourseDTO;
-import com.juliana.gerenciamento_cursos.DTOs.TeacherDTO;
-import com.juliana.gerenciamento_cursos.DTOs.request_payload.CourseRequestPayload;
-import com.juliana.gerenciamento_cursos.DTOs.response.CourseResponse;
-import com.juliana.gerenciamento_cursos.domain.client.Teacher;
-import com.juliana.gerenciamento_cursos.domain.course.Course;
+import com.juliana.gerenciamento_cursos.modules.course.dto.CourseDTO;
+import com.juliana.gerenciamento_cursos.modules.client.dto.TeacherDTO;
+import com.juliana.gerenciamento_cursos.modules.course.dto.CourseRequestPayload;
+import com.juliana.gerenciamento_cursos.modules.course.dto.CourseResponse;
+import com.juliana.gerenciamento_cursos.modules.client.entity.Teacher;
+import com.juliana.gerenciamento_cursos.modules.course.entity.Course;
 import com.juliana.gerenciamento_cursos.exceptions.EmptyListException;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
 import com.juliana.gerenciamento_cursos.exceptions.NoUpdateRequiredException;
 import com.juliana.gerenciamento_cursos.exceptions.TitleAlreadyInUseException;
-import com.juliana.gerenciamento_cursos.repository.CourseRepository;
-import com.juliana.gerenciamento_cursos.repository.TeacherRepository;
+import com.juliana.gerenciamento_cursos.modules.course.repository.CourseRepository;
+import com.juliana.gerenciamento_cursos.modules.client.repository.TeacherRepository;
+import com.juliana.gerenciamento_cursos.modules.course.service.CourseService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

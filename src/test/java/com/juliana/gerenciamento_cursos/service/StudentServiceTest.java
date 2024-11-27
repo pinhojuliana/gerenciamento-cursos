@@ -1,12 +1,13 @@
 package com.juliana.gerenciamento_cursos.service;
 
-import com.juliana.gerenciamento_cursos.DTOs.StudentDTO;
-import com.juliana.gerenciamento_cursos.DTOs.request_payload.StudentRequestPayload;
-import com.juliana.gerenciamento_cursos.DTOs.response.ClientResponse;
-import com.juliana.gerenciamento_cursos.domain.client.EducationalLevel;
-import com.juliana.gerenciamento_cursos.domain.client.Student;
+import com.juliana.gerenciamento_cursos.modules.client.dto.StudentDTO;
+import com.juliana.gerenciamento_cursos.modules.client.dto.StudentRequestPayload;
+import com.juliana.gerenciamento_cursos.modules.client.dto.ClientResponse;
+import com.juliana.gerenciamento_cursos.modules.client.entity.EducationalLevel;
+import com.juliana.gerenciamento_cursos.modules.client.entity.Student;
 import com.juliana.gerenciamento_cursos.exceptions.*;
-import com.juliana.gerenciamento_cursos.repository.StudentRepository;
+import com.juliana.gerenciamento_cursos.modules.client.service.StudentService;
+import com.juliana.gerenciamento_cursos.modules.client.repository.StudentRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

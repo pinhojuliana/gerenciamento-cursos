@@ -1,13 +1,14 @@
 package com.juliana.gerenciamento_cursos.service;
 
-import com.juliana.gerenciamento_cursos.DTOs.LessonDTO;
-import com.juliana.gerenciamento_cursos.DTOs.request_payload.LessonRequestPayload;
-import com.juliana.gerenciamento_cursos.DTOs.response.LessonResponse;
-import com.juliana.gerenciamento_cursos.domain.lesson.Lesson;
-import com.juliana.gerenciamento_cursos.domain.unit.Unit;
+import com.juliana.gerenciamento_cursos.modules.lesson.dto.LessonDTO;
+import com.juliana.gerenciamento_cursos.modules.lesson.dto.LessonRequestPayload;
+import com.juliana.gerenciamento_cursos.modules.lesson.dto.LessonResponse;
+import com.juliana.gerenciamento_cursos.modules.lesson.entity.Lesson;
+import com.juliana.gerenciamento_cursos.modules.lesson.service.LessonService;
+import com.juliana.gerenciamento_cursos.modules.unit.entity.Unit;
 import com.juliana.gerenciamento_cursos.exceptions.InexistentOptionException;
-import com.juliana.gerenciamento_cursos.repository.LessonRepository;
-import com.juliana.gerenciamento_cursos.repository.UnitRepository;
+import com.juliana.gerenciamento_cursos.modules.lesson.repository.LessonRepository;
+import com.juliana.gerenciamento_cursos.modules.unit.repository.UnitRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
