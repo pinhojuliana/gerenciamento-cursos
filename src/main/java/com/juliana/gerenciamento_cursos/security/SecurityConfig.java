@@ -16,7 +16,7 @@ public class SecurityConfig {
 
     private final SecurityStudentFilter securityStudentFilter;
 
-    private final SecurityTeacherFilter securityTeacherFilter
+    private final SecurityTeacherFilter securityTeacherFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
