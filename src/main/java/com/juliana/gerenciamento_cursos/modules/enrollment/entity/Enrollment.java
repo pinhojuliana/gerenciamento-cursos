@@ -16,7 +16,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
 public class Enrollment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

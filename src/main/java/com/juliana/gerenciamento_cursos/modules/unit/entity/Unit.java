@@ -11,9 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
-@Getter
-@Setter
+@Data
 public class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

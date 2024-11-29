@@ -8,11 +8,10 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "lesson")
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
 public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

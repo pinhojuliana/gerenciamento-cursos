@@ -2,21 +2,17 @@ package com.juliana.gerenciamento_cursos.modules.client.entity;
 
 import com.juliana.gerenciamento_cursos.modules.course.entity.Course;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.*;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "teacher")
-@Getter
-@Setter
 @NoArgsConstructor
-@ToString
+@Data
 @SuperBuilder
 public class Teacher extends Client {
     @ElementCollection

@@ -7,13 +7,12 @@ import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "student")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @SuperBuilder
 public class Student extends Client {
     @NotBlank(message = "O campo 'description' não pode estar vazio")
