@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @NonNullApi
 public interface CourseRepository extends JpaRepository<Course, UUID> {
-    Optional<Course> findByTitle(String title);
+    Optional<Course> findByTitleContainsIgnoreCase(String title);
     boolean existsByTitle(String title);
 
     @EntityGraph(attributePaths = "teachers")

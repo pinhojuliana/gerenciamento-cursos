@@ -67,7 +67,7 @@ public class CourseService {
     }
 
     public CourseDTO findCourseByTitle(String title){
-        Course course = repository.findByTitle(title)
+        Course course = repository.findByTitleContainsIgnoreCase(title)
                 .orElseThrow(()-> new NoSuchElementException("Nenhum curso encontrado"));
 
         return convertToDTO(course);

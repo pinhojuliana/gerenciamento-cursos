@@ -180,7 +180,7 @@ class CourseServiceTest {
         Course course = new Course("Java", "Faça aplicções utilizando java e Spring boot");
         CourseDTO courseDTO = new CourseDTO(course.getTitle(), course.getDescription(), course.getCreatedAt());
 
-        when(repository.findByTitle(any())).thenReturn(Optional.of(course));
+        when(repository.findByTitleContainsIgnoreCase(any())).thenReturn(Optional.of(course));
         CourseDTO result = service.findCourseByTitle("Java");
 
         assertEquals(courseDTO, result);
@@ -189,7 +189,7 @@ class CourseServiceTest {
     @Test
     @DisplayName("Deve lançar exceção opção inexistente")
     void findCourseByTitleCase2() {
-        when(repository.findByTitle(any())).thenReturn(Optional.empty());
+        when(repository.findByTitleContainsIgnoreCase(any())).thenReturn(Optional.empty());
 
         Exception thrown = assertThrows(NoSuchElementException.class, () -> {
             service.findCourseByTitle("java");

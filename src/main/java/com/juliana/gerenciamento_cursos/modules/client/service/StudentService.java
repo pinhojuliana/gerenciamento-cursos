@@ -103,7 +103,7 @@ public class StudentService {
     }
 
     public List<StudentDTO> searchStudentName(String name) throws EmptyListException{
-        List<StudentDTO> students = repository.findByName(name).stream().map(this::convertToDTO)
+        List<StudentDTO> students = repository.findByNameContainsIgnoreCase(name).stream().map(this::convertToDTO)
                 .toList();
 
         if (students.isEmpty()) {

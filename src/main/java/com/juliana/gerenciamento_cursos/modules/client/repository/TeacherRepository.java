@@ -13,6 +13,7 @@ import java.util.UUID;
 public interface TeacherRepository extends JpaRepository<Teacher, UUID> {
     List<Teacher> findByName(String name);
     Optional<Teacher> findByUsername(String username);
+    List<Teacher> findByNameContainsIgnoreCase(String name);
 
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);

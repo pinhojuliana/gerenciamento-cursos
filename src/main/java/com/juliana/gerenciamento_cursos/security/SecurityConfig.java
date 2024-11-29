@@ -18,11 +18,19 @@ public class SecurityConfig {
 
     private final SecurityTeacherFilter securityTeacherFilter;
 
+    private static final String[] SWAGGER_LIST = {
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/v3/api-docs/**",
+            "/swagger-resources/**"
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                   auth.requestMatchers("/courses").permitAll();
+                   auth.requestMatchers("/courses").permitAll()
+                           .requestMatchers(SWAGGER_LIST).permitAll();;
                     auth.anyRequest().authenticated();
                 })
                 .addFilterBefore(securityStudentFilter, BasicAuthenticationFilter.class)

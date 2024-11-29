@@ -8,8 +8,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface StudentRepository extends JpaRepository<Student, UUID> {
-    List<Student> findByName(String name);
+    List<Student> findByName(String name); //nao vou mais utilizar
     Optional<Student> findByUsername(String username);
+    List<Student> findByNameContainsIgnoreCase(String name);
 
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);

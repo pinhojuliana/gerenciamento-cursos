@@ -101,7 +101,7 @@ public class TeacherService {
     }
 
     public List<TeacherDTO> findTeacherByName(String name){
-        List<TeacherDTO> teachers = repository.findByName(name).stream()
+        List<TeacherDTO> teachers = repository.findByNameContainsIgnoreCase(name).stream()
                 .map(this::convertToDTO)
                 .toList();
 
