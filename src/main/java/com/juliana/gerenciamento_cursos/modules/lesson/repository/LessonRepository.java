@@ -9,4 +9,6 @@ import java.util.UUID;
 
 public interface LessonRepository extends JpaRepository<Lesson, UUID> {
     Optional<List<Lesson>> findByUnit_id(UUID unitId);
+
+    Optional<List<Lesson>> findByTitleContainsIgnoreCase(String title);
 }

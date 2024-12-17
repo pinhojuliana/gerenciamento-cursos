@@ -5,7 +5,6 @@ import com.juliana.gerenciamento_cursos.modules.lesson.dto.LessonRequestPayload;
 import com.juliana.gerenciamento_cursos.modules.lesson.dto.LessonResponse;
 import com.juliana.gerenciamento_cursos.modules.lesson.entity.Lesson;
 import com.juliana.gerenciamento_cursos.modules.unit.entity.Unit;
-import com.juliana.gerenciamento_cursos.exceptions.EmptyListException;
 import com.juliana.gerenciamento_cursos.modules.lesson.repository.LessonRepository;
 import com.juliana.gerenciamento_cursos.modules.unit.repository.UnitRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +41,7 @@ public class LessonService {
         repository.deleteById(id);
     }
 
-    public List<LessonDTO> showLessonsOfModule(UUID unitId) throws NoSuchElementException, EmptyListException {
+    public List<LessonDTO> showLessonsOfModule(UUID unitId) throws NoSuchElementException {
         List<LessonDTO> lessons = repository.findByUnit_id(unitId).orElseThrow(()-> new NoSuchElementException("Módulo não encontrado"))
                 .stream()
                 .map(this::convertToDTO)
@@ -55,18 +54,12 @@ public class LessonService {
         return lessons;
     }
 
-    public List<LessonDTO> findLessonsByTitle(UUID unitId , String title) throws NoSuchElementException {
-        List<LessonDTO> lessons = repository.findByUnit_id(unitId).orElseThrow(()-> new NoSuchElementException("Módulo não encontrado"))
+    public List<LessonDTO> findLessonsByTitle(String title) throws NoSuchElementException {
+        return repository.findByTitleContainsIgnoreCase(title)
+                .orElseThrow(() -> new NoSuchElementException("Nenhuma aula encontrada."))
                 .stream()
-                .filter(l -> l.getTitle().equalsIgnoreCase(title))
                 .map(this::convertToDTO)
                 .toList();
-
-        if(lessons.isEmpty()){
-            throw new NoSuchElementException("Nenhuma aula encontrada");
-        }
-
-        return lessons;
     }
 
     private void validateId(UUID id){
