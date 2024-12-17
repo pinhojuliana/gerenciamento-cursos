@@ -54,7 +54,7 @@ public class LessonController {
         return ResponseEntity.ok(classes);
     }
 
-    @GetMapping("/units/{unitId}/search")
+    @GetMapping("/search")
     @PreAuthorize("has role('MANAGER', 'STUDENT', 'TEACHER')")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Pesquisar aula pelo título",
@@ -78,6 +78,19 @@ public class LessonController {
     @PostMapping("/")
     @PreAuthorize("hasRole('MANAGER')")
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Criar nova aula",
+            description = "Essa função é responsável por criar uma aula")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Id da aula",
+                    content = @Content(schema = @Schema(implementation = LessonResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Módulo não encontrado"
+            )
+    })
     public LessonResponse createNewLesson(@Valid @RequestBody LessonRequestPayload requestPayload){
         return service.createNewLesson(requestPayload);
     }
@@ -85,6 +98,19 @@ public class LessonController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('MANAGER')")
     @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Deletar aula",
+            description = "Essa função é responsável por deletar aulas pelo id")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Mensagem de sucesso",
+                    content = @Content(schema = @Schema(implementation = ResponseEntity.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Id não encontrado"
+            )
+    })
     public ResponseEntity<String> deleteLesson(@PathVariable UUID id){
         service.deleteLesson(id);
         return ResponseEntity.ok("Aula deletada com sucesso");
