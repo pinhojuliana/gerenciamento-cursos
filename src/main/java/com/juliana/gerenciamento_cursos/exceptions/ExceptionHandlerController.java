@@ -37,13 +37,8 @@ public class ExceptionHandlerController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
     }
 
-    @ExceptionHandler(EmptyListException.class)
-    public ResponseEntity<String> handleEmptyListException(EmptyListException e){
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-    }
-
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<String> handleInexistentOptionException(NoSuchElementException e){
+    public ResponseEntity<String> handleNoSuchElementException(NoSuchElementException e){
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
@@ -60,6 +55,11 @@ public class ExceptionHandlerController {
     @ExceptionHandler(InvalidPasswordException.class)
     public ResponseEntity<String> handleInvalidPasswordException(InvalidPasswordException e){
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoUpdateNeededException.class)
+    public ResponseEntity<String> handleNoUpdateNeededException(NoUpdateNeededException e){
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler(Throwable.class)

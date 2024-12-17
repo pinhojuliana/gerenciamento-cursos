@@ -82,7 +82,7 @@ public class LessonController {
             description = "Essa função é responsável por criar uma aula")
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "200",
+                    responseCode = "201",
                     description = "Id da aula",
                     content = @Content(schema = @Schema(implementation = LessonResponse.class))
             ),

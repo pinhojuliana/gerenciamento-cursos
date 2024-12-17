@@ -80,8 +80,8 @@ public class UnitController {
             description = "Essa função é responsável por criar um módulo")
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "200",
-                    description = "Mensagem de sucesso",
+                    responseCode = "201",
+                    description = "Id do módulo",
                     content = @Content(schema = @Schema(implementation = ResponseEntity.class))
             ),
             @ApiResponse(

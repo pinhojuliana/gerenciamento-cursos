@@ -8,7 +8,6 @@ import com.juliana.gerenciamento_cursos.modules.client.entity.EducationalLevel;
 import com.juliana.gerenciamento_cursos.modules.client.entity.Student;
 import com.juliana.gerenciamento_cursos.modules.course.entity.Course;
 import com.juliana.gerenciamento_cursos.modules.enrollment.entity.Enrollment;
-import com.juliana.gerenciamento_cursos.exceptions.EmptyListException;
 import com.juliana.gerenciamento_cursos.modules.course.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.modules.enrollment.repository.EnrollmentRepository;
 import com.juliana.gerenciamento_cursos.modules.client.repository.StudentRepository;

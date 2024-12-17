@@ -6,7 +6,6 @@ import com.juliana.gerenciamento_cursos.modules.course.dto.CourseRequestPayload;
 import com.juliana.gerenciamento_cursos.modules.course.dto.CourseResponse;
 import com.juliana.gerenciamento_cursos.modules.client.entity.Teacher;
 import com.juliana.gerenciamento_cursos.modules.course.entity.Course;
-import com.juliana.gerenciamento_cursos.exceptions.EmptyListException;
 import com.juliana.gerenciamento_cursos.exceptions.NoUpdateNeededException;
 import com.juliana.gerenciamento_cursos.exceptions.TitleAlreadyInUseException;
 import com.juliana.gerenciamento_cursos.modules.course.repository.CourseRepository;
