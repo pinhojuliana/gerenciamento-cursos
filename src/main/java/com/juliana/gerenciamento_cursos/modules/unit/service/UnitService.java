@@ -55,19 +55,12 @@ public class UnitService {
         return units;
     }
 
-    public List<UnitDTO> findUnitInCourse(UUID courseId, String title) throws NoSuchElementException, EmptyListException {
-        List<UnitDTO> units = repository.findByCourseId(courseId)
+    public List<UnitDTO> findUnits(String title) throws NoSuchElementException, EmptyListException {
+        return repository.findByTitleContainsIgnoreCase(title)
                 .orElseThrow(() -> new NoSuchElementException("Nenhum modulo encontrado"))
                 .stream()
-                .filter(m -> m.getTitle().equalsIgnoreCase(title))
                 .map(this::convertToDTO)
                 .toList();
-
-        if(units.isEmpty()){
-            throw new EmptyListException(String.format("Não há unidade '%S' nesse curso", title));
-        }
-
-        return units;
     }
 
     private void validateId(UUID id){
