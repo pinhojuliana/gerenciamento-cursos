@@ -106,24 +106,24 @@ public class TeacherService {
                 .toList();
 
         if(teachers.isEmpty()){
-            throw new EmptyListException("Nenhum professor com esse nome foi encontrado");
+            throw new NoSuchElementException("Nenhum professor com esse nome foi encontrado");
         }
 
         return teachers;
     }
 
-    public List<TeacherDTO> getAllTeachers() throws EmptyListException {
+    public List<TeacherDTO> getAllTeachers() throws NoSuchElementException {
         List<TeacherDTO> teachers = repository.findAll().stream().map(this::convertToDTO)
                 .toList();
 
         if (teachers.isEmpty()) {
-            throw new EmptyListException("Não há professores cadastrados");
+            throw new NoSuchElementException("Não há professores cadastrados");
         }
 
         return teachers;
     }
 
-    public Set<CourseDTO> showAllCoursesTaught(UUID teacherId) throws EmptyListException {
+    public Set<CourseDTO> showAllCoursesTaught(UUID teacherId) throws NoSuchElementException {
         Teacher teacher = validateId(teacherId);
         Set<CourseDTO> coursesTaught = teacher.getCoursesTaught().stream()
                 .map(c -> new CourseDTO(c.getTitle(),
@@ -132,7 +132,7 @@ public class TeacherService {
                 .collect(Collectors.toSet());
 
         if (coursesTaught.isEmpty()){
-            throw new EmptyListException("Não há cursos ministrados.");
+            throw new NoSuchElementException("Não há cursos ministrados.");
         }
 
         return coursesTaught;

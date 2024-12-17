@@ -5,7 +5,6 @@ import com.juliana.gerenciamento_cursos.modules.course.entity.Course;
 import com.juliana.gerenciamento_cursos.modules.unit.entity.Unit;
 import com.juliana.gerenciamento_cursos.modules.unit.dto.UnitRequestPayload;
 import com.juliana.gerenciamento_cursos.modules.unit.dto.UnitResponse;
-import com.juliana.gerenciamento_cursos.exceptions.EmptyListException;
 import com.juliana.gerenciamento_cursos.modules.course.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.modules.unit.repository.UnitRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +40,7 @@ public class UnitService {
         repository.deleteById(id);
     }
 
-    public List<UnitDTO> findUnitsByCourse(UUID courseId) throws NoSuchElementException, EmptyListException{
+    public List<UnitDTO> findUnitsByCourse(UUID courseId) throws NoSuchElementException{
         List<UnitDTO> units = repository.findByCourseId(courseId)
                 .orElseThrow(() -> new NoSuchElementException("Nenhum modulo encontrado"))
                 .stream()
@@ -49,13 +48,13 @@ public class UnitService {
                 .toList();
 
         if(units.isEmpty()){
-            throw new EmptyListException("Não há unidades registradas nesse curso");
+            throw new NoSuchElementException("Não há unidades registradas nesse curso");
         }
 
         return units;
     }
 
-    public List<UnitDTO> findUnits(String title) throws NoSuchElementException, EmptyListException {
+    public List<UnitDTO> findUnits(String title) throws NoSuchElementException{
         return repository.findByTitleContainsIgnoreCase(title)
                 .orElseThrow(() -> new NoSuchElementException("Nenhum modulo encontrado"))
                 .stream()

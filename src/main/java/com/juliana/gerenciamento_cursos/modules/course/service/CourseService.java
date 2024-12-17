@@ -9,7 +9,6 @@ import com.juliana.gerenciamento_cursos.modules.course.dto.CourseRequestPayload;
 import com.juliana.gerenciamento_cursos.modules.course.dto.CourseResponse;
 import com.juliana.gerenciamento_cursos.modules.course.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.modules.client.repository.TeacherRepository;
-import com.juliana.gerenciamento_cursos.exceptions.EmptyListException;
 import com.juliana.gerenciamento_cursos.exceptions.TitleAlreadyInUseException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +59,7 @@ public class CourseService {
                 .toList();
 
         if(courses.isEmpty()){
-            throw new EmptyListException("Nenhum curso encontrado");
+            throw new NoSuchElementException("Nenhum curso encontrado");
         }
 
         return courses;
@@ -97,7 +96,7 @@ public class CourseService {
         repository.save(course);
     }
 
-    public Set<TeacherDTO> showTeachersOfCourse(UUID courseId) throws EmptyListException {
+    public Set<TeacherDTO> showTeachersOfCourse(UUID courseId) throws NoSuchElementException {
         Course course = validateId(courseId);
 
         Set<TeacherDTO> teachers = course.getTeachers().stream()
@@ -105,7 +104,7 @@ public class CourseService {
                 .collect(Collectors.toSet());
 
         if(teachers.isEmpty()){
-            throw new EmptyListException("Nada encontrado");
+            throw new NoSuchElementException("Nada encontrado");
         }
 
         return teachers;

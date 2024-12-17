@@ -6,7 +6,6 @@ import com.juliana.gerenciamento_cursos.modules.course.entity.Course;
 import com.juliana.gerenciamento_cursos.modules.enrollment.entity.Enrollment;
 import com.juliana.gerenciamento_cursos.modules.enrollment.dto.EnrollmentResponse;
 import com.juliana.gerenciamento_cursos.modules.client.entity.Student;
-import com.juliana.gerenciamento_cursos.exceptions.EmptyListException;
 import com.juliana.gerenciamento_cursos.exceptions.NoUpdateNeededException;
 import com.juliana.gerenciamento_cursos.modules.course.repository.CourseRepository;
 import com.juliana.gerenciamento_cursos.modules.enrollment.repository.EnrollmentRepository;
@@ -56,7 +55,7 @@ public class EnrollmentService {
                 .toList();
 
         if(enrollments.isEmpty()){
-            throw new EmptyListException("Nenhuma inscrição encontrada");
+            throw new NoSuchElementException("Nenhuma inscrição encontrada");
         }
 
         return enrollments;
@@ -70,7 +69,7 @@ public class EnrollmentService {
                 .toList();
 
         if(enrollments.isEmpty()){
-            throw new EmptyListException("Nenhuma inscrição encontrada para esse curso");
+            throw new NoSuchElementException("Nenhuma inscrição encontrada para esse curso");
         }
 
         return enrollments;
@@ -78,14 +77,14 @@ public class EnrollmentService {
 
     public List<EnrollmentDTO> showCourseActiveEnrollments(UUID courseId) {
         List<EnrollmentDTO> activeEnrollments = repository.findByCourseId(courseId)
-                .orElseThrow(() -> new EmptyListException("Nenhuma inscrição encontrada para esse curso"))
+                .orElseThrow(() -> new NoSuchElementException("Nenhuma inscrição encontrada para esse curso"))
                 .stream()
                 .filter(Enrollment::isActive)
                 .map(this::convertToDTO)
                 .toList();
 
         if(activeEnrollments.isEmpty()){
-            throw new EmptyListException("Não há inscrições ativas para esse curso");
+            throw new NoSuchElementException("Não há inscrições ativas para esse curso");
         }
 
         return activeEnrollments;
@@ -99,7 +98,7 @@ public class EnrollmentService {
                 .toList();
 
         if(enrollments.isEmpty()){
-            throw new EmptyListException("Nenhuma inscrição encontrada para esse aluno");
+            throw new NoSuchElementException("Nenhuma inscrição encontrada para esse aluno");
         }
 
         return enrollments;

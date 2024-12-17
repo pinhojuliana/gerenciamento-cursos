@@ -91,23 +91,23 @@ public class StudentService {
        repository.deleteById(id);
     }
 
-    public List<StudentDTO> getAllStudents() throws EmptyListException {
+    public List<StudentDTO> getAllStudents() throws NoSuchElementException {
         List<StudentDTO> students = repository.findAll().stream().map(this::convertToDTO)
                 .toList();
 
         if (students.isEmpty()) {
-            throw new EmptyListException("Não há estudantes cadastrados");
+            throw new NoSuchElementException("Não há estudantes cadastrados");
         }
 
         return students;
     }
 
-    public List<StudentDTO> searchStudentName(String name) throws EmptyListException{
+    public List<StudentDTO> searchStudentName(String name) throws NoSuchElementException{
         List<StudentDTO> students = repository.findByNameContainsIgnoreCase(name).stream().map(this::convertToDTO)
                 .toList();
 
         if (students.isEmpty()) {
-            throw new EmptyListException("Nenhum estudante com esse nome foi encontrado");
+            throw new NoSuchElementException("Nenhum estudante com esse nome foi encontrado");
         }
 
         return students;
