@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class TeacherController {
     TeacherService service;
 
     @GetMapping
+    @PreAuthorize("hasRole('MANAGER')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<TeacherDTO>> getAllTeachers(){
         List<TeacherDTO> teachers = service.getAllTeachers();
@@ -33,6 +35,7 @@ public class TeacherController {
     }
 
     @GetMapping("/search")
+    @PreAuthorize("hasRole('MANAGER')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<TeacherDTO>> findTeacherByName(@RequestParam String name){
         List<TeacherDTO> teachers = service.findTeacherByName(name);
@@ -40,6 +43,7 @@ public class TeacherController {
     }
 
     @GetMapping("/{id}/courses-taught")
+    @PreAuthorize("hasRole('MANAGER','TEACHER')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Set<CourseDTO>> showAllCoursesTaught(@PathVariable UUID id){
         Set<CourseDTO> courses = service.showAllCoursesTaught(id);
@@ -53,6 +57,7 @@ public class TeacherController {
     }
 
     @PutMapping("/{id}/add-skill")
+    @PreAuthorize("hasRole('TEACHER')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> addSkill(@PathVariable UUID id, @Valid @RequestBody SkillUpdateRequest skillUpdateRequest){
         service.addSkill(id, skillUpdateRequest.skill());
@@ -60,6 +65,7 @@ public class TeacherController {
     }
 
     @PutMapping("/{id}/remove-skill")
+    @PreAuthorize("hasRole('TEACHER')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> removeSkill(@PathVariable UUID id, @Valid @RequestBody SkillUpdateRequest skillUpdateRequest){
         service.removeSkill(id, skillUpdateRequest.skill());
@@ -67,6 +73,7 @@ public class TeacherController {
     }
 
     @PutMapping("/{id}/username")
+    @PreAuthorize("hasRole('TEACHER')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> updateTeacherUsername(@PathVariable UUID id, @Valid @RequestBody UsernameUpdateRequest usernameUpdateRequest){
         service.updateTeacherUsername(id, usernameUpdateRequest.username());
@@ -74,6 +81,7 @@ public class TeacherController {
     }
 
     @PutMapping("/{id}/email")
+    @PreAuthorize("hasRole('TEACHER')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> updateTeacherEmail(@PathVariable UUID id,@Valid @RequestBody EmailUpdateRequest emailUpdateRequest){
         service.updateTeacherEmail(id, emailUpdateRequest.email());
@@ -81,6 +89,7 @@ public class TeacherController {
     }
 
     @PutMapping("/{id}/password")
+    @PreAuthorize("hasRole('TEACHER')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> updateTeacherPassword(@PathVariable UUID id, @Valid @RequestBody PasswordUpdateRequest passwordUpdateRequest){
         service.updateTeacherPassword(id, passwordUpdateRequest.oldPassword(), passwordUpdateRequest.newPassword());
@@ -88,6 +97,7 @@ public class TeacherController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('MANAGER','TEACHER')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> deleteTeacher(@PathVariable UUID id) {
         service.deleteTeacher(id);
