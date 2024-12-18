@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
 import java.util.*;
 
 @EqualsAndHashCode(callSuper = true)
@@ -22,10 +21,4 @@ public class Teacher extends Client {
 
     @ManyToMany(mappedBy = "teachers")
     private Set<Course> coursesTaught;
-
-    public Teacher(String name, String username, String email, String password, LocalDate dateOfBirth) {
-        super(name, username, email, password, dateOfBirth);
-        this.skills = new HashSet<>();
-        this.coursesTaught = new HashSet<>();
-    }
 }

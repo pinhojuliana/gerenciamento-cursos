@@ -54,14 +54,6 @@ public abstract class Client implements Comparable<Client>{
     @CreationTimestamp
     protected LocalDateTime createdAt;
 
-    public Client(String name, String username, String email, String password, LocalDate dateOfBirth) {
-        this.name = name;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.dateOfBirth = dateOfBirth;
-    }
-
     @Override
     public int compareTo(Client client) {
         return this.getName().compareTo(client.getName());

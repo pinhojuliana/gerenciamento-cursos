@@ -70,7 +70,6 @@ public class CourseController {
     }
 
     @GetMapping("/{id}/teachers")
-    @PreAuthorize("hasRole('MANAGER', 'TEACHER', 'STUDENT')")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Mostrar professores de um curso",
             description = "Função responsável por retornar uma lista com todos os professores de um curso")

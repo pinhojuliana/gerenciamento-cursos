@@ -29,6 +29,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
+                    //Rotas públicas: create student, create teacher, ver todos os cursos, pesquisar cursos por nome, ver professores de um curso
                    auth.requestMatchers("/courses").permitAll()
                            .requestMatchers(SWAGGER_LIST).permitAll();;
                     auth.anyRequest().authenticated();
