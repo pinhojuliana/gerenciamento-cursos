@@ -96,7 +96,15 @@ public class CourseController {
     @Operation(summary = "Criar novo curso",
             description = "Função responsável por criar um novo curso a partir de um titulo e uma descrição")
     @ApiResponses({
-            @ApiResponse()
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Id do curso criado",
+                    content = @Content(schema = @Schema(implementation = CourseResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Mensagem de erro: 'Esse curso já existe'"
+            )
     })
     public CourseResponse createNewCourse(@Valid @RequestBody CourseRequestPayload requestPayload){
         return service.createNewCourse(requestPayload);
@@ -108,7 +116,19 @@ public class CourseController {
     @Operation(summary = "Alterar descrição",
             description = "Função responsável por alterar a descrição de um curso")
     @ApiResponses({
-            @ApiResponse()
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Mensagem de sucesso: 'Descrição atualizada com sucesso'",
+                    content = @Content(schema = @Schema(implementation = ResponseEntity.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Mensagem de erro: 'Esse curso não existe'"
+            ),
+            @ApiResponse(
+                    responseCode = "422",
+                    description = "Mensagem de erro:'A nova descrição não pode ser igual à descrição atual'"
+            )
     })
     public ResponseEntity<String> alterDescription(@PathVariable UUID id, @Valid @RequestBody DescriptionUpdateRequest descriptionUpdateRequest){
         service.alterDescription(id, descriptionUpdateRequest.description());
@@ -121,7 +141,23 @@ public class CourseController {
     @Operation(summary = "Adicionar professor",
             description = "Função responsável por adicionar um professor a um curso")
     @ApiResponses({
-            @ApiResponse()
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Mensgaem de sucesso: 'Professor adicionado'",
+                    content = @Content(schema = @Schema(implementation = ResponseEntity.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Mensagem de erro: 'Esse curso não existe'"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Mensagem de erro: 'Professor não encontrado'"
+            ),
+            @ApiResponse(
+                    responseCode = "422",
+                    description = "Mensagem de erro:'O usuário ? já é professor do curso ?'"
+            )
     })
     public ResponseEntity<String> addTeacher(@RequestBody UUID teacherId, @PathVariable UUID courseId){
         service.addTeacher(teacherId, courseId);
@@ -134,7 +170,23 @@ public class CourseController {
     @Operation(summary = "Remover professor",
             description = "Função responsável por remover um professor de um curso")
     @ApiResponses({
-            @ApiResponse()
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Mensgaem de sucesso: 'Professor removido'",
+                    content = @Content(schema = @Schema(implementation = ResponseEntity.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Mensagem de erro: 'Esse curso não existe'"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Mensagem de erro: 'Professor não encontrado'"
+            ),
+            @ApiResponse(
+                    responseCode = "422",
+                    description = "Mensagem de erro:'O usuário ? não leciona no curso ?'"
+            )
     })
     public ResponseEntity<String> removeTeacher(@RequestBody UUID teacherId, @PathVariable UUID courseId){
         service.removeTeacher(teacherId, courseId);
@@ -147,7 +199,14 @@ public class CourseController {
     @Operation(summary = "Deletar curso",
             description = "Funçã responsável por deletar um curso a partir do seu id")
     @ApiResponses({
-            @ApiResponse()
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Mensagem de suceso: 'Curso apagado.'"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Mensagem de erro: 'Esse curso não existe'"
+            )
     })
     public ResponseEntity<String> deleteCourse(@PathVariable UUID id){
         service.deleteCourse(id);
