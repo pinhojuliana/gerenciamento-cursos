@@ -30,7 +30,6 @@ public class LessonController {
     LessonService service;
 
     @GetMapping("/units/{unitId}")
-    @PreAuthorize("has role('MANAGER', 'STUDENT', 'TEACHER')")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Aulas de um módulo",
             description = "Essa função é responsável por buscar as aulas de um modulo")
@@ -55,7 +54,6 @@ public class LessonController {
     }
 
     @GetMapping("/search")
-    @PreAuthorize("has role('MANAGER', 'STUDENT', 'TEACHER')")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Pesquisar aula pelo título",
             description = "Essa função é responsável por buscar as aulas pelo título")
@@ -76,7 +74,6 @@ public class LessonController {
     }
 
     @PostMapping("/")
-    @PreAuthorize("hasRole('MANAGER')")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Criar nova aula",
             description = "Essa função é responsável por criar uma aula")
@@ -96,7 +93,6 @@ public class LessonController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('MANAGER')")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Deletar aula",
             description = "Essa função é responsável por deletar aulas pelo id")

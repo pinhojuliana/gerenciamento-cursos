@@ -28,7 +28,6 @@ public class UnitController {
     UnitService service;
 
     @GetMapping("/course/{courseId}")
-    @PreAuthorize("has role('MANAGER', 'STUDENT', 'TEACHER')")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Módulos de um curso",
             description = "Essa função é responsável por buscar os módulos de um curso")
@@ -53,7 +52,6 @@ public class UnitController {
     }
 
     @GetMapping("/search")
-    @PreAuthorize("has role('MANAGER', 'STUDENT', 'TEACHER')")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Aulas de um módulo",
             description = "Essa função é responsável por buscar os módulos pelo título")
@@ -74,7 +72,6 @@ public class UnitController {
     }
 
     @PostMapping("/")
-    @PreAuthorize("hasRole('MANAGER')")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Criar novo módulo",
             description = "Essa função é responsável por criar um módulo")
@@ -94,7 +91,6 @@ public class UnitController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('MANAGER')")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Deletar módulo",
             description = "Essa função é responsável por deletar modulos pelo id")

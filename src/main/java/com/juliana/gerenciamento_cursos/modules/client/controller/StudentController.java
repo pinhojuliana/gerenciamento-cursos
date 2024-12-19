@@ -22,7 +22,6 @@ public class StudentController {
     StudentService service;
 
     @GetMapping("/")
-    @PreAuthorize("hasRole('MANAGER')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<StudentDTO>> getAllStudents(){
         List<StudentDTO> students = service.getAllStudents();
@@ -30,7 +29,6 @@ public class StudentController {
     }
 
     @GetMapping("/search")
-    @PreAuthorize("hasRole('MANAGER')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<StudentDTO>> searchStudentByName(@RequestParam String name){
         List<StudentDTO> students = service.searchStudentName(name);
@@ -38,7 +36,6 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('MANAGER')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<StudentDTO> searchStudentById(@PathVariable UUID id){
         StudentDTO student = service.searchStudentId(id);
@@ -52,7 +49,6 @@ public class StudentController {
     }
 
     @PutMapping("/{id}/description")
-    @PreAuthorize("hasRole('STUDENT')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> updateStudentDescription(@PathVariable UUID id, @Valid @RequestBody DescriptionUpdateRequest descriptionUpdateRequest){
         service.updateStudentDescription(id, descriptionUpdateRequest.description());
@@ -60,7 +56,6 @@ public class StudentController {
     }
 
     @PutMapping("/{id}/education-level")
-    @PreAuthorize("hasRole('STUDENT')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> updateStudentEducationalLevel(@PathVariable  UUID id, @Valid @RequestBody EducationalLevelUpdateRequest educationalLevelUpdateRequest){
         service.updateStudentEducationalLevel(id, educationalLevelUpdateRequest.educationalLevel());
@@ -68,7 +63,6 @@ public class StudentController {
     }
 
     @PutMapping("/{id}/username")
-    @PreAuthorize("hasRole('STUDENT')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> updateStudentUsername(@PathVariable UUID id, @Valid @RequestBody UsernameUpdateRequest usernameUpdateRequest){
         service.updateStudentUsername(id, usernameUpdateRequest.username());
@@ -76,7 +70,6 @@ public class StudentController {
     }
 
     @PutMapping("/{id}/email")
-    @PreAuthorize("hasRole('STUDENT')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> updateStudentEmail(@PathVariable UUID id, @Valid @RequestBody EmailUpdateRequest emailUpdateRequest){
         service.updateStudentEmail(id, emailUpdateRequest.email());
@@ -84,7 +77,6 @@ public class StudentController {
     }
 
     @PutMapping(("/{id}/password"))
-    @PreAuthorize("hasRole('STUDENT')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> updateStudentPassword(@PathVariable UUID id, @Valid @RequestBody PasswordUpdateRequest passwordUpdateRequest){
         service.updateStudentPassword(id, passwordUpdateRequest.oldPassword(), passwordUpdateRequest.newPassword());
@@ -92,7 +84,6 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('MANAGER','STUDENT')")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> deleteStudent(@PathVariable UUID id) {
         service.deleteStudent(id);

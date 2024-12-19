@@ -27,7 +27,6 @@ public class EnrollmentController {
     EnrollmentService service;
 
     @GetMapping
-    @PreAuthorize("hasRole('MANAGER')")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Mostrar todas as inscrições",
             description = "Função responsável por retornar uma lista de dtos de enrollments com todos os existentes")
@@ -48,7 +47,6 @@ public class EnrollmentController {
     }
 
     @GetMapping("/course/{courseId}")
-    @PreAuthorize("hasRole('MANAGER','TEACHER')")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Mostrar inscrições de um curso",
             description = "Função responsável por mostrar as inscrições de um cruso a partir do seu id")
@@ -73,7 +71,6 @@ public class EnrollmentController {
     }
 
     @GetMapping("/course/{courseId}/active")
-    @PreAuthorize("hasRole('MANAGER','TEACHER')")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Mostrar inscrições ativas de um curso",
             description = "Função responsável por mostrar somente as inscrições atualmente ativas de um curso")
@@ -94,7 +91,6 @@ public class EnrollmentController {
     }
 
     @GetMapping("/student/{studentId}")
-    @PreAuthorize("hasRole('MANAGER','STUDENT')")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Mostrar inscrições de um aluno",
             description = "Função responsável por mostrar todo o histórico de inscriçẽs de um aluno")
@@ -119,7 +115,6 @@ public class EnrollmentController {
     }
 
     @PostMapping("/subscribe")
-    @PreAuthorize("hasRole('MANAGER','STUDENT')")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Inscrever estudante em um curso",
             description = "Função responsável por inscrever um estudante em um cruso a partir do seu id e do id do curso")
@@ -147,7 +142,6 @@ public class EnrollmentController {
     }
 
     @PutMapping("/unsubscribe")
-    @PreAuthorize("hasRole('MANAGER','STUDENT')")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Desativar inscrição de um estudante",
             description = "Função responsável por tornar a inscrição de um estudante em um curso inativa")

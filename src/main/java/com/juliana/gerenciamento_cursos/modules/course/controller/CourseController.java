@@ -90,7 +90,6 @@ public class CourseController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('MANAGER')")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Criar novo curso",
             description = "Função responsável por criar um novo curso a partir de um titulo e uma descrição")
@@ -110,7 +109,6 @@ public class CourseController {
     }
 
     @PutMapping("/description/{id}")
-    @PreAuthorize("hasRole('MANAGER')")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Alterar descrição",
             description = "Função responsável por alterar a descrição de um curso")
@@ -135,7 +133,6 @@ public class CourseController {
     }
 
     @PutMapping("/{courseId}/teachers")
-    @PreAuthorize("hasRole('MANAGER')")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Adicionar professor",
             description = "Função responsável por adicionar um professor a um curso")
@@ -164,7 +161,6 @@ public class CourseController {
     }
 
     @DeleteMapping("/{courseId}/teachers")
-    @PreAuthorize("hasRole('MANAGER')")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Remover professor",
             description = "Função responsável por remover um professor de um curso")
